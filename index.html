@@ -27,6 +27,7 @@
       --border:   rgba(90,70,40,.12);
       --shadow:   0 4px 32px rgba(90,70,40,.10);
       --radius:   18px;
+      --page-bg:  #f5f0e8;
     }
     [data-theme="dark"] {
       --cream:    #1c1810;
@@ -46,13 +47,30 @@
       --shadow:   0 4px 32px rgba(0,0,0,.4);
     }
 
+    /* ── PER-PAGE BACKGROUND TINTS ── */
+    body[data-page="home"]   { --page-bg: linear-gradient(180deg, #f6f0e5 0%, #ebe3d3 100%); }
+    body[data-page="bab1"]   { --page-bg: linear-gradient(180deg, #eef5e7 0%, #dfe9d5 100%); }
+    body[data-page="bab2"]   { --page-bg: linear-gradient(180deg, #e8f1f5 0%, #d7e5ec 100%); }
+    body[data-page="bab3"]   { --page-bg: linear-gradient(180deg, #f6eee4 0%, #eadbc9 100%); }
+    body[data-page="bab4"]   { --page-bg: linear-gradient(180deg, #f5e8e4 0%, #ead4cd 100%); }
+    body[data-page="bab5"]   { --page-bg: linear-gradient(180deg, #f0e9f7 0%, #e0d5ef 100%); }
+    body[data-page="pustaka"] { --page-bg: linear-gradient(180deg, #f6f0dc 0%, #e9dfbb 100%); }
+    [data-theme="dark"] body[data-page="home"] { --page-bg: linear-gradient(180deg, #161210 0%, #221a15 100%); }
+    [data-theme="dark"] body[data-page="bab1"] { --page-bg: linear-gradient(180deg, #141a10 0%, #1f2818 100%); }
+    [data-theme="dark"] body[data-page="bab2"] { --page-bg: linear-gradient(180deg, #101418 0%, #1a242b 100%); }
+    [data-theme="dark"] body[data-page="bab3"] { --page-bg: linear-gradient(180deg, #18140e 0%, #2a2016 100%); }
+    [data-theme="dark"] body[data-page="bab4"] { --page-bg: linear-gradient(180deg, #1a1210 0%, #2b1b18 100%); }
+    [data-theme="dark"] body[data-page="bab5"] { --page-bg: linear-gradient(180deg, #141218 0%, #241c2f 100%); }
+    [data-theme="dark"] body[data-page="pustaka"] { --page-bg: linear-gradient(180deg, #181508 0%, #2a2412 100%); }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
+      background: var(--page-bg);
+      background-attachment: fixed;
       color: var(--text);
-      transition: background .35s ease, color .35s ease;
+      transition: background .55s cubic-bezier(.4,0,.2,1), color .4s ease;
       overflow-x: hidden;
     }
 
@@ -98,15 +116,42 @@
       box-shadow: 0 2px 20px rgba(90,70,40,.12);
     }
     [data-theme="dark"] nav { background: rgba(28,24,16,.88); }
-    .nav-brand { font-family: 'DM Serif Display', serif; font-size: .95rem; color: var(--soil); letter-spacing: .01em; white-space: nowrap; }
+    .nav-brand { font-family: 'DM Serif Display', serif; font-size: .95rem; color: var(--soil); letter-spacing: .01em; white-space: nowrap; cursor: pointer; }
     .nav-sep { width: 1px; height: 18px; background: var(--border); }
-    .nav-links { display: flex; gap: 4px; }
+    .nav-links { display: flex; gap: 4px; position: relative; }
+
+    /* ── ACTIVE PILL INDICATOR ── */
+    .nav-pill-indicator {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: var(--warm);
+      border-radius: 99px;
+      pointer-events: none;
+      transition: transform .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1);
+      z-index: 0;
+    }
+
     .nav-links a {
       font-size: .8rem; font-weight: 500; color: var(--text-muted);
       text-decoration: none; padding: 5px 12px; border-radius: 99px;
-      transition: background .2s, color .2s;
+      transition: color .2s;
+      position: relative; z-index: 1;
     }
-    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--text); }
+    .nav-links a.active { color: var(--text); }
+    .nav-links a:hover:not(.active) { color: var(--text); }
+    #nl-tim { font-weight: 400 !important; letter-spacing: .01em; }
+
+    .page,
+    .hero-bg::before,
+    .hero-bg::after,
+    .chapter-dropdown,
+    .theme-pill,
+    .hero-badge {
+      transition: background .45s ease, background-color .45s ease,
+                  color .35s ease, border-color .35s ease,
+                  opacity .3s ease, box-shadow .35s ease;
+    }
 
     /* chapter dropdown */
     .nav-chapter-wrap { position: relative; }
@@ -178,7 +223,7 @@
     .scroll-btn:hover { background: var(--warm); color: var(--terracotta); transform: scale(1.1); }
 
     /* ── PAGE SYSTEM ── */
-    .page { display: none; }
+    .page { display: none; min-height: 100vh; }
     .page.active { display: block; }
 
     /* ── HERO ── */
@@ -298,6 +343,7 @@
     .finding-card:nth-child(2)::before { background: var(--moss); }
     .finding-card:nth-child(3)::before { background: var(--amber); }
     .finding-card:nth-child(4)::before { background: var(--sage); }
+    .finding-card:nth-child(5)::before { background: var(--straw); }
     .finding-num { font-family: 'DM Serif Display', serif; font-size: 3rem; color: var(--feather); line-height: 1; margin-bottom: 16px; }
     [data-theme="dark"] .finding-num { opacity: .4; }
     .finding-title { font-weight: 600; font-size: 1rem; color: var(--text); margin-bottom: 10px; }
@@ -323,11 +369,110 @@
     .member-name { font-weight: 600; font-size: .85rem; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
     .member-id { font-size: .75rem; color: var(--text-muted); }
 
-    /* ── CHAPTER PAGES ── */
+    /* ── CHAPTER PAGE COLOR ACCENTS ── */
+    .chapter-view { position: relative; }
+
+    /* Decorative blob per bab */
+    #page-bab1 .chapter-view::before {
+      content: ''; position: fixed; top: -120px; right: -120px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(107,124,82,.13) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab2 .chapter-view::before {
+      content: ''; position: fixed; top: -100px; left: -100px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(82,110,124,.12) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab3 .chapter-view::before {
+      content: ''; position: fixed; bottom: -100px; right: -80px;
+      width: 460px; height: 460px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,134,11,.11) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab4 .chapter-view::before {
+      content: ''; position: fixed; bottom: -80px; left: -80px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,116,74,.12) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab5 .chapter-view::before {
+      content: ''; position: fixed; top: 30%; right: -120px;
+      width: 460px; height: 460px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(130,110,160,.10) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-pustaka .chapter-view::before {
+      content: ''; position: fixed; top: -80px; left: 30%;
+      width: 500px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,134,11,.13) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Chapter header accent bar */
+    .chapter-header { position: relative; }
+    #page-bab1  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--moss); border-radius:99px; }
+    #page-bab2  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:#5a8a9a; border-radius:99px; }
+    #page-bab3  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--amber); border-radius:99px; }
+    #page-bab4  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--terracotta); border-radius:99px; }
+    #page-bab5  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:#9a7ab8; border-radius:99px; }
+    #page-pustaka .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--straw); border-radius:99px; }
+
+    /* Chapter eyebrow per bab color */
+    #page-bab1  .chapter-eyebrow { border-color: rgba(107,124,82,.3); color: var(--moss); }
+    #page-bab2  .chapter-eyebrow { border-color: rgba(82,130,154,.3); color: #5a8a9a; background: rgba(82,130,154,.06); }
+    #page-bab3  .chapter-eyebrow { border-color: rgba(184,134,11,.25); color: var(--amber); background: rgba(184,134,11,.06); }
+    #page-bab4  .chapter-eyebrow { border-color: rgba(196,116,74,.25); color: var(--terracotta); background: rgba(196,116,74,.06); }
+    #page-bab5  .chapter-eyebrow { border-color: rgba(130,110,160,.25); color: #8a70b8; background: rgba(130,110,160,.06); }
+    #page-pustaka .chapter-eyebrow { border-color: rgba(184,134,11,.3); color: var(--amber); background: rgba(184,134,11,.07); }
+
+    /* Chapter nav cards top color (fix Bab V missing border) */
+    .chapter-nav-card { border-radius: var(--radius); overflow: hidden; position: relative; }
+    .chapter-nav-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .chapter-nav-card.c1::before { background: var(--terracotta); }
+    .chapter-nav-card.c2::before { background: var(--moss); }
+    .chapter-nav-card.c3::before { background: var(--amber); }
+    .chapter-nav-card.c4::before { background: var(--sage); }
+    .chapter-nav-card.c5::before { background: #9a7ab8; }
+
+    /* ── DAFTAR PUSTAKA ── */
+    .ref-list { list-style: none; margin: 0; padding: 0; }
+    .ref-item {
+      display: flex; gap: 18px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    .ref-item:last-child { border-bottom: none; }
+    .ref-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; color: var(--straw);
+      min-width: 28px; padding-top: 2px; line-height: 1;
+    }
+    .ref-body { flex: 1; }
+    .ref-authors { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .ref-title { font-size: .88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 4px; font-style: italic; }
+    .ref-source { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
+    .ref-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: .75rem; color: var(--moss); text-decoration: none;
+      margin-top: 5px; font-weight: 500;
+      opacity: .8; transition: opacity .15s;
+    }
+    .ref-link:hover { opacity: 1; text-decoration: underline; }
+    .ref-tag {
+      display: inline-block; font-size: .65rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 99px;
+      background: var(--warm); color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* ── CHAPTER PAGE LAYOUT ── */
     .chapter-view {
-      min-height: 100vh;
       padding: 120px 24px 80px;
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
     }
 
@@ -368,7 +513,7 @@
       max-width: 680px;
     }
 
-    /* Content nav sidebar-style */
+    /* Content + sidebar layout */
     .chapter-layout {
       display: grid;
       grid-template-columns: 1fr 220px;
@@ -402,7 +547,7 @@
     }
     .panel-list a:hover { background: var(--warm); color: var(--text); }
 
-    /* Chapter nav bottom arrows */
+    /* Chapter nav arrows */
     .chapter-footer-nav {
       display: flex; justify-content: space-between; align-items: center;
       margin-top: 72px; padding-top: 32px;
@@ -488,7 +633,7 @@
     }
     .chapter-content tr:nth-child(even) td { background: rgba(200,180,130,.04); }
 
-    /* Numbered list style for findings */
+    /* Numbered list */
     .num-list { list-style: none; margin: 0; padding: 0; }
     .num-list li {
       display: flex; gap: 16px; margin-bottom: 20px;
@@ -504,7 +649,7 @@
     .num-list .nl-title { font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: 6px; }
     .num-list .nl-text { font-size: .88rem; line-height: 1.65; color: var(--text-muted); }
 
-    /* ── FEATHER DECO ── */
+    /* Feather deco */
     .feather-deco {
       position: absolute; right: 5%; top: 15%;
       opacity: .07; font-size: 240px;
@@ -525,7 +670,7 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
-<body>
+<body data-page="home">
 
 <!-- ═══ PRELOADER ═══ -->
 <div id="preloader">
@@ -543,13 +688,14 @@
 
 <!-- ═══ NAVBAR ═══ -->
 <nav>
-  <span class="nav-brand" style="cursor:pointer" onclick="showPage('home')">🐓 TESIS 36</span>
+  <span class="nav-brand" onclick="showPage('home')">🐓 TESIS 36</span>
   <div class="nav-sep"></div>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
+    <div class="nav-pill-indicator" id="navPill"></div>
     <a href="#" onclick="showPage('home');return false;" id="nl-home" class="active">Beranda</a>
-    <a href="#" onclick="scrollToSection('about');return false;">Tentang</a>
-    <a href="#" onclick="scrollToSection('findings');return false;">Temuan</a>
-    <a href="#" onclick="scrollToSection('team');return false;">Tim</a>
+    <a href="#" onclick="goSection('about');return false;" id="nl-tentang">Tentang</a>
+    <a href="#" onclick="goSection('findings');return false;" id="nl-temuan">Temuan</a>
+    <a href="#" onclick="goSection('team');return false;" id="nl-tim">Tim</a>
   </div>
   <!-- Chapter dropdown -->
   <div class="nav-chapter-wrap">
@@ -557,20 +703,23 @@
       Bab <span class="arrow">▾</span>
     </button>
     <div class="chapter-dropdown" id="chapterMenu">
-      <a class="chap-item" onclick="showPage('bab1');return false;" href="#">
+      <a class="chap-item" onclick="showPage('bab1');return false;" href="#" data-bab="bab1">
         <span class="chap-num">I</span><span>Pendahuluan</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab2');return false;" href="#">
+      <a class="chap-item" onclick="showPage('bab2');return false;" href="#" data-bab="bab2">
         <span class="chap-num">II</span><span>Landasan Teori</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab3');return false;" href="#">
+      <a class="chap-item" onclick="showPage('bab3');return false;" href="#" data-bab="bab3">
         <span class="chap-num">III</span><span>Metode Penelitian</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab4');return false;" href="#">
+      <a class="chap-item" onclick="showPage('bab4');return false;" href="#" data-bab="bab4">
         <span class="chap-num">IV</span><span>Hasil &amp; Pembahasan</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab5');return false;" href="#">
+      <a class="chap-item" onclick="showPage('bab5');return false;" href="#" data-bab="bab5">
         <span class="chap-num">V</span><span>Penutup</span>
+      </a>
+      <a class="chap-item" onclick="showPage('pustaka');return false;" href="#" data-bab="pustaka">
+        <span class="chap-num">📚</span><span>Daftar Pustaka</span>
       </a>
     </div>
   </div>
@@ -611,7 +760,7 @@
         <a href="#" onclick="showPage('bab1');return false;" class="btn-primary">
           <span>Baca Penelitian</span><span>→</span>
         </a>
-        <a href="#" onclick="scrollToSection('findings');return false;" class="btn-ghost">Temuan Utama</a>
+        <a href="#" onclick="goSection('findings');return false;" class="btn-ghost">Temuan Utama</a>
       </div>
     </div>
     <div class="stats-row">
@@ -624,7 +773,7 @@
 
   <hr class="divider-line" />
 
-  <section id="about">
+  <section id="about" style="padding:100px 24px; max-width:1100px; margin:0 auto;">
     <div class="two-col">
       <div class="reveal">
         <p class="section-label">Latar Belakang</p>
@@ -654,38 +803,39 @@
 
   <hr class="divider-line" />
 
-  <!-- chapter quick-nav strip -->
+  <!-- Chapter quick-nav strip -->
   <section style="padding:60px 24px; max-width:1100px; margin:0 auto;">
     <div class="reveal" style="text-align:center; margin-bottom:40px;">
       <p class="section-label">Navigasi Bab</p>
       <h2 class="section-title">Jelajahi Isi Penelitian</h2>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;">
-      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab1')">
+      <!-- Each card uses chapter-nav-card class for explicit top color border fix -->
+      <div class="finding-card chapter-nav-card c1 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab1')">
         <div class="finding-num" style="font-size:2rem;">I</div>
         <div class="finding-title">Pendahuluan</div>
         <div class="finding-text">Latar belakang, rumusan masalah, tujuan, dan manfaat penelitian.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab2')">
+      <div class="finding-card chapter-nav-card c2 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab2')">
         <div class="finding-num" style="font-size:2rem;">II</div>
         <div class="finding-title">Landasan Teori</div>
         <div class="finding-text">Tinjauan pustaka tentang Avian Influenza dan prinsip biosekuriti.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab3')">
+      <div class="finding-card chapter-nav-card c3 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab3')">
         <div class="finding-num" style="font-size:2rem;">III</div>
         <div class="finding-title">Metode Penelitian</div>
         <div class="finding-text">Pendekatan kualitatif deskriptif, waktu, tempat, dan teknik pengumpulan data.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab4')">
+      <div class="finding-card chapter-nav-card c4 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab4')">
         <div class="finding-num" style="font-size:2rem;">IV</div>
         <div class="finding-title">Hasil &amp; Pembahasan</div>
         <div class="finding-text">Temuan lapangan, analisis biosekuriti, dan pembahasan mendalam.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab5')">
+      <div class="finding-card chapter-nav-card c5 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab5')">
         <div class="finding-num" style="font-size:2rem;">V</div>
         <div class="finding-title">Penutup</div>
         <div class="finding-text">Kesimpulan akhir dan saran bagi peternak, pemerintah, dan peneliti.</div>
@@ -733,7 +883,7 @@
 
   <hr class="divider-line" />
 
-  <section id="team">
+  <section id="team" style="padding:100px 24px; max-width:1100px; margin:0 auto;">
     <div class="team-header reveal">
       <p class="section-label">Peneliti</p>
       <h2 class="section-title">TESIS 36</h2>
@@ -834,6 +984,7 @@
             <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
             <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -869,7 +1020,6 @@
 
         <h3 id="b2-epi">2.1.2 Epidemiologi di Indonesia</h3>
         <p>Indonesia merupakan salah satu negara dengan beban kasus AI tertinggi di dunia. Wabah HPAI H5N1 pertama kali terdeteksi di Indonesia pada Agustus 2003, mengakibatkan kematian lebih dari 16 juta ekor ayam dan menyebar ke 32 dari 34 provinsi (Rehman dkk., 2023).</p>
-
         <div class="highlight-box">
           <div class="hb-label">Angka yang Mengkhawatirkan</div>
           <p style="margin:0; font-size:.93rem; line-height:1.7; color:var(--text-muted);">Tingkat fatalitas H5N1 di Indonesia mencapai <strong style="color:var(--terracotta)">84%</strong> dari total kasus yang terkonfirmasi — jauh melampaui rata-rata global sebesar 53%.</p>
@@ -949,6 +1099,7 @@
             <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
             <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1020,7 +1171,7 @@
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
           </a>
           <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn right">
-            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab IV — Hasil &amp; Pembahasan</div></div>
             <span>→</span>
           </a>
         </div>
@@ -1040,6 +1191,7 @@
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
             <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1111,7 +1263,7 @@
 
         <h3 id="b4-pengetahuan">4.1.3 Pengetahuan Peternak tentang Avian Influenza</h3>
         <blockquote>"Tidak begitu ditanggapi, karena kan kalau yang namanya penyakit flu burung ada gitunya, tapi tidak seperti yang di media." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
-        <p>Bapak Atep mengetahui keberadaan penyakit AI dari media, namun tidak memahaminya secara mendalam dan tidak menganggapnya sebagai ancaman serius. Ketika ditanya lebih lanjut mengenai gejala-gejala AI secara spesifik, peternak mengakui kurang mengetahui hal tersebut.</p>
+        <p>Bapak Atep mengetahui keberadaan penyakit AI dari media, namun tidak memahaminya secara mendalam dan tidak menganggapnya sebagai ancaman serius.</p>
 
         <h3 id="b4-kendala">4.1.4 Kendala dan Harapan Peternak</h3>
         <blockquote>"Harapan kita paling, harga daging stabil, terutama pakan hewan." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
@@ -1175,7 +1327,7 @@
           <li><a href="#b4-lokasi">&nbsp;&nbsp;4.1.1 Gambaran Lokasi</a></li>
           <li><a href="#b4-penerapan">&nbsp;&nbsp;4.1.2 Penerapan Biosekuriti</a></li>
           <li><a href="#b4-pengetahuan">&nbsp;&nbsp;4.1.3 Pengetahuan Peternak</a></li>
-          <li><a href="#b4-kendala">&nbsp;&nbsp;4.1.4 Kendala & Harapan</a></li>
+          <li><a href="#b4-kendala">&nbsp;&nbsp;4.1.4 Kendala &amp; Harapan</a></li>
           <li><a href="#b4-pembahasan">4.2 Pembahasan</a></li>
         </ul>
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
@@ -1185,6 +1337,7 @@
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
             <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1272,11 +1425,11 @@
         <div class="chapter-footer-nav">
           <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn">
             <span>←</span>
-            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil &amp; Pembahasan</div></div>
           </a>
-          <a href="#" onclick="showPage('home');return false;" class="chap-nav-btn right">
-            <div><div class="cn-label">Kembali ke</div><div class="cn-title">Beranda</div></div>
-            <span>🏠</span>
+          <a href="#" onclick="showPage('pustaka');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Daftar Pustaka</div></div>
+            <span>📚</span>
           </a>
         </div>
       </div>
@@ -1294,12 +1447,215 @@
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
             <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
             <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
     </div>
   </div>
 </div><!-- /page-bab5 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: DAFTAR PUSTAKA
+══════════════════════════════════════════ -->
+<div id="page-pustaka" class="page">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Daftar Pustaka</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">REFERENSI</div>
+      <h1 class="chapter-h1">Daftar Pustaka</h1>
+      <p class="chapter-desc">Seluruh sumber pustaka ilmiah yang dirujuk dalam penelitian ini, disusun secara alfabetis berdasarkan nama penulis pertama.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <div class="highlight-box" style="margin-bottom:36px;">
+          <div class="hb-label">Informasi Bibliografi</div>
+          <p style="margin:0; font-size:.9rem; line-height:1.7; color:var(--text-muted);">
+            Penelitian ini merujuk pada <strong style="color:var(--text)">12 sumber pustaka</strong> yang mencakup jurnal ilmiah nasional dan internasional, prosiding seminar, serta laporan pengabdian masyarakat, yang diterbitkan antara tahun 2019–2025. Pengutipan mengikuti format APA 7th Edition.
+          </p>
+        </div>
+
+        <ul class="ref-list">
+
+          <li class="ref-item">
+            <div class="ref-num">1</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Internasional</span>
+              <div class="ref-authors">Almutaali, M. &amp; Anugrah, E. (2023)</div>
+              <div class="ref-title">Avian Influenza Virus A Subtype H5N1.</div>
+              <div class="ref-source"><em>UMI Medical Journal</em>, 8(1), 26–34.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">2</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Nasional</span>
+              <div class="ref-authors">Anggraini, A. D., Kurniawan, T. N., Adiyastiti, B. E. T., &amp; Syaifuddin, A. (2024)</div>
+              <div class="ref-title">Evaluasi Penerapan Biosekuriti pada Pemeliharaan Ayam Pedaging Sistem Open House.</div>
+              <div class="ref-source"><em>Journal of Animal Research Applied Sciences (ARAS)</em>, 5(1).</div>
+              <a class="ref-link" href="https://doi.org/10.22219/aras.v5i1.32540" target="_blank">🔗 doi:10.22219/aras.v5i1.32540</a>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">3</div>
+            <div class="ref-body">
+              <span class="ref-tag">Pengabdian Masyarakat</span>
+              <div class="ref-authors">Detha, A. I. R., Foeh, N. D. F., &amp; Ndaong, N. A. (2025)</div>
+              <div class="ref-title">Implementasi Biosekuriti pada Usaha Budidaya Ayam KUB: Upaya Pencegahan Penyakit dan Peningkatan Kualitas Hasil Ternak.</div>
+              <div class="ref-source"><em>Jurnal Media Tropika: Jurnal Pengabdian Masyarakat</em>, 5(2), 42–45.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">4</div>
+            <div class="ref-body">
+              <span class="ref-tag">Pengabdian Masyarakat</span>
+              <div class="ref-authors">Fati, N. &amp; Muchlis, A. (2019)</div>
+              <div class="ref-title">Peningkatan Pengetahuan dan Keterampilan Peternak dalam Penerapan Biosekuriti pada Peternakan Ayam Broiler di Kabupaten Muara Jambi.</div>
+              <div class="ref-source"><em>JPATI: Jurnal Pengabdian Aplikasi Teknologi dan Ilmu</em>, 2(1), 42–48.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">5</div>
+            <div class="ref-body">
+              <span class="ref-tag">Pengabdian Masyarakat</span>
+              <div class="ref-authors">Filawati, Nelwida, Nurhayati, Berliana &amp; Muthalib, R. A. (2025)</div>
+              <div class="ref-title">Upaya Penanganan Avian Influenza Pada Ayam Kampung Di Desa Tangkit Baru Kecamatan Sungai Gelam Kabupaten Muara Jambi.</div>
+              <div class="ref-source"><em>JPATI: Jurnal Pengabdian Aplikasi Teknologi dan Ilmu</em>, 2(1), 42–48.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">6</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Nasional</span>
+              <div class="ref-authors">Kawat, M. R., Luruk, M. Y., Krova, M., &amp; Suryatni, N. P. F. (2025)</div>
+              <div class="ref-title">Penerapan Biosekuriti pada Usaha Ternak Ayam Broiler di Kecamatan Adonara Kabupaten Flores Timur.</div>
+              <div class="ref-source"><em>Jurnal Peternakan Lahan Kering</em>, 7(4), 650–663.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">7</div>
+            <div class="ref-body">
+              <span class="ref-tag">Pengabdian Masyarakat</span>
+              <div class="ref-authors">Limbu, R. &amp; Marni. (2023)</div>
+              <div class="ref-title">Pemberdayaan Peternak Ayam Untuk Pencegahan Penyakit Ayam dan Penyebaran Avian Influenza Melalui Pengabdian Kepada Masyarakat.</div>
+              <div class="ref-source"><em>Genitri: Jurnal Pengabdian Masyarakat Bidang Kesehatan</em>, 2(1), 23–29.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">8</div>
+            <div class="ref-body">
+              <span class="ref-tag">Prosiding Seminar</span>
+              <div class="ref-authors">Putra, R. A. &amp; Lestari, A. (2024)</div>
+              <div class="ref-title">Tingkat Penerapan Biosekuriti Dan Produktivitas Ayam Petelur Pada Peternakan PT PMS.</div>
+              <div class="ref-source"><em>Prosiding Seminar Nasional Cendekia Peternakan 3</em>, Kediri.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">9</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Internasional</span>
+              <div class="ref-authors">Rehman, S., Effendi, M. H., Witaningrum, A. M., et al. (2023)</div>
+              <div class="ref-title">Avian influenza (H5N1) virus, epidemiology and its effects on backyard poultry in Indonesia: a review.</div>
+              <div class="ref-source"><em>F1000Research</em>, 11: 1321.</div>
+              <a class="ref-link" href="https://doi.org/10.12688/f1000research.125878.2" target="_blank">🔗 doi:10.12688/f1000research.125878.2</a>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">10</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Internasional</span>
+              <div class="ref-authors">Rehman, S., Prasetya, R. R., Rahardjo, K., et al. (2023)</div>
+              <div class="ref-title">Whole-genome sequence and genesis of an avian influenza virus H5N1 isolated from a healthy chicken in a live bird market in Indonesia.</div>
+              <div class="ref-source"><em>PeerJ</em>, 11: e14917.</div>
+              <a class="ref-link" href="https://doi.org/10.7717/peerj.14917" target="_blank">🔗 doi:10.7717/peerj.14917</a>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">11</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Nasional</span>
+              <div class="ref-authors">Siagian, T. B. &amp; Pratama, E. S. (2020)</div>
+              <div class="ref-title">Gambaran Risiko Penularan Flu Burung pada Pedagang Burung di Kota Pagar Alam Melalui Prinsip Biosekuriti.</div>
+              <div class="ref-source"><em>ARSHI Veterinary Letters</em>, 4(4), 75–76.</div>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">12</div>
+            <div class="ref-body">
+              <span class="ref-tag">Pengabdian Masyarakat</span>
+              <div class="ref-authors">Suryadi, M. A. F. F., Septian, I. G. N., Anwar, K., &amp; Saedi, M. R. (2025)</div>
+              <div class="ref-title">Peningkatan Pemahaman Biosekuriti Peternakan Ayam Kampung di Pekarangan Masyarakat Desa Midang Kecamatan Gunung Sari Lombok Barat.</div>
+              <div class="ref-source"><em>Jurnal Gema Ngabdi</em>, 7(3), 504–510.</div>
+              <a class="ref-link" href="https://doi.org/10.29303/jgn.v7i3.622" target="_blank">🔗 doi:10.29303/jgn.v7i3.622</a>
+            </div>
+          </li>
+
+          <li class="ref-item">
+            <div class="ref-num">13</div>
+            <div class="ref-body">
+              <span class="ref-tag">Jurnal Nasional</span>
+              <div class="ref-authors">Wahyuni, S., Wicaksono, A., &amp; Suprayogi, A. (2022)</div>
+              <div class="ref-title">Insidensi dan risiko penularan avian influenza pada peternakan ayam petelur di Kabupaten Pinrang.</div>
+              <div class="ref-source"><em>Jurnal Ilmu Pertanian Indonesia (JIPI)</em>, 27(3): 397–405.</div>
+              <a class="ref-link" href="https://doi.org/10.18343/jipi.27.3.397" target="_blank">🔗 doi:10.18343/jipi.27.3.397</a>
+            </div>
+          </li>
+
+        </ul>
+
+        <div class="chapter-footer-nav">
+          <a href="#" onclick="showPage('bab5');return false;" class="chap-nav-btn">
+            <span>←</span>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab V — Penutup</div></div>
+          </a>
+          <a href="#" onclick="showPage('home');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Kembali ke</div><div class="cn-title">Beranda</div></div>
+            <span>🏠</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Filter Kategori</div>
+        <ul class="panel-list">
+          <li><a href="#" onclick="return false;">📄 Semua Pustaka (13)</a></li>
+          <li><a href="#" onclick="return false;">🌐 Jurnal Internasional (3)</a></li>
+          <li><a href="#" onclick="return false;">📰 Jurnal Nasional (4)</a></li>
+          <li><a href="#" onclick="return false;">🤝 Pengabdian Masy. (5)</a></li>
+          <li><a href="#" onclick="return false;">🎤 Prosiding (1)</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Navigasi Bab</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
+            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-pustaka -->
 
 
 <script>
@@ -1312,49 +1668,117 @@
 
   /* ── THEME ── */
   function setTheme(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    document.getElementById('btnLight').classList.toggle('active', t === 'light');
-    document.getElementById('btnDark').classList.toggle('active', t === 'dark');
-    localStorage.setItem('theme', t);
+    document.body.style.pointerEvents = 'none';
+
+    requestAnimationFrame(() => {
+      document.documentElement.setAttribute('data-theme', t);
+
+      document.getElementById('btnLight').classList.toggle('active', t === 'light');
+      document.getElementById('btnDark').classList.toggle('active', t === 'dark');
+
+      localStorage.setItem('theme', t);
+
+      setTimeout(() => {
+        document.body.style.pointerEvents = '';
+      }, 250);
+    });
   }
   const saved = localStorage.getItem('theme');
   if (saved) setTheme(saved);
 
   /* ── PAGE NAVIGATION ── */
-  const pages = ['home','bab1','bab2','bab3','bab4','bab5'];
+  const pages = ['home','bab1','bab2','bab3','bab4','bab5','pustaka'];
 
   function showPage(id) {
-    // hide all
+    // Hide all pages
     pages.forEach(p => {
       const el = document.getElementById('page-' + p);
       if (el) el.classList.remove('active');
     });
-    // show target
+
+    // Show target page
     const target = document.getElementById('page-' + id);
     if (target) target.classList.add('active');
 
-    // update navbar
-    const nlHome = document.getElementById('nl-home');
-    nlHome.classList.toggle('active', id === 'home');
+    // Update body data-page for background color switching
+    document.body.setAttribute('data-page', id);
 
-    // update chapter dropdown items
-    document.querySelectorAll('.chap-item').forEach((item, i) => {
-      item.classList.toggle('active', id === 'bab' + (i+1));
+    // Update navbar active states
+    const nlHome = document.getElementById('nl-home');
+    const isHome = id === 'home';
+    nlHome.classList.toggle('active', isHome);
+
+    // Update chapter dropdown items
+    document.querySelectorAll('.chap-item').forEach(item => {
+      const bab = item.getAttribute('data-bab');
+      item.classList.toggle('active', bab === id);
     });
 
-    // update chapter button state
+    // Update chapter button active state
     const chBtn = document.getElementById('chapterBtn');
-    const isChap = id.startsWith('bab');
+    const isChap = id.startsWith('bab') || id === 'pustaka';
     chBtn.classList.toggle('active', isChap);
 
-    // close dropdown
+    // Move nav pill to correct position
+    updateNavPill(isHome ? 'nl-home' : null);
+
+    // Close dropdown
     closeChapterMenu();
 
-    // scroll to top
+    // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // trigger reveals
+    // Trigger scroll reveal
     setTimeout(initReveal, 100);
+  }
+
+  /* ── NAV PILL INDICATOR (fix #5: pill follows clicked item) ── */
+  function updateNavPill(activeId) {
+    const pill = document.getElementById('navPill');
+    const container = document.getElementById('navLinks');
+    if (!pill || !container) return;
+
+    if (!activeId) {
+      // No active nav-link item; hide pill gracefully
+      pill.style.opacity = '0';
+      return;
+    }
+
+    const activeEl = document.getElementById(activeId);
+    if (!activeEl) { pill.style.opacity = '0'; return; }
+
+    const containerRect = container.getBoundingClientRect();
+    const elRect = activeEl.getBoundingClientRect();
+
+    pill.style.opacity = '1';
+    pill.style.width = elRect.width + 'px';
+    pill.style.transform = `translateX(${elRect.left - containerRect.left}px)`;
+  }
+
+  /* ── SCROLL TO SECTION (only on home page) ── */
+  function goSection(id) {
+    if (!document.getElementById('page-home').classList.contains('active')) {
+      showPage('home');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 320);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Move pill to corresponding nav link
+    const idMap = { about: 'nl-tentang', findings: 'nl-temuan', team: 'nl-tim' };
+    const navId = idMap[id];
+    if (navId) {
+      // Remove active from all nav links first
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const el = document.getElementById(navId);
+      if (el) {
+        el.classList.add('active');
+        updateNavPill(navId);
+      }
+    }
   }
 
   /* ── CHAPTER DROPDOWN ── */
@@ -1362,39 +1786,18 @@
     const menu = document.getElementById('chapterMenu');
     const btn = document.getElementById('chapterBtn');
     const isOpen = menu.classList.contains('open');
-    if (isOpen) {
-      closeChapterMenu();
-    } else {
-      menu.classList.add('open');
-      btn.classList.add('open');
-    }
+    if (isOpen) { closeChapterMenu(); }
+    else { menu.classList.add('open'); btn.classList.add('open'); }
   }
-
   function closeChapterMenu() {
     document.getElementById('chapterMenu').classList.remove('open');
     document.getElementById('chapterBtn').classList.remove('open');
   }
-
-  // Close dropdown on outside click
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-chapter-wrap')) closeChapterMenu();
   });
 
-  /* ── SCROLL TO SECTION (on home page) ── */
-  function scrollToSection(id) {
-    if (!document.getElementById('page-home').classList.contains('active')) {
-      showPage('home');
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
-    } else {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  /* ── REVEAL ON SCROLL ── */
+  /* ── SCROLL REVEAL ── */
   function initReveal() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -1404,6 +1807,13 @@
     document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
   }
   initReveal();
+
+  /* ── INIT PILL POSITION ── */
+  window.addEventListener('load', () => {
+    updateNavPill('nl-home');
+  });
+  // Also update after fonts/layout settle
+  setTimeout(() => updateNavPill('nl-home'), 500);
 </script>
 </body>
 </html>
