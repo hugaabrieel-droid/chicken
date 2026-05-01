@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biosekuriti Unggas — Desa Sukaruas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --cream:    #f5f0e8;
+      --warm:     #e8dfc8;
+      --straw:    #c9b882;
+      --terracotta: #c4744a;
+      --moss:     #6b7c52;
+      --sage:     #a3b58a;
+      --feather:  #d6cbb5;
+      --amber:    #b8860b;
+      --soil:     #5c4a2a;
+      --text:     #2e2416;
+      --text-muted: #7a6a52;
+      --bg:       #f5f0e8;
+      --surface:  #faf7f1;
+      --border:   rgba(90,70,40,.12);
+      --shadow:   0 4px 32px rgba(90,70,40,.10);
+      --radius:   18px;
+    }
+    [data-theme="dark"] {
+      --cream:    #1c1810;
+      --warm:     #2a2418;
+      --straw:    #8a7848;
+      --terracotta: #c4744a;
+      --moss:     #5a6b42;
+      --sage:     #728560;
+      --feather:  #3a322a;
+      --amber:    #c8960c;
+      --soil:     #e0cfa8;
+      --text:     #f0e8d8;
+      --text-muted: #a89878;
+      --bg:       #161210;
+      --surface:  #1e1a14;
+      --border:   rgba(200,170,100,.10);
+      --shadow:   0 4px 32px rgba(0,0,0,.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background .35s ease, color .35s ease;
+      overflow-x: hidden;
+    }
+
+    nav, .stat-card, .info-card, .finding-card, .member-card,
+    .btn-ghost, .scroll-btn, #preloader, #findings,
+    .chapter-view, .chapter-nav-panel {
+      transition: background .35s ease, border-color .35s ease,
+                  box-shadow .35s ease, color .35s ease;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--cream);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-icon { width: 72px; height: 72px; position: relative; }
+    .loader-icon svg { width: 100%; height: 100%; animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-bar { width: 200px; height: 3px; background: var(--feather); border-radius: 99px; overflow: hidden; }
+    .loader-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--moss), var(--terracotta));
+      border-radius: 99px; width: 0;
+      animation: fill 1.8s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes fill { to { width: 100%; } }
+    .loader-text { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--text-muted); letter-spacing: .05em; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      z-index: 500;
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(245,240,232,.88);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 10px 18px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 2px 20px rgba(90,70,40,.12);
+    }
+    [data-theme="dark"] nav { background: rgba(28,24,16,.88); }
+    .nav-brand { font-family: 'DM Serif Display', serif; font-size: .95rem; color: var(--soil); letter-spacing: .01em; white-space: nowrap; }
+    .nav-sep { width: 1px; height: 18px; background: var(--border); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-links a {
+      font-size: .8rem; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; padding: 5px 12px; border-radius: 99px;
+      transition: background .2s, color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--warm); color: var(--text); }
+
+    /* chapter dropdown */
+    .nav-chapter-wrap { position: relative; }
+    .nav-chapter-btn {
+      font-size: .8rem; font-weight: 500; color: var(--text-muted);
+      padding: 5px 12px; border-radius: 99px;
+      border: none; background: transparent; cursor: pointer;
+      transition: background .2s, color .2s;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-chapter-btn:hover, .nav-chapter-btn.active { background: var(--warm); color: var(--text); }
+    .nav-chapter-btn .arrow { font-size: .6rem; transition: transform .2s; }
+    .nav-chapter-btn.open .arrow { transform: rotate(180deg); }
+
+    .chapter-dropdown {
+      position: absolute; top: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px;
+      min-width: 220px;
+      box-shadow: 0 8px 32px rgba(90,70,40,.18);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 600;
+    }
+    .chapter-dropdown.open {
+      opacity: 1; pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    .chap-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 10px;
+      cursor: pointer; font-size: .82rem; color: var(--text-muted);
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .chap-item:hover { background: var(--warm); color: var(--text); }
+    .chap-item.active { background: var(--moss); color: #fff; }
+    .chap-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--straw); min-width: 24px;
+    }
+    .chap-item.active .chap-num { color: rgba(255,255,255,.7); }
+
+    /* ── THEME PILL ── */
+    .theme-pill { display: flex; align-items: center; gap: 2px; background: var(--warm); border-radius: 99px; padding: 4px; border: 1px solid var(--border); cursor: pointer; }
+    .pill-btn {
+      width: 30px; height: 30px; border-radius: 99px; border: none; cursor: pointer;
+      background: transparent; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      transition: background .35s ease, color .35s ease, box-shadow .35s ease, transform .2s ease;
+      outline: none; user-select: none;
+    }
+    .pill-btn.active { background: var(--surface); color: var(--terracotta); box-shadow: 0 1px 8px rgba(0,0,0,.15); transform: scale(1.08); }
+    .pill-btn:not(.active):hover { background: rgba(107,124,82,.12); color: var(--moss); }
+
+    /* ── SCROLL DOCK ── */
+    .scroll-dock { position: fixed; right: 28px; bottom: 36px; z-index: 400; display: flex; flex-direction: column; gap: 8px; }
+    .scroll-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--border);
+      background: var(--surface); color: var(--text-muted); cursor: pointer; font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); transition: background .2s, color .2s, transform .15s;
+      backdrop-filter: blur(12px);
+    }
+    .scroll-btn:hover { background: var(--warm); color: var(--terracotta); transform: scale(1.1); }
+
+    /* ── PAGE SYSTEM ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+    .hero-bg::before {
+      content: ''; position: absolute;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(163,181,138,.22) 0%, transparent 70%);
+      top: -200px; right: -200px;
+    }
+    .hero-bg::after {
+      content: ''; position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,116,74,.12) 0%, transparent 70%);
+      bottom: -150px; left: -100px;
+    }
+    .hero-grain {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      opacity: .4; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 780px; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 99px;
+      padding: 6px 16px; font-size: .78rem; font-weight: 500; color: var(--moss);
+      letter-spacing: .04em; text-transform: uppercase; margin-bottom: 32px;
+      opacity: 0; animation: fadeUp .6s .3s forwards;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--moss); animation: pulse-dot 1.8s ease-in-out infinite; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(107,124,82,.5); }
+      50%       { opacity: .7; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(107,124,82,0); }
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.12; color: var(--soil); margin-bottom: 12px;
+      opacity: 0; animation: fadeUp .7s .45s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--terracotta); }
+    .hero-sub {
+      font-size: clamp(.95rem, 2vw, 1.15rem); color: var(--text-muted);
+      line-height: 1.7; max-width: 560px; margin: 0 auto 40px; font-weight: 300;
+      opacity: 0; animation: fadeUp .7s .6s forwards;
+    }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp .7s .75s forwards; }
+    .btn-primary, .btn-ghost {
+      padding: 13px 28px; border-radius: 99px; font-size: .9rem; font-weight: 500;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--moss), #4e5e38); color: #fff; box-shadow: 0 4px 20px rgba(107,124,82,.35); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(107,124,82,.4); }
+    .btn-ghost { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { background: var(--warm); transform: translateY(-2px); }
+
+    .stats-row {
+      position: relative; z-index: 1;
+      display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;
+      margin-top: 64px; opacity: 0; animation: fadeUp .7s .9s forwards;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px 28px; text-align: center; min-width: 150px; box-shadow: var(--shadow);
+      transition: transform .2s;
+    }
+    .stat-card:hover { transform: translateY(-4px); }
+    .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--terracotta); line-height: 1; }
+    .stat-label { font-size: .78rem; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+    .divider-line { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ── ABOUT ── */
+    #about { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--moss); margin-bottom: 12px; }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--soil); line-height: 1.2; margin-bottom: 20px; }
+    .section-body { font-size: 1rem; line-height: 1.8; color: var(--text-muted); max-width: 600px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 60px; }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; gap: 40px; }
+      .nav-links { display: none; }
+      .chapter-dropdown { left: auto; right: 0; transform: translateX(0) translateY(-6px); }
+      .chapter-dropdown.open { transform: translateX(0) translateY(0); }
+    }
+    .info-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .info-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .info-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .info-card-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+    .info-card-title { font-weight: 600; font-size: .88rem; color: var(--text); margin-bottom: 4px; }
+    .info-card-text { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── KEY FINDINGS ── */
+    #findings { background: var(--warm); padding: 100px 24px; }
+    [data-theme="dark"] #findings { background: var(--surface); }
+    .findings-inner { max-width: 1100px; margin: 0 auto; }
+    .findings-header { text-align: center; margin-bottom: 56px; }
+    .findings-header .section-body { margin: 0 auto; }
+    .findings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .finding-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px; position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .finding-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .finding-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .finding-card:nth-child(1)::before { background: var(--terracotta); }
+    .finding-card:nth-child(2)::before { background: var(--moss); }
+    .finding-card:nth-child(3)::before { background: var(--amber); }
+    .finding-card:nth-child(4)::before { background: var(--sage); }
+    .finding-num { font-family: 'DM Serif Display', serif; font-size: 3rem; color: var(--feather); line-height: 1; margin-bottom: 16px; }
+    [data-theme="dark"] .finding-num { opacity: .4; }
+    .finding-title { font-weight: 600; font-size: 1rem; color: var(--text); margin-bottom: 10px; }
+    .finding-text { font-size: .88rem; line-height: 1.65; color: var(--text-muted); }
+
+    /* ── TEAM ── */
+    #team { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+    .team-header { text-align: center; margin-bottom: 56px; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .member-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px 16px; text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .member-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .member-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage), var(--moss));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: #fff;
+      margin: 0 auto 12px;
+    }
+    .member-name { font-weight: 600; font-size: .85rem; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
+    .member-id { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── CHAPTER PAGES ── */
+    .chapter-view {
+      min-height: 100vh;
+      padding: 120px 24px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .78rem; color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+    .breadcrumb a { color: var(--moss); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { opacity: .4; }
+
+    /* Chapter header */
+    .chapter-header {
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chapter-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--warm); border: 1px solid var(--border);
+      border-radius: 99px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 600; color: var(--moss);
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .chapter-h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15; color: var(--soil);
+      margin-bottom: 16px;
+    }
+    .chapter-h1 em { font-style: italic; color: var(--terracotta); }
+    .chapter-desc {
+      font-size: 1.05rem; line-height: 1.7;
+      color: var(--text-muted); font-weight: 300;
+      max-width: 680px;
+    }
+
+    /* Content nav sidebar-style */
+    .chapter-layout {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .chapter-layout { grid-template-columns: 1fr; }
+      .chapter-nav-panel { display: none; }
+    }
+
+    .chapter-nav-panel {
+      position: sticky; top: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .panel-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--moss);
+      margin-bottom: 14px;
+    }
+    .panel-list { list-style: none; }
+    .panel-list li { margin-bottom: 4px; }
+    .panel-list a {
+      display: block; font-size: .82rem; color: var(--text-muted);
+      text-decoration: none; padding: 6px 10px; border-radius: 8px;
+      transition: background .15s, color .15s;
+      line-height: 1.4;
+    }
+    .panel-list a:hover { background: var(--warm); color: var(--text); }
+
+    /* Chapter nav bottom arrows */
+    .chapter-footer-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 72px; padding-top: 32px;
+      border-top: 1px solid var(--border);
+      gap: 16px;
+    }
+    .chap-nav-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .chap-nav-btn:hover { background: var(--warm); transform: translateY(-2px); }
+    .chap-nav-btn .cn-label { font-size: .72rem; color: var(--text-muted); }
+    .chap-nav-btn .cn-title { font-size: .88rem; font-weight: 600; color: var(--text); }
+    .chap-nav-btn.right { text-align: right; flex-direction: row-reverse; }
+    .chap-nav-spacer { flex: 1; }
+
+    /* Chapter content typography */
+    .chapter-content h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; color: var(--soil);
+      margin: 48px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chapter-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem; color: var(--soil);
+      margin: 32px 0 12px;
+    }
+    .chapter-content p {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .chapter-content p em { font-style: italic; color: var(--terracotta); }
+    .chapter-content ul, .chapter-content ol {
+      margin: 16px 0 24px 22px; color: var(--text-muted);
+    }
+    .chapter-content li { font-size: .97rem; line-height: 1.75; margin-bottom: 8px; }
+    .chapter-content li strong { color: var(--text); }
+    .chapter-content blockquote {
+      margin: 28px 0;
+      padding: 18px 22px;
+      background: var(--warm);
+      border-left: 3px solid var(--moss);
+      border-radius: 0 12px 12px 0;
+      font-style: italic; color: var(--text-muted);
+      font-size: .95rem; line-height: 1.7;
+    }
+    [data-theme="dark"] .chapter-content blockquote { background: var(--feather); }
+
+    .chapter-content .highlight-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin: 28px 0;
+    }
+    .highlight-box .hb-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--moss); margin-bottom: 10px;
+    }
+
+    /* Table */
+    .chapter-content table {
+      width: 100%; border-collapse: collapse;
+      margin: 24px 0; font-size: .88rem;
+    }
+    .chapter-content th {
+      background: var(--warm); color: var(--text);
+      font-weight: 600; padding: 12px 16px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .chapter-content td {
+      padding: 11px 16px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .chapter-content tr:nth-child(even) td { background: rgba(200,180,130,.04); }
+
+    /* Numbered list style for findings */
+    .num-list { list-style: none; margin: 0; padding: 0; }
+    .num-list li {
+      display: flex; gap: 16px; margin-bottom: 20px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border);
+    }
+    .num-list li:last-child { border-bottom: none; }
+    .num-list .nl-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; color: var(--straw);
+      min-width: 32px; line-height: 1;
+    }
+    .num-list .nl-body { flex: 1; }
+    .num-list .nl-title { font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: 6px; }
+    .num-list .nl-text { font-size: .88rem; line-height: 1.65; color: var(--text-muted); }
+
+    /* ── FEATHER DECO ── */
+    .feather-deco {
+      position: absolute; right: 5%; top: 15%;
+      opacity: .07; font-size: 240px;
+      pointer-events: none; z-index: 0;
+      transform: rotate(25deg); filter: grayscale(1);
+    }
+    [data-theme="dark"] .feather-deco { opacity: .04; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--soil); margin-bottom: 8px; }
+    .footer-sub { font-size: .8rem; color: var(--text-muted); margin-bottom: 20px; }
+    .footer-bottom { font-size: .75rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PRELOADER ═══ -->
+<div id="preloader">
+  <div class="loader-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="28" stroke="#c9b882" stroke-width="2" stroke-dasharray="40 90" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="20" stroke="#6b7c52" stroke-width="2" stroke-dasharray="25 60" stroke-linecap="round" transform="rotate(60 32 32)"/>
+      <circle cx="32" cy="14" r="5" fill="#c4744a" opacity=".8"/>
+      <path d="M32 22 C28 26 24 30 32 34 C40 30 36 26 32 22Z" fill="#c9b882" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <p class="loader-text">Memuat konten penelitian...</p>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <span class="nav-brand" style="cursor:pointer" onclick="showPage('home')">🐓 TESIS 36</span>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="#" onclick="showPage('home');return false;" id="nl-home" class="active">Beranda</a>
+    <a href="#" onclick="scrollToSection('about');return false;">Tentang</a>
+    <a href="#" onclick="scrollToSection('findings');return false;">Temuan</a>
+    <a href="#" onclick="scrollToSection('team');return false;">Tim</a>
+  </div>
+  <!-- Chapter dropdown -->
+  <div class="nav-chapter-wrap">
+    <button class="nav-chapter-btn" id="chapterBtn" onclick="toggleChapterMenu()">
+      Bab <span class="arrow">▾</span>
+    </button>
+    <div class="chapter-dropdown" id="chapterMenu">
+      <a class="chap-item" onclick="showPage('bab1');return false;" href="#">
+        <span class="chap-num">I</span><span>Pendahuluan</span>
+      </a>
+      <a class="chap-item" onclick="showPage('bab2');return false;" href="#">
+        <span class="chap-num">II</span><span>Landasan Teori</span>
+      </a>
+      <a class="chap-item" onclick="showPage('bab3');return false;" href="#">
+        <span class="chap-num">III</span><span>Metode Penelitian</span>
+      </a>
+      <a class="chap-item" onclick="showPage('bab4');return false;" href="#">
+        <span class="chap-num">IV</span><span>Hasil &amp; Pembahasan</span>
+      </a>
+      <a class="chap-item" onclick="showPage('bab5');return false;" href="#">
+        <span class="chap-num">V</span><span>Penutup</span>
+      </a>
+    </div>
+  </div>
+  <div class="theme-pill" id="themePill" title="Ganti tema">
+    <button class="pill-btn active" id="btnLight" onclick="setTheme('light')" title="Mode Terang">☀️</button>
+    <button class="pill-btn" id="btnDark" onclick="setTheme('dark')" title="Mode Gelap">🌙</button>
+  </div>
+</nav>
+
+<!-- ═══ SCROLL DOCK ═══ -->
+<div class="scroll-dock">
+  <button class="scroll-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">↑</button>
+  <button class="scroll-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="Ke bawah">↓</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: BERANDA
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <section id="home">
+    <div class="hero-bg"><div class="hero-grain"></div></div>
+    <span class="feather-deco">🐔</span>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Karya Ilmiah · TeSis 2026 · SMAN 8 Jakarta
+      </div>
+      <h1 class="hero-title">
+        Analisis Strategi Pencegahan<br/>
+        <em>Avian Influenza</em> pada Unggas
+      </h1>
+      <p class="hero-sub">
+        Penerapan Biosekuriti oleh Peternak di Kampung Sukaruas,
+        Kabupaten Tasikmalaya — Sebuah penelitian kualitatif lapangan, 21–24 Januari 2026.
+      </p>
+      <div class="hero-cta">
+        <a href="#" onclick="showPage('bab1');return false;" class="btn-primary">
+          <span>Baca Penelitian</span><span>→</span>
+        </a>
+        <a href="#" onclick="scrollToSection('findings');return false;" class="btn-ghost">Temuan Utama</a>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">84%</div><div class="stat-label">Tingkat fatalitas<br/>kasus H5N1 di Indonesia</div></div>
+      <div class="stat-card"><div class="stat-num">200+</div><div class="stat-label">Kasus H5N1 pada<br/>manusia di Indonesia 2005–2017</div></div>
+      <div class="stat-card"><div class="stat-num">4 Hari</div><div class="stat-label">Durasi penelitian<br/>kualitatif di Sukaruas</div></div>
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Anggota tim<br/>peneliti</div></div>
+    </div>
+  </section>
+
+  <hr class="divider-line" />
+
+  <section id="about">
+    <div class="two-col">
+      <div class="reveal">
+        <p class="section-label">Latar Belakang</p>
+        <h2 class="section-title">Mengapa Biosekuriti<br/>Sangat Penting?</h2>
+        <p class="section-body">
+          Avian Influenza subtipe H5N1 bukan hanya ancaman bagi sektor peternakan —
+          ia adalah isu kesehatan masyarakat yang serius. Di pedesaan Indonesia, peternak
+          rakyat yang mengandalkan sistem tradisional menjadi garis terdepan yang paling rentan.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+          Penelitian ini dilaksanakan pada <strong>21–24 Januari 2026</strong> di
+          Kampung Sukaruas, Kabupaten Tasikmalaya, menggunakan pendekatan
+          kualitatif deskriptif dengan observasi langsung dan wawancara mendalam.
+        </p>
+        <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="#" onclick="showPage('bab1');return false;" class="btn-primary" style="font-size:.82rem; padding:10px 20px;">Bab I — Pendahuluan →</a>
+        </div>
+      </div>
+      <div class="info-card-grid reveal">
+        <div class="info-card"><span class="info-card-icon">🏡</span><div class="info-card-title">Lokasi</div><div class="info-card-text">Desa Sukaruas, Kab. Tasikmalaya, Jawa Barat</div></div>
+        <div class="info-card"><span class="info-card-icon">🔬</span><div class="info-card-title">Metode</div><div class="info-card-text">Kualitatif deskriptif, observasi &amp; wawancara</div></div>
+        <div class="info-card"><span class="info-card-icon">📋</span><div class="info-card-title">Fokus</div><div class="info-card-text">Penerapan biosekuriti skala peternakan rakyat</div></div>
+        <div class="info-card"><span class="info-card-icon">🎓</span><div class="info-card-title">Institusi</div><div class="info-card-text">SMA Negeri 8 Jakarta · TeSis 2026</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider-line" />
+
+  <!-- chapter quick-nav strip -->
+  <section style="padding:60px 24px; max-width:1100px; margin:0 auto;">
+    <div class="reveal" style="text-align:center; margin-bottom:40px;">
+      <p class="section-label">Navigasi Bab</p>
+      <h2 class="section-title">Jelajahi Isi Penelitian</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;">
+      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab1')">
+        <div class="finding-num" style="font-size:2rem;">I</div>
+        <div class="finding-title">Pendahuluan</div>
+        <div class="finding-text">Latar belakang, rumusan masalah, tujuan, dan manfaat penelitian.</div>
+        <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
+      </div>
+      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab2')">
+        <div class="finding-num" style="font-size:2rem;">II</div>
+        <div class="finding-title">Landasan Teori</div>
+        <div class="finding-text">Tinjauan pustaka tentang Avian Influenza dan prinsip biosekuriti.</div>
+        <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
+      </div>
+      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab3')">
+        <div class="finding-num" style="font-size:2rem;">III</div>
+        <div class="finding-title">Metode Penelitian</div>
+        <div class="finding-text">Pendekatan kualitatif deskriptif, waktu, tempat, dan teknik pengumpulan data.</div>
+        <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
+      </div>
+      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab4')">
+        <div class="finding-num" style="font-size:2rem;">IV</div>
+        <div class="finding-title">Hasil &amp; Pembahasan</div>
+        <div class="finding-text">Temuan lapangan, analisis biosekuriti, dan pembahasan mendalam.</div>
+        <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
+      </div>
+      <div class="finding-card reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab5')">
+        <div class="finding-num" style="font-size:2rem;">V</div>
+        <div class="finding-title">Penutup</div>
+        <div class="finding-text">Kesimpulan akhir dan saran bagi peternak, pemerintah, dan peneliti.</div>
+        <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider-line" />
+
+  <section id="findings">
+    <div class="findings-inner">
+      <div class="findings-header reveal">
+        <p class="section-label">Hasil Penelitian</p>
+        <h2 class="section-title">Temuan Utama di Lapangan</h2>
+        <p class="section-body">
+          Penerapan biosekuriti oleh peternak rakyat di Desa Sukaruas masih sangat terbatas,
+          dengan berbagai faktor struktural yang menghambat perbaikannya.
+        </p>
+      </div>
+      <div class="findings-grid">
+        <div class="finding-card reveal">
+          <div class="finding-num">01</div>
+          <div class="finding-title">Sanitasi Kandang Minim</div>
+          <div class="finding-text">Sanitasi kandang hanya dilakukan satu kali sebulan, jauh di bawah standar biosekuriti yang dianjurkan. Pengelolaan limbah tidak terstruktur dan tidak konsisten.</div>
+        </div>
+        <div class="finding-card reveal">
+          <div class="finding-num">02</div>
+          <div class="finding-title">Ketiadaan APD</div>
+          <div class="finding-text">Peternak tidak menggunakan alat pelindung diri saat menangani unggas. Isolasi unggas sakit dilakukan tidak konsisten dan tanpa prosedur tetap.</div>
+        </div>
+        <div class="finding-card reveal">
+          <div class="finding-num">03</div>
+          <div class="finding-title">Pengetahuan Rendah</div>
+          <div class="finding-text">Pengetahuan peternak tentang Avian Influenza sangat rendah. Minimnya penyuluhan dan akses terbatas ke layanan kesehatan hewan memperparah kondisi ini.</div>
+        </div>
+        <div class="finding-card reveal">
+          <div class="finding-num">04</div>
+          <div class="finding-title">Faktor Ekonomi</div>
+          <div class="finding-text">Keterbatasan ekonomi menjadi hambatan utama. Peternak cenderung memprioritaskan kestabilan ekonomi jangka pendek dibanding investasi dalam praktik kesehatan ternak.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider-line" />
+
+  <section id="team">
+    <div class="team-header reveal">
+      <p class="section-label">Peneliti</p>
+      <h2 class="section-title">TESIS 36</h2>
+      <p class="section-body" style="margin:0 auto;">Enam pelajar SMAN 8 Jakarta yang melakukan penelitian lapangan langsung ke Desa Sukaruas, Kabupaten Tasikmalaya.</p>
+    </div>
+    <div class="team-grid">
+      <div class="member-card reveal"><div class="member-avatar">B</div><div class="member-name">Beby Valenia Mahendra</div><div class="member-id">Anggota · 27991</div></div>
+      <div class="member-card reveal"><div class="member-avatar">D</div><div class="member-name">Damar Khairul Adhim</div><div class="member-id">Anggota · 28077</div></div>
+      <div class="member-card reveal"><div class="member-avatar">J</div><div class="member-name">Jean Kenzani</div><div class="member-id">Anggota · 28078</div></div>
+      <div class="member-card reveal"><div class="member-avatar">L</div><div class="member-name">Lambok Gabriel H. N.</div><div class="member-id">Ketua · 28109</div></div>
+      <div class="member-card reveal"><div class="member-avatar">M</div><div class="member-name">Muhammad Fahri</div><div class="member-id">Anggota · 28131</div></div>
+      <div class="member-card reveal"><div class="member-avatar">S</div><div class="member-name">Saskia Aulia Putri</div><div class="member-id">Anggota · 28243</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">KARYA ILMIAH TESIS 2026 · SMAN 8 JAKARTA</div>
+    <p class="footer-sub">Drs. Ubaidillah, M.Pd (Kepala Sekolah) · Nur Siti Kamsiati, S.Pd (Pembimbing Teknis) · Bambang Triaji Asnoto, S.Pd (Pembimbing Materi)</p>
+    <div class="footer-bottom">© 2026 TESIS 36 — SMAN 8 JAKARTA. Seluruh isi dan penelitian dalam situs adalah karya orisinal TESIS 36.</div>
+  </footer>
+</div><!-- /page-home -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: BAB I — PENDAHULUAN
+══════════════════════════════════════════ -->
+<div id="page-bab1" class="page">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Bab I</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">BAB I</div>
+      <h1 class="chapter-h1">Pendahuluan</h1>
+      <p class="chapter-desc">Latar belakang ancaman Avian Influenza, rumusan masalah yang diteliti, tujuan, dan manfaat penelitian bagi penulis, sekolah, dan masyarakat.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <h2 id="b1-latarbelakang">1.1 Latar Belakang</h2>
+        <p>Sektor peternakan unggas merupakan salah satu pilar penting dalam sistem ketahanan pangan nasional, khususnya dalam pemenuhan kebutuhan protein hewani masyarakat. Di Indonesia, usaha peternakan unggas rakyat berkembang secara luas dan tersebar di berbagai wilayah pedesaan, menjadikannya tulang punggung ekonomi bagi sebagian besar rumah tangga peternak.</p>
+        <p><em>Avian Influenza</em> (AI) merupakan salah satu penyakit unggas yang paling diwaspadai di tingkat global maupun nasional. Penyakit yang disebabkan oleh virus influenza tipe A ini, khususnya subtipe H5N1, dikenal memiliki daya penularan yang tinggi antara sesama unggas serta berpotensi menimbulkan angka kematian yang signifikan dalam waktu singkat. Lebih dari itu, H5N1 tergolong penyakit zoonotik yang dapat menular ke manusia.</p>
+        <p>Almutaali dan Anugrah (2023) mencatat bahwa sejak pertama kali terdeteksi pada manusia di Hong Kong tahun 1997, virus H5N1 telah menginfeksi 861 kasus tercatat dengan tingkat fatalitas mencapai 53%, menjadikannya salah satu subtipe influenza paling mematikan yang pernah ada.</p>
+
+        <div class="highlight-box">
+          <div class="hb-label">Data Kritis — Indonesia</div>
+          <p style="margin:0; font-size:.95rem; line-height:1.7; color:var(--text-muted);">Selama tahun 2005–2017, Indonesia mendeteksi <strong style="color:var(--terracotta)">200 kasus</strong> infeksi H5N1 pada manusia, dengan <strong style="color:var(--terracotta)">168 kasus (84%)</strong> di antaranya berakibat fatal — menjadikan Indonesia sebagai negara dengan proporsi kematian tertinggi di seluruh dunia.</p>
+        </div>
+
+        <p>Akar permasalahan yang kerap ditemukan pada peternakan unggas rakyat adalah rendahnya penerapan biosekuriti. Biosekuriti merupakan serangkaian tindakan sistematis yang bertujuan mencegah masuk dan menyebarnya agen penyakit ke dalam lingkungan peternakan, mencakup kebersihan dan sanitasi kandang, pengelolaan limbah, pengendalian akses manusia dan hewan dari luar, hingga prosedur penanganan unggas sakit dan mati.</p>
+        <p>Penelitian ini difokuskan pada kajian strategi pencegahan <em>Avian Influenza</em>, khususnya flu burung subtipe H5N1, pada peternakan unggas rakyat di Desa Sukaruas, Kabupaten Tasikmalaya, yang dilaksanakan pada 21–24 Januari 2026.</p>
+
+        <h2 id="b1-rumusan">1.2 Rumusan Masalah</h2>
+        <ul>
+          <li>Bagaimana penerapan biosekuriti oleh peternak ayam rakyat dalam upaya pencegahan <em>Avian Influenza</em> di Desa Sukaruas, Kabupaten Tasikmalaya?</li>
+          <li>Faktor-faktor apa saja yang memengaruhi tingkat penerapan biosekuriti oleh peternak ayam dalam pencegahan <em>Avian Influenza</em> di wilayah tersebut?</li>
+          <li>Kendala apa saja yang dihadapi peternak ayam rakyat dalam mengimplementasikan praktik biosekuriti pada sistem pemeliharaan ternak mereka?</li>
+        </ul>
+
+        <h2 id="b1-tujuan">1.3 Tujuan Penelitian</h2>
+        <ul>
+          <li>Menganalisis penerapan biosekuriti oleh peternak ayam rakyat dalam upaya pencegahan <em>Avian Influenza</em> di Desa Sukaruas.</li>
+          <li>Mengidentifikasi faktor-faktor yang memengaruhi tingkat penerapan biosekuriti oleh peternak ayam di wilayah tersebut.</li>
+          <li>Mengkaji kendala yang dihadapi peternak ayam rakyat dalam mengimplementasikan praktik biosekuriti sebagai strategi pencegahan <em>Avian Influenza</em>.</li>
+        </ul>
+
+        <h2 id="b1-manfaat">1.4 Manfaat Penelitian</h2>
+        <ul>
+          <li><strong>Manfaat bagi Penulis:</strong> Menambah wawasan dan pengalaman dalam mengkaji permasalahan kesehatan ternak unggas secara langsung di lapangan, serta melatih kemampuan analisis dan penulisan ilmiah.</li>
+          <li><strong>Manfaat bagi Sekolah:</strong> Menjadi referensi dan tambahan literatur ilmiah di lingkungan sekolah, khususnya bidang kesehatan hewan dan manajemen peternakan.</li>
+          <li><strong>Manfaat bagi Masyarakat dan Lingkungan:</strong> Meningkatkan kesadaran peternak mengenai pentingnya biosekuriti dalam mencegah penyebaran <em>Avian Influenza</em>, sehingga dapat menekan risiko kerugian ekonomi dan melindungi kesehatan masyarakat dari ancaman penyakit <em>zoonosis</em>.</li>
+        </ul>
+
+        <div class="chapter-footer-nav">
+          <span class="chap-nav-spacer"></span>
+          <a href="#" onclick="showPage('bab2');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Isi Bab I</div>
+        <ul class="panel-list">
+          <li><a href="#b1-latarbelakang">1.1 Latar Belakang</a></li>
+          <li><a href="#b1-rumusan">1.2 Rumusan Masalah</a></li>
+          <li><a href="#b1-tujuan">1.3 Tujuan Penelitian</a></li>
+          <li><a href="#b1-manfaat">1.4 Manfaat Penelitian</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Bab Lain</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
+            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-bab1 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: BAB II — LANDASAN TEORI
+══════════════════════════════════════════ -->
+<div id="page-bab2" class="page">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Bab II</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">BAB II</div>
+      <h1 class="chapter-h1">Landasan Teori</h1>
+      <p class="chapter-desc">Tinjauan pustaka komprehensif mengenai Avian Influenza H5N1, prinsip biosekuriti dalam peternakan rakyat, peran peternak, serta faktor pendukung dan penghambat penerapan biosekuriti.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <h2 id="b2-ai">2.1 Avian Influenza (Flu Burung H5N1)</h2>
+        <h3 id="b2-definisi">2.1.1 Definisi dan Karakteristik Virus</h3>
+        <p><em>Avian Influenza</em> (AI) merupakan penyakit infeksius yang disebabkan oleh virus Influenza tipe A dari famili Orthomyxoviridae. Virus ini mampu menginfeksi berbagai spesies hewan, termasuk unggas, babi, kuda, anjing, kucing, paus, dan manusia (Rehman dkk., 2023).</p>
+        <p>Berdasarkan tingkat patogenisitasnya, virus AI dibedakan menjadi dua kelompok: <em>Low Pathogenic Avian Influenza</em> (LPAI) yang menyebabkan gejala ringan, serta <em>Highly Pathogenic Avian Influenza</em> (HPAI) yang bersifat sangat ganas dan mematikan. Subtipe H5N1 adalah strain HPAI yang paling diwaspadai secara global.</p>
+        <p>Secara struktural, dua protein permukaan utama yang menentukan subtipe virus adalah <em>Hemagglutinin</em> (HA) dan <em>Neuraminidase</em> (NA). Virus ini juga memiliki kemampuan mutasi melalui <em>antigenic drift</em> dan <em>antigenic shift</em>, menghasilkan varian-varian baru yang sulit dikendalikan.</p>
+
+        <h3 id="b2-epi">2.1.2 Epidemiologi di Indonesia</h3>
+        <p>Indonesia merupakan salah satu negara dengan beban kasus AI tertinggi di dunia. Wabah HPAI H5N1 pertama kali terdeteksi di Indonesia pada Agustus 2003, mengakibatkan kematian lebih dari 16 juta ekor ayam dan menyebar ke 32 dari 34 provinsi (Rehman dkk., 2023).</p>
+
+        <div class="highlight-box">
+          <div class="hb-label">Angka yang Mengkhawatirkan</div>
+          <p style="margin:0; font-size:.93rem; line-height:1.7; color:var(--text-muted);">Tingkat fatalitas H5N1 di Indonesia mencapai <strong style="color:var(--terracotta)">84%</strong> dari total kasus yang terkonfirmasi — jauh melampaui rata-rata global sebesar 53%.</p>
+        </div>
+
+        <h3 id="b2-penularan">2.1.3 Penularan dan Risiko Penyebaran</h3>
+        <p>Penularan virus AI terjadi melalui kontak langsung dengan burung liar yang terinfeksi, benda-benda tercemar seperti kotoran, peralatan kandang, pakaian pekerja, serta melalui perdagangan dan transportasi unggas hidup antardaerah. Sistem pemeliharaan ekstensif tradisional — di mana unggas dibiarkan berkeliaran bebas — secara langsung meningkatkan risiko kontak dengan hewan pembawa virus.</p>
+
+        <h2 id="b2-biosekuriti">2.2 Biosekuriti dalam Peternakan Unggas Rakyat</h2>
+        <h3>2.2.1 Definisi dan Prinsip Biosekuriti</h3>
+        <p>Biosekuriti merupakan serangkaian tindakan sistematis yang dirancang untuk mencegah masuk dan menyebarnya agen penyakit ke dalam suatu lingkungan peternakan (Filawati dkk., 2025). Dalam konteks pencegahan AI, biosekuriti yang diterapkan secara konsisten merupakan garis pertahanan pertama yang paling efektif.</p>
+        <p>Prinsip biosekuriti dikelompokkan menjadi tiga tingkatan:</p>
+        <ul>
+          <li><strong>Biosekuriti Konseptual</strong> — pemilihan lokasi kandang yang jauh dari pemukiman padat, pasar unggas, dan jalur migrasi burung liar.</li>
+          <li><strong>Biosekuriti Struktural</strong> — desain dan konstruksi kandang yang meminimalkan risiko masuknya hewan liar.</li>
+          <li><strong>Biosekuriti Operasional</strong> — prosedur harian seperti sanitasi, disinfeksi, pengendalian lalu lintas, dan manajemen unggas sakit.</li>
+        </ul>
+
+        <h3>2.2.2 Komponen Biosekuriti pada Peternakan Rakyat</h3>
+        <ul>
+          <li><strong>Sanitasi Kandang:</strong> Pembersihan rutin, disinfeksi menggunakan bahan kimia yang sesuai, serta pengelolaan kotoran dan limbah secara higienis.</li>
+          <li><strong>Pengendalian Lalu Lintas:</strong> Pengawasan ketat terhadap siapa saja yang memasuki area kandang, termasuk fasilitas pergantian pakaian dan cuci tangan.</li>
+          <li><strong>Pemeriksaan Unggas Baru:</strong> Unggas yang berasal dari luar daerah harus menjalani karantina sebelum digabungkan dengan kawanan yang ada.</li>
+          <li><strong>Isolasi Unggas Sakit:</strong> Segera memisahkan unggas yang menunjukkan gejala sakit dari kawanan yang sehat.</li>
+        </ul>
+
+        <h2 id="b2-peternak">2.3 Peran Peternak dalam Pencegahan AI</h2>
+        <p>Pengetahuan peternak mengenai penyakit AI merupakan faktor penentu utama dalam keberhasilan penerapan biosekuriti. Wahyuni dkk. (2022) menegaskan bahwa semakin tinggi tingkat pengetahuan dan sikap masyarakat terhadap suatu penyakit, semakin baik pula praktik yang dilakukannya.</p>
+        <p>Penelitian Siagian dan Pratama (2020) menemukan bahwa seluruh responden pedagang burung belum memahami dan belum menerapkan prinsip biosekuriti secara menyeluruh — tidak satu pun memvaksinasi unggas mereka, sementara prinsip isolasi sama sekali belum diterapkan.</p>
+
+        <h2 id="b2-faktor">2.4 Faktor Pendukung dan Penghambat</h2>
+        <h3>2.4.1 Faktor Pendukung</h3>
+        <ul>
+          <li>Ketersediaan layanan kesehatan hewan (Puskeswan) yang memadai.</li>
+          <li>Program sosialisasi dan penyuluhan yang berkelanjutan dan rutin.</li>
+          <li>Pendekatan <em>one health</em> yang mengintegrasikan kesehatan hewan, manusia, dan lingkungan.</li>
+        </ul>
+        <h3>2.4.2 Faktor Penghambat</h3>
+        <ul>
+          <li>Keterbatasan sumber daya manusia dan fasilitas di dinas peternakan.</li>
+          <li>Sistem pemeliharaan tradisional <em>free-range</em> yang sulit diubah.</li>
+          <li>Rendahnya cakupan vaksinasi dan penggunaan vaksin yang tidak berlisensi.</li>
+          <li>Keterlambatan diagnosis dan pelaporan akibat gejala klinis yang menyerupai penyakit lain.</li>
+        </ul>
+
+        <h2 id="b2-kerangka">2.5 Kerangka Pemikiran</h2>
+        <p>Penelitian ini berpijak pada pemahaman bahwa virus H5N1 yang terus berevolusi mempertegas urgensi pengendalian di tingkat peternakan rakyat sebagai garis terdepan dalam rantai penyebaran. Biosekuriti yang diterapkan oleh peternak merupakan variabel sentral, namun keberhasilannya dipengaruhi oleh tingkat pengetahuan, ketersediaan layanan kesehatan hewan, konsistensi penyuluhan, dan kondisi sosial-ekonomi peternak.</p>
+
+        <div class="chapter-footer-nav">
+          <a href="#" onclick="showPage('bab1');return false;" class="chap-nav-btn">
+            <span>←</span>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab I — Pendahuluan</div></div>
+          </a>
+          <a href="#" onclick="showPage('bab3');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab III — Metode</div></div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Isi Bab II</div>
+        <ul class="panel-list">
+          <li><a href="#b2-ai">2.1 Avian Influenza H5N1</a></li>
+          <li><a href="#b2-definisi">&nbsp;&nbsp;2.1.1 Definisi & Karakteristik</a></li>
+          <li><a href="#b2-epi">&nbsp;&nbsp;2.1.2 Epidemiologi</a></li>
+          <li><a href="#b2-penularan">&nbsp;&nbsp;2.1.3 Penularan</a></li>
+          <li><a href="#b2-biosekuriti">2.2 Biosekuriti</a></li>
+          <li><a href="#b2-peternak">2.3 Peran Peternak</a></li>
+          <li><a href="#b2-faktor">2.4 Faktor Pendukung</a></li>
+          <li><a href="#b2-kerangka">2.5 Kerangka Pemikiran</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Bab Lain</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
+            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-bab2 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: BAB III — METODE PENELITIAN
+══════════════════════════════════════════ -->
+<div id="page-bab3" class="page">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Bab III</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">BAB III</div>
+      <h1 class="chapter-h1">Metode Penelitian</h1>
+      <p class="chapter-desc">Pendekatan kualitatif deskriptif yang digunakan, waktu dan tempat pelaksanaan penelitian lapangan, serta teknik-teknik pengumpulan data yang diterapkan.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <p>Subjek penelitian dalam penelitian ini adalah peternak unggas rakyat yang melakukan kegiatan pemeliharaan unggas di Desa Sukaruas, Kabupaten Tasikmalaya. Objek penelitian adalah strategi pencegahan <em>Avian Influenza</em> yang mencakup penerapan biosekuriti oleh peternak dalam kegiatan pemeliharaan unggas sehari-hari.</p>
+
+        <h2 id="b3-waktu">3.1 Waktu dan Tempat Penelitian</h2>
+        <div class="highlight-box">
+          <div class="hb-label">Detail Pelaksanaan</div>
+          <p style="margin:0; font-size:.93rem; line-height:1.7; color:var(--text-muted);">📍 <strong>Lokasi:</strong> Desa Sukaruas, Kabupaten Tasikmalaya, Jawa Barat<br/>📅 <strong>Waktu:</strong> 21 Januari – 24 Januari 2026<br/>🏫 <strong>Program:</strong> TeSIS 2026, SMAN 8 Jakarta</p>
+        </div>
+        <p>Pemilihan lokasi penelitian didasarkan pada adanya aktivitas peternakan unggas rakyat serta potensi risiko penyakit unggas yang memerlukan perhatian dalam upaya pencegahan <em>Avian Influenza</em>.</p>
+
+        <h2 id="b3-metode">3.2 Metode Penelitian</h2>
+        <p>Penelitian ini menggunakan <strong>pendekatan kualitatif dengan metode deskriptif</strong>. Pendekatan kualitatif dipilih karena penelitian ini bertujuan untuk memahami secara mendalam strategi pencegahan <em>Avian Influenza</em> berdasarkan pengalaman, pandangan, dan praktik pemeliharaan unggas yang dilakukan di lapangan.</p>
+        <p>Metode deskriptif digunakan untuk menggambarkan fenomena secara sistematis dan faktual sesuai dengan kondisi nyata di lokasi penelitian, tanpa melakukan manipulasi variabel.</p>
+
+        <h2 id="b3-teknik">3.3 Teknik Pengumpulan Data</h2>
+        <ul class="num-list">
+          <li>
+            <div class="nl-num">01</div>
+            <div class="nl-body">
+              <div class="nl-title">Observasi Langsung</div>
+              <div class="nl-text">Dilakukan secara langsung terhadap kondisi lingkungan peternakan unggas, penerapan biosekuriti, serta praktik pemeliharaan unggas oleh peternak di Desa Sukaruas. Peneliti mengamati secara langsung kondisi fisik kandang, sirkulasi udara, pengelolaan limbah, dan fasilitas yang tersedia.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">02</div>
+            <div class="nl-body">
+              <div class="nl-title">Wawancara Mendalam</div>
+              <div class="nl-text">Dilakukan kepada peternak unggas rakyat untuk memperoleh informasi mengenai pemahaman, pengalaman, serta praktik penerapan biosekuriti. Wawancara dilakukan secara semi-terstruktur sehingga memungkinkan peternak mengungkapkan pandangan secara bebas dan mendalam.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">03</div>
+            <div class="nl-body">
+              <div class="nl-title">Dokumentasi Lapangan</div>
+              <div class="nl-text">Digunakan untuk mengumpulkan data pendukung berupa catatan lapangan, foto kegiatan pemeliharaan unggas, serta dokumen yang relevan dengan penerapan biosekuriti pada peternakan unggas rakyat.</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="chapter-footer-nav">
+          <a href="#" onclick="showPage('bab2');return false;" class="chap-nav-btn">
+            <span>←</span>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
+          </a>
+          <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Isi Bab III</div>
+        <ul class="panel-list">
+          <li><a href="#b3-waktu">3.1 Waktu dan Tempat</a></li>
+          <li><a href="#b3-metode">3.2 Metode Penelitian</a></li>
+          <li><a href="#b3-teknik">3.3 Teknik Pengumpulan Data</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Bab Lain</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
+            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-bab3 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: BAB IV — HASIL DAN PEMBAHASAN
+══════════════════════════════════════════ -->
+<div id="page-bab4" class="page">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Bab IV</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">BAB IV</div>
+      <h1 class="chapter-h1">Hasil &amp; Pembahasan</h1>
+      <p class="chapter-desc">Temuan lapangan di Desa Sukaruas: gambaran umum lokasi, kondisi biosekuriti Bapak Atep, pengetahuan peternak tentang Avian Influenza, serta analisis faktor dan kendala implementasi biosekuriti.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <h2 id="b4-hasil">4.1 Hasil Penelitian</h2>
+        <p>Penelitian dilaksanakan di Desa Sukaruas pada tanggal 21–24 Januari 2026. Data diperoleh melalui observasi langsung, wawancara mendalam, serta dokumentasi lapangan.</p>
+
+        <h3 id="b4-lokasi">4.1.1 Gambaran Umum Lokasi dan Subjek Penelitian</h3>
+        <p>Desa Sukaruas merupakan salah satu desa di wilayah Kabupaten Tasikmalaya, Provinsi Jawa Barat. Secara geografis terletak di daerah perbukitan dengan ketinggian sedang dan udara yang relatif sejuk. Kondisi umum wilayah didominasi oleh area pertanian dan perkebunan, dengan sebagian besar penduduk bermata pencaharian sebagai petani dan pengrajin anyaman.</p>
+        <p>Subjek penelitian adalah satu orang peternak unggas rakyat, yaitu <strong>Bapak Atep</strong>. Berikut karakteristiknya:</p>
+
+        <table>
+          <thead>
+            <tr><th>No.</th><th>Karakteristik</th><th>Keterangan</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Nama</td><td>Bapak Atep</td></tr>
+            <tr><td>2</td><td>Usia</td><td>51 tahun</td></tr>
+            <tr><td>3</td><td>Pendidikan Terakhir</td><td>SLTA</td></tr>
+            <tr><td>4</td><td>Jenis Unggas</td><td>Ayam broiler (pedaging)</td></tr>
+            <tr><td>5</td><td>Jumlah Unggas</td><td>3.500 ekor</td></tr>
+            <tr><td>6</td><td>Lama Beternak</td><td>6 tahun</td></tr>
+            <tr><td>7</td><td>Status Usaha</td><td>Usaha utama</td></tr>
+            <tr><td>8</td><td>Pendapatan/bulan</td><td>±Rp5.000.000 (fluktuatif)</td></tr>
+            <tr><td>9</td><td>Pengeluaran/bulan</td><td>±Rp3.000.000 (fluktuatif)</td></tr>
+          </tbody>
+        </table>
+
+        <h3 id="b4-penerapan">4.1.2 Penerapan Biosekuriti oleh Peternak</h3>
+
+        <h3 style="margin-top:20px;">a. Sanitasi Kandang</h3>
+        <p>Kondisi fisik kandang Bapak Atep tampak sederhana dengan konstruksi dinding dan atap berbahan bambu. Sirkulasi udara sangat buruk — tercium bau menyengat dari kotoran ayam yang menempel di dinding bambu. Lantai kandang dilapisi jerami kering yang tampak kotor dan tidak rutin diganti.</p>
+        <blockquote>"Sebulan. Kalau udah panen, udah beres." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
+        <p>Kegiatan pembersihan hanya dilakukan satu kali sebulan, dilakukan secara manual oleh Bapak Atep sendiri. Desinfektan tersedia namun penggunaannya terbatas pada area dalam kandang saja. Tidak ditemukan fasilitas cuci tangan, tempat sampah, maupun APD di area luar kandang.</p>
+
+        <h3 style="margin-top:20px;">b. Pengelolaan Limbah</h3>
+        <p>Pengelolaan kotoran dilakukan secara manual — diambil dan dibuang ke tempat sampah — tanpa sistem pengelolaan yang terstruktur. Kondisi ini diperparah oleh letak kandang yang berdekatan dengan kolam air yang terhubung dengan kolam ikan warga, serta jarak dari pemukiman hanya 2–3 meter.</p>
+
+        <h3 style="margin-top:20px;">c. Pengendalian Lalu Lintas</h3>
+        <p>Area kandang bersifat cukup tertutup sehingga unggas liar tidak dapat masuk. Namun, tidak ditemukan prosedur khusus untuk mengontrol keluar-masuk orang, dan tidak tersedia APD bagi siapa pun yang memasuki area kandang.</p>
+        <blockquote>"Ya kalau masih di kandang boleh cuci tangan pakai sabun, kalau ke rumah ya mandi, bersihkan badan semua." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
+
+        <h3 style="margin-top:20px;">d. Penanganan Unggas Sakit</h3>
+        <blockquote>"Dipisahkan supaya tidak menyebari... jarang." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
+        <p>Bapak Atep mengetahui bahwa unggas sakit harus dipisahkan, namun dalam praktiknya hal tersebut jarang dilakukan secara konsisten.</p>
+
+        <h3 id="b4-pengetahuan">4.1.3 Pengetahuan Peternak tentang Avian Influenza</h3>
+        <blockquote>"Tidak begitu ditanggapi, karena kan kalau yang namanya penyakit flu burung ada gitunya, tapi tidak seperti yang di media." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
+        <p>Bapak Atep mengetahui keberadaan penyakit AI dari media, namun tidak memahaminya secara mendalam dan tidak menganggapnya sebagai ancaman serius. Ketika ditanya lebih lanjut mengenai gejala-gejala AI secara spesifik, peternak mengakui kurang mengetahui hal tersebut.</p>
+
+        <h3 id="b4-kendala">4.1.4 Kendala dan Harapan Peternak</h3>
+        <blockquote>"Harapan kita paling, harga daging stabil, terutama pakan hewan." — Bapak Atep, wawancara 22 Januari 2026</blockquote>
+        <p>Kendala utama yang dirasakan bukan semata-mata pada aspek biosekuriti, melainkan pada ketidakstabilan harga pakan dan harga jual daging ayam. Bapak Atep juga mengharapkan perhatian lebih dari pemerintah, termasuk kunjungan dan pembinaan langsung ke kandang.</p>
+
+        <h2 id="b4-pembahasan">4.2 Pembahasan</h2>
+
+        <h3>4.2.1 Penerapan Biosekuriti di Desa Sukaruas</h3>
+        <p>Hasil penelitian menunjukkan bahwa penerapan biosekuriti oleh Bapak Atep masih sangat terbatas dan belum memenuhi standar yang semestinya. Temuan ini sejalan dengan gambaran umum Rehman dkk. (2023) bahwa peternakan unggas rakyat di Indonesia identik dengan sanitasi buruk dan biosekuriti lemah.</p>
+        <p>Frekuensi sanitasi kandang sekali sebulan berbanding terbalik dengan prinsip biosekuriti operasional yang mensyaratkan sanitasi dan disinfeksi secara rutin. Ketiadaan APD, sistem pengelolaan limbah yang tidak terstruktur, serta letak kandang yang hanya 2–3 meter dari pemukiman warga merupakan celah-celah risiko yang nyata.</p>
+
+        <h3>4.2.2 Faktor-Faktor yang Memengaruhi</h3>
+        <ul class="num-list">
+          <li>
+            <div class="nl-num">01</div>
+            <div class="nl-body">
+              <div class="nl-title">Faktor Pengetahuan</div>
+              <div class="nl-text">Rendahnya pengetahuan Bapak Atep tentang AI secara langsung berkontribusi pada rendahnya kesadaran untuk menerapkan biosekuriti. Nurlina dkk. (2025) menemukan korelasi positif yang bermakna antara pengetahuan dan sikap peternak dengan tingkat penerapan biosekuriti.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">02</div>
+            <div class="nl-body">
+              <div class="nl-title">Akses Penyuluhan</div>
+              <div class="nl-text">Tidak ditemukan indikasi penyuluhan atau pembinaan teknis rutin dari pihak terkait. Wahyuni dkk. (2022) menegaskan bahwa masyarakat yang sering mendapat pelatihan akan semakin baik dalam menerapkan praktik manajemen kesehatan hewan.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">03</div>
+            <div class="nl-body">
+              <div class="nl-title">Kondisi Sosial-Ekonomi</div>
+              <div class="nl-text">Bapak Atep mengelola peternakan secara mandiri dengan pendapatan fluktuatif. Keterbatasan sumber daya menjadi hambatan nyata dalam pengadaan fasilitas biosekuriti yang memadai seperti desinfektan, APD, dan sistem pengelolaan limbah.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h3>4.2.3 Kendala dalam Implementasi Biosekuriti</h3>
+        <ul>
+          <li><strong>Keterbatasan pengetahuan teknis</strong> mengenai biosekuriti dan gejala klinis AI.</li>
+          <li><strong>Minimnya pembinaan dan kunjungan</strong> dari pihak pemerintah atau dinas terkait secara rutin.</li>
+          <li><strong>Keterbatasan sumber daya dan fasilitas</strong> — tidak tersedianya APD, fasilitas cuci tangan, maupun sistem pengelolaan limbah terstruktur.</li>
+          <li><strong>Prioritas ekonomi jangka pendek</strong> yang lebih dipentingkan dibandingkan investasi biosekuriti jangka panjang.</li>
+        </ul>
+
+        <div class="chapter-footer-nav">
+          <a href="#" onclick="showPage('bab3');return false;" class="chap-nav-btn">
+            <span>←</span>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab III — Metode</div></div>
+          </a>
+          <a href="#" onclick="showPage('bab5');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab V — Penutup</div></div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Isi Bab IV</div>
+        <ul class="panel-list">
+          <li><a href="#b4-hasil">4.1 Hasil</a></li>
+          <li><a href="#b4-lokasi">&nbsp;&nbsp;4.1.1 Gambaran Lokasi</a></li>
+          <li><a href="#b4-penerapan">&nbsp;&nbsp;4.1.2 Penerapan Biosekuriti</a></li>
+          <li><a href="#b4-pengetahuan">&nbsp;&nbsp;4.1.3 Pengetahuan Peternak</a></li>
+          <li><a href="#b4-kendala">&nbsp;&nbsp;4.1.4 Kendala & Harapan</a></li>
+          <li><a href="#b4-pembahasan">4.2 Pembahasan</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Bab Lain</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
+            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-bab4 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: BAB V — PENUTUP
+══════════════════════════════════════════ -->
+<div id="page-bab5" class="page">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Bab V</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">BAB V</div>
+      <h1 class="chapter-h1">Penutup</h1>
+      <p class="chapter-desc">Kesimpulan akhir dari seluruh temuan penelitian dan saran-saran konstruktif yang ditujukan kepada peternak, pemerintah daerah, dan peneliti selanjutnya.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <h2 id="b5-kesimpulan">5.1 Kesimpulan</h2>
+        <p>Berdasarkan hasil penelitian dan pembahasan mengenai penerapan biosekuriti pada peternakan unggas rakyat di Desa Sukaruas, dapat ditarik kesimpulan sebagai berikut:</p>
+
+        <ul class="num-list">
+          <li>
+            <div class="nl-num">①</div>
+            <div class="nl-body">
+              <div class="nl-title">Biosekuriti Masih Sangat Lemah</div>
+              <div class="nl-text">Penerapan biosekuriti pada peternakan Bapak Atep belum memenuhi standar minimal. Sanitasi kandang hanya sebulan sekali, tidak ada fasilitas cuci tangan, APD, maupun sistem pengelolaan limbah. Letak kandang hanya 2–3 meter dari pemukiman meningkatkan risiko pencemaran lingkungan dan penularan penyakit <em>zoonosis</em>.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">②</div>
+            <div class="nl-body">
+              <div class="nl-title">Pengetahuan Peternak Masih Superfisial</div>
+              <div class="nl-text">Peternak mengetahui keberadaan AI dari media, namun tidak memahami gejala klinis secara spesifik dan tidak menganggapnya sebagai ancaman serius. Peternak cenderung mengabaikan protokol isolasi bagi unggas yang sakit.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">③</div>
+            <div class="nl-body">
+              <div class="nl-title">Hambatan Ekonomi dan Minimnya Pembinaan</div>
+              <div class="nl-text">Fokus peternak lebih pada fluktuasi harga pakan dan harga jual dibandingkan manajemen kesehatan hewan. Belum adanya kunjungan atau edukasi rutin dari pihak terkait menyebabkan praktik biosekuriti hanya didasarkan pada kebiasaan, bukan standar teknis medis veteriner.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h2 id="b5-saran">5.2 Saran</h2>
+
+        <h3>Bagi Peternak</h3>
+        <ul>
+          <li>Meningkatkan frekuensi sanitasi kandang secara rutin, tidak hanya saat panen.</li>
+          <li>Menyediakan dan menggunakan APD sederhana (masker, sarung tangan, sepatu bot) saat beraktivitas di kandang.</li>
+          <li>Menerapkan isolasi unggas sakit secara konsisten dan segera melaporkan kematian unggas mendadak kepada pihak terkait.</li>
+          <li>Mengelola limbah peternakan secara lebih terstruktur, terpisah dari sumber air warga.</li>
+        </ul>
+
+        <h3>Bagi Pemerintah dan Dinas Peternakan</h3>
+        <ul>
+          <li>Meningkatkan frekuensi dan jangkauan program penyuluhan biosekuriti yang berkelanjutan, tidak hanya saat wabah berlangsung.</li>
+          <li>Menyediakan subsidi atau bantuan fasilitas biosekuriti dasar (desinfektan, APD) bagi peternak rakyat skala kecil.</li>
+          <li>Meningkatkan ketersediaan dan keterjangkauan layanan kesehatan hewan di tingkat desa.</li>
+          <li>Mengembangkan program edukasi berbasis demonstrasi langsung yang mudah dipahami oleh peternak tradisional.</li>
+        </ul>
+
+        <h3>Bagi Peneliti Selanjutnya</h3>
+        <ul>
+          <li>Memperluas subjek penelitian untuk mencakup lebih banyak peternak di berbagai dusun di Desa Sukaruas maupun desa-desa sekitarnya.</li>
+          <li>Mengkombinasikan pendekatan kualitatif dengan pengukuran kuantitatif tingkat biosekuriti menggunakan instrumen tervalidasi.</li>
+          <li>Menindaklanjuti penelitian ini dengan program intervensi penyuluhan dan evaluasi dampaknya terhadap perubahan praktik biosekuriti peternak.</li>
+        </ul>
+
+        <div class="highlight-box" style="margin-top:40px;">
+          <div class="hb-label">Catatan Penutup</div>
+          <p style="margin:0; font-size:.93rem; line-height:1.7; color:var(--text-muted);">Temuan penelitian ini mencerminkan pola umum kerentanan biosekuriti yang telah diidentifikasi oleh berbagai penelitian di Indonesia. Interaksi antara rendahnya pengetahuan, minimnya pembinaan, keterbatasan sumber daya, serta prioritas ekonomi yang berbeda menciptakan kondisi yang secara kumulatif meningkatkan risiko penyebaran <em>Avian Influenza</em> di tingkat peternakan rakyat.</p>
+        </div>
+
+        <div class="chapter-footer-nav">
+          <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn">
+            <span>←</span>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
+          </a>
+          <a href="#" onclick="showPage('home');return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Kembali ke</div><div class="cn-title">Beranda</div></div>
+            <span>🏠</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Isi Bab V</div>
+        <ul class="panel-list">
+          <li><a href="#b5-kesimpulan">5.1 Kesimpulan</a></li>
+          <li><a href="#b5-saran">5.2 Saran</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Bab Lain</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-bab5 -->
+
+
+<script>
+  /* ── PRELOADER ── */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+    }, 1900);
+  });
+
+  /* ── THEME ── */
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    document.getElementById('btnLight').classList.toggle('active', t === 'light');
+    document.getElementById('btnDark').classList.toggle('active', t === 'dark');
+    localStorage.setItem('theme', t);
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved) setTheme(saved);
+
+  /* ── PAGE NAVIGATION ── */
+  const pages = ['home','bab1','bab2','bab3','bab4','bab5'];
+
+  function showPage(id) {
+    // hide all
+    pages.forEach(p => {
+      const el = document.getElementById('page-' + p);
+      if (el) el.classList.remove('active');
+    });
+    // show target
+    const target = document.getElementById('page-' + id);
+    if (target) target.classList.add('active');
+
+    // update navbar
+    const nlHome = document.getElementById('nl-home');
+    nlHome.classList.toggle('active', id === 'home');
+
+    // update chapter dropdown items
+    document.querySelectorAll('.chap-item').forEach((item, i) => {
+      item.classList.toggle('active', id === 'bab' + (i+1));
+    });
+
+    // update chapter button state
+    const chBtn = document.getElementById('chapterBtn');
+    const isChap = id.startsWith('bab');
+    chBtn.classList.toggle('active', isChap);
+
+    // close dropdown
+    closeChapterMenu();
+
+    // scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // trigger reveals
+    setTimeout(initReveal, 100);
+  }
+
+  /* ── CHAPTER DROPDOWN ── */
+  function toggleChapterMenu() {
+    const menu = document.getElementById('chapterMenu');
+    const btn = document.getElementById('chapterBtn');
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+      closeChapterMenu();
+    } else {
+      menu.classList.add('open');
+      btn.classList.add('open');
+    }
+  }
+
+  function closeChapterMenu() {
+    document.getElementById('chapterMenu').classList.remove('open');
+    document.getElementById('chapterBtn').classList.remove('open');
+  }
+
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-chapter-wrap')) closeChapterMenu();
+  });
+
+  /* ── SCROLL TO SECTION (on home page) ── */
+  function scrollToSection(id) {
+    if (!document.getElementById('page-home').classList.contains('active')) {
+      showPage('home');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  /* ── REVEAL ON SCROLL ── */
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+  }
+  initReveal();
+</script>
+</body>
+</html>
