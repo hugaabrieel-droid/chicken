@@ -546,6 +546,15 @@
       line-height: 1.4;
     }
     .panel-list a:hover { background: var(--warm); color: var(--text); }
+    .panel-list a.filter-btn.active { background: var(--moss); color: #fff; font-weight: 600; }
+    /* Sub-item indent styling */
+    .panel-list a.sub {
+      font-size: .78rem;
+      padding-left: 18px;
+      border-left: 2px solid var(--border);
+      border-radius: 0 8px 8px 0;
+      margin-left: 8px;
+    }
 
     /* Chapter nav arrows */
     .chapter-footer-nav {
@@ -719,7 +728,7 @@
         <span class="chap-num">V</span><span>Penutup</span>
       </a>
       <a class="chap-item" onclick="showPage('pustaka');return false;" href="#" data-bab="pustaka">
-        <span class="chap-num">📚</span><span>Daftar Pustaka</span>
+        <span class="chap-num">VI</span><span>Daftar Pustaka</span>
       </a>
     </div>
   </div>
@@ -902,7 +911,7 @@
   <footer>
     <div class="footer-logo">KARYA ILMIAH TESIS 2026 · SMAN 8 JAKARTA</div>
     <p class="footer-sub">Drs. Ubaidillah, M.Pd (Kepala Sekolah) · Nur Siti Kamsiati, S.Pd (Pembimbing Teknis) · Bambang Triaji Asnoto, S.Pd (Pembimbing Materi)</p>
-    <div class="footer-bottom">© 2026 TESIS 36 — SMAN 8 JAKARTA. Seluruh isi dan penelitian dalam situs adalah karya orisinal TESIS 36.</div>
+    <div class="footer-bottom">© 2026 TESIS 36 — SMAN 8 JAKARTA. Seluruh isi dan penelitian dalam situs ini adalah karya orisinal TESIS 36.</div>
   </footer>
 </div><!-- /page-home -->
 
@@ -981,10 +990,10 @@
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a><li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1028,8 +1037,8 @@
         <h3 id="b2-penularan">2.1.3 Penularan dan Risiko Penyebaran</h3>
         <p>Penularan virus AI terjadi melalui kontak langsung dengan burung liar yang terinfeksi, benda-benda tercemar seperti kotoran, peralatan kandang, pakaian pekerja, serta melalui perdagangan dan transportasi unggas hidup antardaerah. Sistem pemeliharaan ekstensif tradisional — di mana unggas dibiarkan berkeliaran bebas — secara langsung meningkatkan risiko kontak dengan hewan pembawa virus.</p>
 
-        <h2 id="b2-biosekuriti">2.2 Biosekuriti</li><li>2.2.1 Definisi dan Prinsip</li><li>2.2.2 Komponen Biosekuriti dalam Peternakan Unggas Rakyat</h2>
-        <h3>2.2.1 Definisi dan Prinsip Biosekuriti</h3>
+        <h2 id="b2-biosekuriti">2.2 Biosekuriti</h2>
+        <h3 id="b2-definisi221">2.2.1 Definisi dan Prinsip Biosekuriti</h3>
         <p>Biosekuriti merupakan serangkaian tindakan sistematis yang dirancang untuk mencegah masuk dan menyebarnya agen penyakit ke dalam suatu lingkungan peternakan (Filawati dkk., 2025). Dalam konteks pencegahan AI, biosekuriti yang diterapkan secara konsisten merupakan garis pertahanan pertama yang paling efektif.</p>
         <p>Prinsip biosekuriti dikelompokkan menjadi tiga tingkatan:</p>
         <ul>
@@ -1038,7 +1047,7 @@
           <li><strong>Biosekuriti Operasional</strong> — prosedur harian seperti sanitasi, disinfeksi, pengendalian lalu lintas, dan manajemen unggas sakit.</li>
         </ul>
 
-        <h3>2.2.2 Komponen Biosekuriti pada Peternakan Rakyat</h3>
+        <h3 id="b2-komponen">2.2.2 Komponen Biosekuriti pada Peternakan Rakyat</h3>
         <ul>
           <li><strong>Sanitasi Kandang:</strong> Pembersihan rutin, disinfeksi menggunakan bahan kimia yang sesuai, serta pengelolaan kotoran dan limbah secara higienis.</li>
           <li><strong>Pengendalian Lalu Lintas:</strong> Pengawasan ketat terhadap siapa saja yang memasuki area kandang, termasuk fasilitas pergantian pakaian dan cuci tangan.</li>
@@ -1051,13 +1060,13 @@
         <p>Penelitian Siagian dan Pratama (2020) menemukan bahwa seluruh responden pedagang burung belum memahami dan belum menerapkan prinsip biosekuriti secara menyeluruh — tidak satu pun memvaksinasi unggas mereka, sementara prinsip isolasi sama sekali belum diterapkan.</p>
 
         <h2 id="b2-faktor">2.4 Faktor Pendukung dan Penghambat</h2>
-        <h3>2.4.1 Faktor Pendukung</h3>
+        <h3 id="b2-pendukung">2.4.1 Faktor Pendukung</h3>
         <ul>
           <li>Ketersediaan layanan kesehatan hewan (Puskeswan) yang memadai.</li>
           <li>Program sosialisasi dan penyuluhan yang berkelanjutan dan rutin.</li>
           <li>Pendekatan <em>one health</em> yang mengintegrasikan kesehatan hewan, manusia, dan lingkungan.</li>
         </ul>
-        <h3>2.4.2 Faktor Penghambat</h3>
+        <h3 id="b2-penghambat">2.4.2 Faktor Penghambat</h3>
         <ul>
           <li>Keterbatasan sumber daya manusia dan fasilitas di dinas peternakan.</li>
           <li>Sistem pemeliharaan tradisional <em>free-range</em> yang sulit diubah.</li>
@@ -1074,7 +1083,7 @@
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab I — Pendahuluan</div></div>
           </a>
           <a href="#" onclick="showPage('bab3');return false;" class="chap-nav-btn right">
-            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab III — Metode</div></div>
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab III — Metode Penelitian</div></div>
             <span>→</span>
           </a>
         </div>
@@ -1084,26 +1093,26 @@
         <div class="panel-title">Isi Bab II</div>
         <ul class="panel-list">
           <li><a href="#b2-ai">2.1 Avian Influenza H5N1</a></li>
-          <li><a href="#b2-definisi">&nbsp;&nbsp;2.1.1 Definisi & Karakteristik</li><li>2.1.2 Gejala Klinis</li><li>2.1.3 Dampak Ekonomi</a></li>
-          <li><a href="#b2-epi">&nbsp;&nbsp;2.1.2 Epidemiologi</a></li>
-          <li><a href="#b2-penularan">&nbsp;&nbsp;2.1.3 Penularan</a></li>
+          <li><a href="#b2-definisi" class="sub">2.1.1 Definisi &amp; Karakteristik</a></li>
+          <li><a href="#b2-epi" class="sub">2.1.2 Epidemiologi</a></li>
+          <li><a href="#b2-penularan" class="sub">2.1.3 Penularan</a></li>
           <li><a href="#b2-biosekuriti">2.2 Biosekuriti</a></li>
-          <li><a href="#b2-definisi">&nbsp;&nbsp;2.2.1 Definisi dan Prinsip</a></li>
-          <li><a href="#b2-komponen">&nbsp;&nbsp;2.2.2 Komponen Biosekuriti</a></li>
+          <li><a href="#b2-definisi221" class="sub">2.2.1 Definisi dan Prinsip</a></li>
+          <li><a href="#b2-komponen" class="sub">2.2.2 Komponen Biosekuriti</a></li>
           <li><a href="#b2-peternak">2.3 Peran Peternak</a></li>
           <li><a href="#b2-faktor">2.4 Faktor Pendukung</a></li>
-          <li><a href="#b2-pendukung">&nbsp;&nbsp;2.4.1 Pendukung</a></li>
-          <li><a href="#b2-penghambat">&nbsp;&nbsp;2.4.2 Penghambat</a></li>
+          <li><a href="#b2-pendukung" class="sub">2.4.1 Pendukung</a></li>
+          <li><a href="#b2-penghambat" class="sub">2.4.2 Penghambat</a></li>
           <li><a href="#b2-kerangka">2.5 Kerangka Pemikiran</a></li>
         </ul>
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
             <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a><li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1175,7 +1184,7 @@
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
           </a>
           <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn right">
-            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab IV — Hasil</div></div>
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
             <span>→</span>
           </a>
         </div>
@@ -1193,9 +1202,9 @@
           <ul class="panel-list">
             <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a><li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1275,11 +1284,11 @@
 
         <h2 id="b4-pembahasan">4.2 Pembahasan</h2>
 
-        <h3>4.2.1 Penerapan Biosekuriti di Desa Sukaruas</h3>
+        <h3 id="b4-421">4.2.1 Penerapan Biosekuriti di Desa Sukaruas</h3>
         <p>Hasil penelitian menunjukkan bahwa penerapan biosekuriti oleh Bapak Atep masih sangat terbatas dan belum memenuhi standar yang semestinya. Temuan ini sejalan dengan gambaran umum Rehman dkk. (2023) bahwa peternakan unggas rakyat di Indonesia identik dengan sanitasi buruk dan biosekuriti lemah.</p>
         <p>Frekuensi sanitasi kandang sekali sebulan berbanding terbalik dengan prinsip biosekuriti operasional yang mensyaratkan sanitasi dan disinfeksi secara rutin. Ketiadaan APD, sistem pengelolaan limbah yang tidak terstruktur, serta letak kandang yang hanya 2–3 meter dari pemukiman warga merupakan celah-celah risiko yang nyata.</p>
 
-        <h3>4.2.2 Faktor-Faktor yang Memengaruhi</h3>
+        <h3 id="b4-422">4.2.2 Faktor-Faktor yang Memengaruhi</h3>
         <ul class="num-list">
           <li>
             <div class="nl-num">01</div>
@@ -1304,7 +1313,7 @@
           </li>
         </ul>
 
-        <h3>4.2.3 Kendala dalam Implementasi Biosekuriti</h3>
+        <h3 id="b4-423">4.2.3 Kendala dalam Implementasi Biosekuriti</h3>
         <ul>
           <li><strong>Keterbatasan pengetahuan teknis</strong> mengenai biosekuriti dan gejala klinis AI.</li>
           <li><strong>Minimnya pembinaan dan kunjungan</strong> dari pihak pemerintah atau dinas terkait secara rutin.</li>
@@ -1315,7 +1324,7 @@
         <div class="chapter-footer-nav">
           <a href="#" onclick="showPage('bab3');return false;" class="chap-nav-btn">
             <span>←</span>
-            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab III — Metode</div></div>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab III — Metode Penelitian</div></div>
           </a>
           <a href="#" onclick="showPage('bab5');return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab V — Penutup</div></div>
@@ -1328,23 +1337,23 @@
         <div class="panel-title">Isi Bab IV</div>
         <ul class="panel-list">
           <li><a href="#b4-hasil">4.1 Hasil</a></li>
-          <li><a href="#b4-lokasi">&nbsp;&nbsp;4.1.1 Gambaran Lokasi</a></li>
-          <li><a href="#b4-penerapan">&nbsp;&nbsp;4.1.2 Penerapan Biosekuriti</a></li>
-          <li><a href="#b4-pengetahuan">&nbsp;&nbsp;4.1.3 Pengetahuan Peternak</a></li>
-          <li><a href="#b4-kendala">&nbsp;&nbsp;4.1.4 Kendala &amp; Harapan</a></li>
+          <li><a href="#b4-lokasi" class="sub">4.1.1 Gambaran Lokasi</a></li>
+          <li><a href="#b4-penerapan" class="sub">4.1.2 Penerapan Biosekuriti</a></li>
+          <li><a href="#b4-pengetahuan" class="sub">4.1.3 Pengetahuan Peternak</a></li>
+          <li><a href="#b4-kendala" class="sub">4.1.4 Kendala &amp; Harapan</a></li>
           <li><a href="#b4-pembahasan">4.2 Pembahasan</a></li>
-          <li><a href="#b4-biosekuriti">&nbsp;&nbsp;4.2.1 Penerapan Sukaruas</a></li>
-          <li><a href="#b4-faktor">&nbsp;&nbsp;4.2.2 Faktor-Faktor</a></li>
-          <li><a href="#b4-kendala">&nbsp;&nbsp;4.2.3 Kendala Implementasi</a></li>
+          <li><a href="#b4-421" class="sub">4.2.1 Penerapan Sukaruas</a></li>
+          <li><a href="#b4-422" class="sub">4.2.2 Faktor-Faktor</a></li>
+          <li><a href="#b4-423" class="sub">4.2.3 Kendala Implementasi</a></li>
         </ul>
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
             <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1432,11 +1441,10 @@
         <div class="chapter-footer-nav">
           <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn">
             <span>←</span>
-            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil</div></div>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
           </a>
           <a href="#" onclick="showPage('pustaka');return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Daftar Pustaka</div></div>
-            <span>📚</span>
           </a>
         </div>
       </div>
@@ -1452,9 +1460,9 @@
           <ul class="panel-list">
             <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</a><li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">📚 Daftar Pustaka</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1491,7 +1499,7 @@
 
         <ul class="ref-list">
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-internasional">
             <div class="ref-num">1</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Internasional</span>
@@ -1501,7 +1509,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-nasional">
             <div class="ref-num">2</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Nasional</span>
@@ -1512,7 +1520,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="pengabdian-masyarakat">
             <div class="ref-num">3</div>
             <div class="ref-body">
               <span class="ref-tag">Pengabdian Masyarakat</span>
@@ -1522,7 +1530,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="pengabdian-masyarakat">
             <div class="ref-num">4</div>
             <div class="ref-body">
               <span class="ref-tag">Pengabdian Masyarakat</span>
@@ -1532,7 +1540,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="pengabdian-masyarakat">
             <div class="ref-num">5</div>
             <div class="ref-body">
               <span class="ref-tag">Pengabdian Masyarakat</span>
@@ -1542,7 +1550,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-nasional">
             <div class="ref-num">6</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Nasional</span>
@@ -1552,7 +1560,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="pengabdian-masyarakat">
             <div class="ref-num">7</div>
             <div class="ref-body">
               <span class="ref-tag">Pengabdian Masyarakat</span>
@@ -1562,7 +1570,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="prosiding">
             <div class="ref-num">8</div>
             <div class="ref-body">
               <span class="ref-tag">Prosiding Seminar</span>
@@ -1572,7 +1580,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-internasional">
             <div class="ref-num">9</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Internasional</span>
@@ -1583,7 +1591,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-internasional">
             <div class="ref-num">10</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Internasional</span>
@@ -1594,7 +1602,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-nasional">
             <div class="ref-num">11</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Nasional</span>
@@ -1604,7 +1612,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="pengabdian-masyarakat">
             <div class="ref-num">12</div>
             <div class="ref-body">
               <span class="ref-tag">Pengabdian Masyarakat</span>
@@ -1615,7 +1623,7 @@
             </div>
           </li>
 
-          <li class="ref-item">
+          <li class="ref-item" data-kategori="jurnal-nasional">
             <div class="ref-num">13</div>
             <div class="ref-body">
               <span class="ref-tag">Jurnal Nasional</span>
@@ -1642,20 +1650,20 @@
 
       <aside class="chapter-nav-panel">
         <div class="panel-title">Filter Kategori</div>
-        <ul class="panel-list">
-          <li><a href="#" onclick="return false;">📄 Semua Pustaka (13)</a></li>
-          <li><a href="#" onclick="return false;">🌐 Jurnal Internasional (3)</a></li>
-          <li><a href="#" onclick="return false;">📰 Jurnal Nasional (4)</a></li>
-          <li><a href="#" onclick="return false;">🤝 Pengabdian Masy. (5)</a></li>
-          <li><a href="#" onclick="return false;">🎤 Prosiding (1)</a></li>
+        <ul class="panel-list" id="filterList">
+          <li><a href="#" class="filter-btn active" onclick="filterRefs('semua');return false;">I. Semua Pustaka (<span id="count-semua">13</span>)</a></li>
+          <li><a href="#" class="filter-btn" onclick="filterRefs('jurnal-internasional');return false;">II. Jurnal Internasional (<span id="count-jurnal-internasional">0</span>)</a></li>
+          <li><a href="#" class="filter-btn" onclick="filterRefs('jurnal-nasional');return false;">III. Jurnal Nasional (<span id="count-jurnal-nasional">0</span>)</a></li>
+          <li><a href="#" class="filter-btn" onclick="filterRefs('pengabdian-masyarakat');return false;">IV. Pengabdian Masy. (<span id="count-pengabdian-masyarakat">0</span>)</a></li>
+          <li><a href="#" class="filter-btn" onclick="filterRefs('prosiding');return false;">V. Prosiding (<span id="count-prosiding">0</span>)</a></li>
         </ul>
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Navigasi Bab</div>
           <ul class="panel-list">
             <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
             <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil</li><li>4.1 Temuan Lapangan</li><li>4.2 Analisis Biosekuriti</li><li>4.3 Pembahasan</a></li>
+            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
             <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
           </ul>
         </div>
@@ -1815,7 +1823,38 @@
   }
   initReveal();
 
-  /* ── INIT PILL POSITION ── */
+  /* ── PUSTAKA FILTER ── */
+  function filterRefs(kategori) {
+    const items = document.querySelectorAll('.ref-item');
+    items.forEach(item => {
+      if (kategori === 'semua' || item.dataset.kategori === kategori) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`.filter-btn[onclick*="${kategori}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+
+  // Auto-count categories
+  (function countCategories() {
+    const counts = {};
+    document.querySelectorAll('.ref-item[data-kategori]').forEach(item => {
+      const k = item.dataset.kategori;
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    Object.entries(counts).forEach(([k, v]) => {
+      const el = document.getElementById('count-' + k);
+      if (el) el.textContent = v;
+    });
+    const totalEl = document.getElementById('count-semua');
+    if (totalEl) totalEl.textContent = document.querySelectorAll('.ref-item').length;
+  })();
+
+
   window.addEventListener('load', () => {
     updateNavPill('nl-home');
   });
