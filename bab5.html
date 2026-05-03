@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TESIS 36 — Bab V — Penutup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+
+    /* ── FIELD CAROUSEL ── */
+    .field-carousel { width: 100%; }
+    .fc-header { margin-bottom: 20px; }
+    .fc-eyebrow { font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 6px; }
+    .fc-title { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--text); font-weight: 400; }
+
+    .fc-track-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .fc-track { display: flex; }
+    .fc-slide {
+      min-width: 100%; display: none; flex-direction: column;
+    }
+    .fc-slide.active { display: flex; }
+    .fc-slide img {
+      width: 100%; max-height: 420px; object-fit: cover;
+      display: block; border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .fc-caption {
+      padding: 14px 20px;
+      font-size: .83rem; line-height: 1.6;
+      color: var(--text-muted);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .fc-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(245,240,232,.88);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 38px; height: 38px; border-radius: 99px;
+      cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background .2s, box-shadow .2s;
+      margin-top: -18px; /* half of caption height approx */
+    }
+    [data-theme="dark"] .fc-arrow { background: rgba(28,24,16,.88); }
+    .fc-arrow:hover { background: var(--warm); box-shadow: 0 2px 12px rgba(90,70,40,.15); }
+    .fc-prev { left: 12px; }
+    .fc-next { right: 12px; }
+
+    .fc-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+    .fc-dot {
+      width: 7px; height: 7px; border-radius: 99px;
+      border: none; background: var(--feather); cursor: pointer;
+      transition: background .25s, transform .25s;
+      padding: 0;
+    }
+    .fc-dot.active { background: var(--terracotta); transform: scale(1.3); }
+
+    .fc-counter { text-align: center; margin-top: 8px; font-size: .75rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --cream:    #f5f0e8;
+      --warm:     #e8dfc8;
+      --straw:    #c9b882;
+      --terracotta: #c4744a;
+      --moss:     #6b7c52;
+      --sage:     #a3b58a;
+      --feather:  #d6cbb5;
+      --amber:    #b8860b;
+      --soil:     #5c4a2a;
+      --text:     #2e2416;
+      --text-muted: #7a6a52;
+      --bg:       #f5f0e8;
+      --surface:  #faf7f1;
+      --border:   rgba(90,70,40,.12);
+      --shadow:   0 4px 32px rgba(90,70,40,.10);
+      --radius:   18px;
+      --page-bg:  #f5f0e8;
+    }
+    [data-theme="dark"] {
+      --cream:    #1c1810;
+      --warm:     #2a2418;
+      --straw:    #8a7848;
+      --terracotta: #c4744a;
+      --moss:     #5a6b42;
+      --sage:     #728560;
+      --feather:  #3a322a;
+      --amber:    #c8960c;
+      --soil:     #e0cfa8;
+      --text:     #f0e8d8;
+      --text-muted: #a89878;
+      --bg:       #161210;
+      --surface:  #1e1a14;
+      --border:   rgba(200,170,100,.10);
+      --shadow:   0 4px 32px rgba(0,0,0,.4);
+    }
+
+    /* ── PER-PAGE BACKGROUND TINTS ── */
+    body[data-page="home"]   { --page-bg: linear-gradient(180deg, #f6f0e5 0%, #ebe3d3 100%); }
+    body[data-page="bab1"]   { --page-bg: linear-gradient(180deg, #eef5e7 0%, #dfe9d5 100%); }
+    body[data-page="bab2"]   { --page-bg: linear-gradient(180deg, #e8f1f5 0%, #d7e5ec 100%); }
+    body[data-page="bab3"]   { --page-bg: linear-gradient(180deg, #f6eee4 0%, #eadbc9 100%); }
+    body[data-page="bab4"]   { --page-bg: linear-gradient(180deg, #f5e8e4 0%, #ead4cd 100%); }
+    body[data-page="bab5"]   { --page-bg: linear-gradient(180deg, #f0e9f7 0%, #e0d5ef 100%); }
+    body[data-page="pustaka"] { --page-bg: linear-gradient(180deg, #f6f0dc 0%, #e9dfbb 100%); }
+    [data-theme="dark"] body[data-page="home"] { --page-bg: linear-gradient(180deg, #161210 0%, #221a15 100%); }
+    [data-theme="dark"] body[data-page="bab1"] { --page-bg: linear-gradient(180deg, #141a10 0%, #1f2818 100%); }
+    [data-theme="dark"] body[data-page="bab2"] { --page-bg: linear-gradient(180deg, #101418 0%, #1a242b 100%); }
+    [data-theme="dark"] body[data-page="bab3"] { --page-bg: linear-gradient(180deg, #18140e 0%, #2a2016 100%); }
+    [data-theme="dark"] body[data-page="bab4"] { --page-bg: linear-gradient(180deg, #1a1210 0%, #2b1b18 100%); }
+    [data-theme="dark"] body[data-page="bab5"] { --page-bg: linear-gradient(180deg, #141218 0%, #241c2f 100%); }
+    [data-theme="dark"] body[data-page="pustaka"] { --page-bg: linear-gradient(180deg, #181508 0%, #2a2412 100%); }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--page-bg);
+      background-attachment: fixed;
+      color: var(--text);
+      transition: background .55s cubic-bezier(.4,0,.2,1), color .4s ease;
+      overflow-x: hidden;
+    }
+
+    nav, .stat-card, .info-card, .finding-card, .member-card,
+    .btn-ghost, .scroll-btn, #preloader, #findings,
+    .chapter-view, .chapter-nav-panel {
+      transition: background .35s ease, border-color .35s ease,
+                  box-shadow .35s ease, color .35s ease;
+    }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--cream);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-icon { width: 72px; height: 72px; position: relative; }
+    .loader-icon svg { width: 100%; height: 100%; animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-bar { width: 200px; height: 3px; background: var(--feather); border-radius: 99px; overflow: hidden; }
+    .loader-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--moss), var(--terracotta));
+      border-radius: 99px; width: 0;
+      animation: fill 1.8s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes fill { to { width: 100%; } }
+    .loader-text { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--text-muted); letter-spacing: .05em; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      z-index: 500;
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(245,240,232,.88);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 10px 18px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 2px 20px rgba(90,70,40,.12);
+    }
+    [data-theme="dark"] nav { background: rgba(28,24,16,.88); }
+    .nav-brand { font-family: 'DM Serif Display', serif; font-size: .95rem; color: var(--soil); letter-spacing: .01em; white-space: nowrap; cursor: pointer; }
+    .nav-sep { width: 1px; height: 18px; background: var(--border); }
+    .nav-links { display: flex; gap: 4px; position: relative; }
+
+    /* ── ACTIVE PILL INDICATOR ── */
+    .nav-pill-indicator {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: var(--warm);
+      border-radius: 99px;
+      pointer-events: none;
+      transition: transform .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1);
+      z-index: 0;
+    }
+
+    .nav-links a {
+      font-size: .8rem; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; padding: 5px 12px; border-radius: 99px;
+      transition: color .2s;
+      position: relative; z-index: 1;
+    }
+    .nav-links a.active { color: var(--text); }
+    .nav-links a:hover:not(.active) { color: var(--text); }
+    #nl-tim { font-weight: 400 !important; letter-spacing: .01em; }
+
+    .page,
+    .hero-bg::before,
+    .hero-bg::after,
+    .chapter-dropdown,
+    .theme-pill,
+    .hero-badge {
+      transition: background .45s ease, background-color .45s ease,
+                  color .35s ease, border-color .35s ease,
+                  opacity .3s ease, box-shadow .35s ease;
+    }
+
+    /* chapter dropdown */
+    .nav-chapter-wrap { position: relative; }
+    .nav-chapter-btn {
+      font-size: .8rem; font-weight: 500; color: var(--text-muted);
+      padding: 5px 12px; border-radius: 99px;
+      border: none; background: transparent; cursor: pointer;
+      transition: background .2s, color .2s;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-chapter-btn:hover, .nav-chapter-btn.active { background: var(--warm); color: var(--text); }
+    .nav-chapter-btn .arrow { font-size: .6rem; transition: transform .2s; }
+    .nav-chapter-btn.open .arrow { transform: rotate(180deg); }
+
+    .chapter-dropdown {
+      position: absolute; top: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px;
+      min-width: 220px;
+      box-shadow: 0 8px 32px rgba(90,70,40,.18);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 600;
+    }
+    .chapter-dropdown.open {
+      opacity: 1; pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    .chap-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 10px;
+      cursor: pointer; font-size: .82rem; color: var(--text-muted);
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .chap-item:hover { background: var(--warm); color: var(--text); }
+    .chap-item.active { background: var(--moss); color: #fff; }
+    .chap-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--straw); min-width: 24px;
+    }
+    .chap-item.active .chap-num { color: rgba(255,255,255,.7); }
+
+    /* ── THEME PILL ── */
+    .theme-pill { display: flex; align-items: center; gap: 2px; background: var(--warm); border-radius: 99px; padding: 4px; border: 1px solid var(--border); cursor: pointer; }
+    .pill-btn {
+      width: 30px; height: 30px; border-radius: 99px; border: none; cursor: pointer;
+      background: transparent; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      transition: background .35s ease, color .35s ease, box-shadow .35s ease, transform .2s ease;
+      outline: none; user-select: none;
+    }
+    .pill-btn.active { background: var(--surface); color: var(--terracotta); box-shadow: 0 1px 8px rgba(0,0,0,.15); transform: scale(1.08); }
+    .pill-btn:not(.active):hover { background: rgba(107,124,82,.12); color: var(--moss); }
+
+    /* ── SCROLL DOCK ── */
+    .scroll-dock { position: fixed; right: 28px; bottom: 36px; z-index: 400; display: flex; flex-direction: column; gap: 8px; }
+    .scroll-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--border);
+      background: var(--surface); color: var(--text-muted); cursor: pointer; font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); transition: background .2s, color .2s, transform .15s;
+      backdrop-filter: blur(12px);
+    }
+    .scroll-btn:hover { background: var(--warm); color: var(--terracotta); transform: scale(1.1); }
+
+    /* ── PAGE SYSTEM ── */
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+    .hero-bg::before {
+      content: ''; position: absolute;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(163,181,138,.22) 0%, transparent 70%);
+      top: -200px; right: -200px;
+    }
+    .hero-bg::after {
+      content: ''; position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,116,74,.12) 0%, transparent 70%);
+      bottom: -150px; left: -100px;
+    }
+    .hero-grain {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      opacity: .4; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 780px; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 99px;
+      padding: 6px 16px; font-size: .78rem; font-weight: 500; color: var(--moss);
+      letter-spacing: .04em; text-transform: uppercase; margin-bottom: 32px;
+      opacity: 0; animation: fadeUp .6s .3s forwards;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--moss); animation: pulse-dot 1.8s ease-in-out infinite; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(107,124,82,.5); }
+      50%       { opacity: .7; transform: scale(1.3); box-shadow: 0 0 0 5px rgba(107,124,82,0); }
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.12; color: var(--soil); margin-bottom: 12px;
+      opacity: 0; animation: fadeUp .7s .45s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--terracotta); }
+    .hero-sub {
+      font-size: clamp(.95rem, 2vw, 1.15rem); color: var(--text-muted);
+      line-height: 1.7; max-width: 560px; margin: 0 auto 40px; font-weight: 300;
+      opacity: 0; animation: fadeUp .7s .6s forwards;
+    }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp .7s .75s forwards; }
+    .btn-primary, .btn-ghost {
+      padding: 13px 28px; border-radius: 99px; font-size: .9rem; font-weight: 500;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--moss), #4e5e38); color: #fff; box-shadow: 0 4px 20px rgba(107,124,82,.35); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(107,124,82,.4); }
+    .btn-ghost { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { background: var(--warm); transform: translateY(-2px); }
+
+    .stats-row {
+      position: relative; z-index: 1;
+      display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;
+      margin-top: 64px; opacity: 0; animation: fadeUp .7s .9s forwards;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px 28px; text-align: center; min-width: 150px; box-shadow: var(--shadow);
+      transition: transform .2s;
+    }
+    .stat-card:hover { transform: translateY(-4px); }
+    .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--terracotta); line-height: 1; }
+    .stat-label { font-size: .78rem; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+    .divider-line { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ── ABOUT ── */
+    #about { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--moss); margin-bottom: 12px; }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--soil); line-height: 1.2; margin-bottom: 20px; }
+    .section-body { font-size: 1rem; line-height: 1.8; color: var(--text-muted); max-width: 600px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 60px; }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; gap: 40px; }
+      .nav-links { display: none; }
+      .chapter-dropdown { left: auto; right: 0; transform: translateX(0) translateY(-6px); }
+      .chapter-dropdown.open { transform: translateX(0) translateY(0); }
+    }
+    .info-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .info-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .info-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .info-card-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+    .info-card-title { font-weight: 600; font-size: .88rem; color: var(--text); margin-bottom: 4px; }
+    .info-card-text { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── KEY FINDINGS ── */
+    #findings { background: var(--warm); padding: 100px 24px; }
+    [data-theme="dark"] #findings { background: var(--surface); }
+    .findings-inner { max-width: 1100px; margin: 0 auto; }
+    .findings-header { text-align: center; margin-bottom: 56px; }
+    .findings-header .section-body { margin: 0 auto; }
+    .findings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .finding-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px; position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .finding-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .finding-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .finding-card:nth-child(1)::before { background: var(--terracotta); }
+    .finding-card:nth-child(2)::before { background: var(--moss); }
+    .finding-card:nth-child(3)::before { background: var(--amber); }
+    .finding-card:nth-child(4)::before { background: var(--sage); }
+    .finding-card:nth-child(5)::before { background: var(--straw); }
+    .finding-num { font-family: 'DM Serif Display', serif; font-size: 3rem; color: var(--feather); line-height: 1; margin-bottom: 16px; }
+    [data-theme="dark"] .finding-num { opacity: .4; }
+    .finding-title { font-weight: 600; font-size: 1rem; color: var(--text); margin-bottom: 10px; }
+    .finding-text { font-size: .88rem; line-height: 1.65; color: var(--text-muted); }
+
+    /* ── TEAM ── */
+    #team { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+    .team-header { text-align: center; margin-bottom: 56px; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .member-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px 16px; text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .member-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .member-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage), var(--moss));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: #fff;
+      margin: 0 auto 12px;
+    }
+    .member-name { font-weight: 600; font-size: .85rem; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
+    .member-id { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── CHAPTER PAGE COLOR ACCENTS ── */
+    .chapter-view { position: relative; }
+
+    /* Decorative blob per bab */
+    #page-bab1 .chapter-view::before {
+      content: ''; position: fixed; top: -120px; right: -120px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(107,124,82,.13) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab2 .chapter-view::before {
+      content: ''; position: fixed; top: -100px; left: -100px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(82,110,124,.12) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab3 .chapter-view::before {
+      content: ''; position: fixed; bottom: -100px; right: -80px;
+      width: 460px; height: 460px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,134,11,.11) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab4 .chapter-view::before {
+      content: ''; position: fixed; bottom: -80px; left: -80px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,116,74,.12) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-bab5 .chapter-view::before {
+      content: ''; position: fixed; top: 30%; right: -120px;
+      width: 460px; height: 460px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(130,110,160,.10) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    #page-pustaka .chapter-view::before {
+      content: ''; position: fixed; top: -80px; left: 30%;
+      width: 500px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,134,11,.13) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Chapter header accent bar */
+    .chapter-header { position: relative; }
+    #page-bab1  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--moss); border-radius:99px; }
+    #page-bab2  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:#5a8a9a; border-radius:99px; }
+    #page-bab3  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--amber); border-radius:99px; }
+    #page-bab4  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--terracotta); border-radius:99px; }
+    #page-bab5  .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:#9a7ab8; border-radius:99px; }
+    #page-pustaka .chapter-header::after { content:''; position:absolute; bottom:0; left:0; width:60px; height:3px; background:var(--straw); border-radius:99px; }
+
+    /* Chapter eyebrow per bab color */
+    #page-bab1  .chapter-eyebrow { border-color: rgba(107,124,82,.3); color: var(--moss); }
+    #page-bab2  .chapter-eyebrow { border-color: rgba(82,130,154,.3); color: #5a8a9a; background: rgba(82,130,154,.06); }
+    #page-bab3  .chapter-eyebrow { border-color: rgba(184,134,11,.25); color: var(--amber); background: rgba(184,134,11,.06); }
+    #page-bab4  .chapter-eyebrow { border-color: rgba(196,116,74,.25); color: var(--terracotta); background: rgba(196,116,74,.06); }
+    #page-bab5  .chapter-eyebrow { border-color: rgba(130,110,160,.25); color: #8a70b8; background: rgba(130,110,160,.06); }
+    #page-pustaka .chapter-eyebrow { border-color: rgba(184,134,11,.3); color: var(--amber); background: rgba(184,134,11,.07); }
+
+    /* Chapter nav cards top color (fix Bab V missing border) */
+    .chapter-nav-card { border-radius: var(--radius); overflow: hidden; position: relative; }
+    .chapter-nav-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .chapter-nav-card.c1::before { background: var(--terracotta); }
+    .chapter-nav-card.c2::before { background: var(--moss); }
+    .chapter-nav-card.c3::before { background: var(--amber); }
+    .chapter-nav-card.c4::before { background: var(--sage); }
+    .chapter-nav-card.c5::before { background: #9a7ab8; }
+
+    /* ── DAFTAR PUSTAKA ── */
+    .ref-list { list-style: none; margin: 0; padding: 0; }
+    .ref-item {
+      display: flex; gap: 18px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    .ref-item:last-child { border-bottom: none; }
+    .ref-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; color: var(--straw);
+      min-width: 28px; padding-top: 2px; line-height: 1;
+    }
+    .ref-body { flex: 1; }
+    .ref-authors { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .ref-title { font-size: .88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 4px; font-style: italic; }
+    .ref-source { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
+    .ref-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: .75rem; color: var(--moss); text-decoration: none;
+      margin-top: 5px; font-weight: 500;
+      opacity: .8; transition: opacity .15s;
+    }
+    .ref-link:hover { opacity: 1; text-decoration: underline; }
+    .ref-tag {
+      display: inline-block; font-size: .65rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 99px;
+      background: var(--warm); color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* ── CHAPTER PAGE LAYOUT ── */
+    .chapter-view {
+      padding: 120px 24px 80px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .78rem; color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+    .breadcrumb a { color: var(--moss); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { opacity: .4; }
+
+    /* Chapter header */
+    .chapter-header {
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chapter-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--warm); border: 1px solid var(--border);
+      border-radius: 99px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 600; color: var(--moss);
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .chapter-h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15; color: var(--soil);
+      margin-bottom: 16px;
+    }
+    .chapter-h1 em { font-style: italic; color: var(--terracotta); }
+    .chapter-desc {
+      font-size: 1.05rem; line-height: 1.7;
+      color: var(--text-muted); font-weight: 300;
+      max-width: 680px;
+    }
+
+    /* Content + sidebar layout */
+    .chapter-layout {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .chapter-layout { grid-template-columns: 1fr; }
+      .chapter-nav-panel { display: none; }
+    }
+
+    .chapter-nav-panel {
+      position: sticky; top: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .panel-title {
+      font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--moss);
+      margin-bottom: 14px;
+    }
+    .panel-list { list-style: none; }
+    .panel-list li { margin-bottom: 4px; }
+    .panel-list a {
+      display: block; font-size: .82rem; color: var(--text-muted);
+      text-decoration: none; padding: 6px 10px; border-radius: 8px;
+      transition: background .15s, color .15s;
+      line-height: 1.4;
+    }
+    .panel-list a:hover { background: var(--warm); color: var(--text); }
+    .panel-list a.filter-btn.active { background: var(--moss); color: #fff; font-weight: 600; }
+    /* Sub-item indent styling */
+    .panel-list a.sub {
+      font-size: .78rem;
+      padding-left: 18px;
+      border-left: 2px solid var(--border);
+      border-radius: 0 8px 8px 0;
+      margin-left: 8px;
+    }
+
+    /* Chapter nav arrows */
+    .chapter-footer-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 72px; padding-top: 32px;
+      border-top: 1px solid var(--border);
+      gap: 16px;
+    }
+    .chap-nav-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .chap-nav-btn:hover { background: var(--warm); transform: translateY(-2px); }
+    .chap-nav-btn .cn-label { font-size: .72rem; color: var(--text-muted); }
+    .chap-nav-btn .cn-title { font-size: .88rem; font-weight: 600; color: var(--text); }
+    .chap-nav-btn.right { text-align: right; flex-direction: row-reverse; }
+    .chap-nav-spacer { flex: 1; }
+
+    /* Chapter content typography */
+    .chapter-content h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; color: var(--soil);
+      margin: 48px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chapter-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem; color: var(--soil);
+      margin: 32px 0 12px;
+    }
+    .chapter-content p {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .chapter-content p em { font-style: italic; color: var(--terracotta); }
+    .chapter-content ul, .chapter-content ol {
+      margin: 16px 0 24px 22px; color: var(--text-muted);
+    }
+    .chapter-content li { font-size: .97rem; line-height: 1.75; margin-bottom: 8px; }
+    .chapter-content li strong { color: var(--text); }
+    .chapter-content blockquote {
+      margin: 28px 0;
+      padding: 18px 22px;
+      background: var(--warm);
+      border-left: 3px solid var(--moss);
+      border-radius: 0 12px 12px 0;
+      font-style: italic; color: var(--text-muted);
+      font-size: .95rem; line-height: 1.7;
+    }
+    [data-theme="dark"] .chapter-content blockquote { background: var(--feather); }
+
+    .chapter-content .highlight-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin: 28px 0;
+    }
+    .highlight-box .hb-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--moss); margin-bottom: 10px;
+    }
+
+    /* Table */
+    .chapter-content table {
+      width: 100%; border-collapse: collapse;
+      margin: 24px 0; font-size: .88rem;
+    }
+    .chapter-content th {
+      background: var(--warm); color: var(--text);
+      font-weight: 600; padding: 12px 16px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .chapter-content td {
+      padding: 11px 16px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .chapter-content tr:nth-child(even) td { background: rgba(200,180,130,.04); }
+
+    /* Numbered list */
+    .num-list { list-style: none; margin: 0; padding: 0; }
+    .num-list li {
+      display: flex; gap: 16px; margin-bottom: 20px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border);
+    }
+    .num-list li:last-child { border-bottom: none; }
+    .num-list .nl-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; color: var(--straw);
+      min-width: 32px; line-height: 1;
+    }
+    .num-list .nl-body { flex: 1; }
+    .num-list .nl-title { font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: 6px; }
+    .num-list .nl-text { font-size: .88rem; line-height: 1.65; color: var(--text-muted); }
+
+    /* Feather deco */
+    .feather-deco {
+      position: absolute; right: 5%; top: 15%;
+      opacity: .07; font-size: 240px;
+      pointer-events: none; z-index: 0;
+      transform: rotate(25deg); filter: grayscale(1);
+    }
+    [data-theme="dark"] .feather-deco { opacity: .04; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--soil); margin-bottom: 8px; }
+    .footer-sub { font-size: .8rem; color: var(--text-muted); margin-bottom: 20px; }
+    .footer-bottom { font-size: .75rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body data-page="home">
+
+<!-- ═══ PRELOADER ═══ -->
+<div id="preloader">
+  <div class="loader-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="28" stroke="#c9b882" stroke-width="2" stroke-dasharray="40 90" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="20" stroke="#6b7c52" stroke-width="2" stroke-dasharray="25 60" stroke-linecap="round" transform="rotate(60 32 32)"/>
+      <circle cx="32" cy="14" r="5" fill="#c4744a" opacity=".8"/>
+      <path d="M32 22 C28 26 24 30 32 34 C40 30 36 26 32 22Z" fill="#c9b882" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <p class="loader-text">Memuat konten penelitian...</p>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <span class="nav-brand" onclick="window.top.location.href='index.html'">🐓 TESIS 36</span>
+  <div class="nav-sep"></div>
+  <div class="nav-links" id="navLinks">
+    <div class="nav-pill-indicator" id="navPill"></div>
+    <a href="#" onclick="window.top.location.href='index.html';return false;" id="nl-home" class="active">Beranda</a>
+    <a href="#" onclick="window.top.location.href='index.html#about';return false;" id="nl-tentang">Tentang</a>
+    <a href="#" onclick="window.top.location.href='index.html#findings';return false;" id="nl-temuan">Temuan</a>
+    <a href="#" onclick="window.top.location.href='index.html#team';return false;" id="nl-tim">Tim</a>
+  </div>
+  <!-- Chapter dropdown -->
+  <div class="nav-chapter-wrap">
+    <button class="nav-chapter-btn" id="chapterBtn" onclick="toggleChapterMenu()">
+      Bab <span class="arrow">▾</span>
+    </button>
+    <div class="chapter-dropdown" id="chapterMenu">
+      <a class="chap-item" onclick="window.top.location.href='bab1.html';return false;" href="#" data-bab="bab1">
+        <span class="chap-num">I</span><span>Pendahuluan</span>
+      </a>
+      <a class="chap-item" onclick="window.top.location.href='bab2.html';return false;" href="#" data-bab="bab2">
+        <span class="chap-num">II</span><span>Landasan Teori</span>
+      </a>
+      <a class="chap-item" onclick="window.top.location.href='bab3.html';return false;" href="#" data-bab="bab3">
+        <span class="chap-num">III</span><span>Metode Penelitian</span>
+      </a>
+      <a class="chap-item" onclick="window.top.location.href='bab4.html';return false;" href="#" data-bab="bab4">
+        <span class="chap-num">IV</span><span>Hasil &amp; Pembahasan</span>
+      </a>
+      <a class="chap-item" onclick="window.top.location.href='bab5.html';return false;" href="#" data-bab="bab5">
+        <span class="chap-num">V</span><span>Penutup</span>
+      </a>
+      <a class="chap-item" onclick="window.top.location.href='bab6.html';return false;" href="#" data-bab="pustaka">
+        <span class="chap-num">VI</span><span>Daftar Pustaka</span>
+      </a>
+    </div>
+  </div>
+  <div class="theme-pill" id="themePill" title="Ganti tema">
+    <button class="pill-btn active" id="btnLight" onclick="setTheme('light')" title="Mode Terang">☀️</button>
+    <button class="pill-btn" id="btnDark" onclick="setTheme('dark')" title="Mode Gelap">🌙</button>
+  </div>
+</nav>
+
+<!-- ═══ SCROLL DOCK ═══ -->
+<div class="scroll-dock">
+  <button class="scroll-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">↑</button>
+  <button class="scroll-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="Ke bawah">↓</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: BERANDA
+══════════════════════════════════════════ -->
+
+<div id="page-bab5" class="page active">
+  <div class="chapter-view">
+    <div class="breadcrumb">
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Bab V</span>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-eyebrow">BAB V</div>
+      <h1 class="chapter-h1">Penutup</h1>
+      <p class="chapter-desc">Kesimpulan akhir dari seluruh temuan penelitian dan saran-saran konstruktif yang ditujukan kepada peternak, pemerintah daerah, dan peneliti selanjutnya.</p>
+    </div>
+
+    <div class="chapter-layout">
+      <div class="chapter-content">
+
+        <h2 id="b5-kesimpulan">5.1 Kesimpulan</h2>
+        <p>Berdasarkan hasil penelitian dan pembahasan mengenai penerapan biosekuriti pada peternakan unggas rakyat di Desa Sukaruas, dapat ditarik kesimpulan sebagai berikut:</p>
+
+        <ul class="num-list">
+          <li>
+            <div class="nl-num">①</div>
+            <div class="nl-body">
+              <div class="nl-title">Biosekuriti Masih Sangat Lemah</div>
+              <div class="nl-text">Penerapan biosekuriti pada peternakan Bapak Atep belum memenuhi standar minimal. Sanitasi kandang hanya sebulan sekali, tidak ada fasilitas cuci tangan, APD, maupun sistem pengelolaan limbah. Letak kandang hanya 2–3 meter dari pemukiman meningkatkan risiko pencemaran lingkungan dan penularan penyakit <em>zoonosis</em>.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">②</div>
+            <div class="nl-body">
+              <div class="nl-title">Pengetahuan Peternak Masih Superfisial</div>
+              <div class="nl-text">Peternak mengetahui keberadaan AI dari media, namun tidak memahami gejala klinis secara spesifik dan tidak menganggapnya sebagai ancaman serius. Peternak cenderung mengabaikan protokol isolasi bagi unggas yang sakit.</div>
+            </div>
+          </li>
+          <li>
+            <div class="nl-num">③</div>
+            <div class="nl-body">
+              <div class="nl-title">Hambatan Ekonomi dan Minimnya Pembinaan</div>
+              <div class="nl-text">Fokus peternak lebih pada fluktuasi harga pakan dan harga jual dibandingkan manajemen kesehatan hewan. Belum adanya kunjungan atau edukasi rutin dari pihak terkait menyebabkan praktik biosekuriti hanya didasarkan pada kebiasaan, bukan standar teknis medis veteriner.</div>
+            </div>
+          </li>
+        </ul>
+
+        <h2 id="b5-saran">5.2 Saran</h2>
+
+        <h3>Bagi Peternak</h3>
+        <ul>
+          <li>Meningkatkan frekuensi sanitasi kandang secara rutin, tidak hanya saat panen.</li>
+          <li>Menyediakan dan menggunakan APD sederhana (masker, sarung tangan, sepatu bot) saat beraktivitas di kandang.</li>
+          <li>Menerapkan isolasi unggas sakit secara konsisten dan segera melaporkan kematian unggas mendadak kepada pihak terkait.</li>
+          <li>Mengelola limbah peternakan secara lebih terstruktur, terpisah dari sumber air warga.</li>
+        </ul>
+
+        <h3>Bagi Pemerintah dan Dinas Peternakan</h3>
+        <ul>
+          <li>Meningkatkan frekuensi dan jangkauan program penyuluhan biosekuriti yang berkelanjutan, tidak hanya saat wabah berlangsung.</li>
+          <li>Menyediakan subsidi atau bantuan fasilitas biosekuriti dasar (desinfektan, APD) bagi peternak rakyat skala kecil.</li>
+          <li>Meningkatkan ketersediaan dan keterjangkauan layanan kesehatan hewan di tingkat desa.</li>
+          <li>Mengembangkan program edukasi berbasis demonstrasi langsung yang mudah dipahami oleh peternak tradisional.</li>
+        </ul>
+
+        <h3>Bagi Peneliti Selanjutnya</h3>
+        <ul>
+          <li>Memperluas subjek penelitian untuk mencakup lebih banyak peternak di berbagai dusun di Desa Sukaruas maupun desa-desa sekitarnya.</li>
+          <li>Mengkombinasikan pendekatan kualitatif dengan pengukuran kuantitatif tingkat biosekuriti menggunakan instrumen tervalidasi.</li>
+          <li>Menindaklanjuti penelitian ini dengan program intervensi penyuluhan dan evaluasi dampaknya terhadap perubahan praktik biosekuriti peternak.</li>
+        </ul>
+
+        <div class="highlight-box" style="margin-top:40px;">
+          <div class="hb-label">Catatan Penutup</div>
+          <p style="margin:0; font-size:.93rem; line-height:1.7; color:var(--text-muted);">Temuan penelitian ini mencerminkan pola umum kerentanan biosekuriti yang telah diidentifikasi oleh berbagai penelitian di Indonesia. Interaksi antara rendahnya pengetahuan, minimnya pembinaan, keterbatasan sumber daya, serta prioritas ekonomi yang berbeda menciptakan kondisi yang secara kumulatif meningkatkan risiko penyebaran <em>Avian Influenza</em> di tingkat peternakan rakyat.</p>
+        </div>
+
+        <div class="chapter-footer-nav">
+          <a href="#" onclick="window.top.location.href='bab4.html';return false;" class="chap-nav-btn">
+            <span>←</span>
+            <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
+          </a>
+          <a href="#" onclick="window.top.location.href='bab6.html';return false;" class="chap-nav-btn right">
+            <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab VI — Daftar Pustaka</div></div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="chapter-nav-panel">
+        <div class="panel-title">Isi Bab V</div>
+        <ul class="panel-list">
+          <li><a href="#b5-kesimpulan">5.1 Kesimpulan</a></li>
+          <li><a href="#b5-saran">5.2 Saran</a></li>
+        </ul>
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+          <div class="panel-title">Bab Lain</div>
+          <ul class="panel-list">
+            <li><a href="#" onclick="window.top.location.href='bab1.html';return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div><!-- /page-bab5 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: DAFTAR PUSTAKA
+══════════════════════════════════════════ -->
+
+<script>
+  /* ── PRELOADER ── */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+    }, 1900);
+  });
+
+  /* ── THEME ── */
+  function setTheme(t) {
+    document.body.style.pointerEvents = 'none';
+
+    requestAnimationFrame(() => {
+      document.documentElement.setAttribute('data-theme', t);
+
+      document.getElementById('btnLight').classList.toggle('active', t === 'light');
+      document.getElementById('btnDark').classList.toggle('active', t === 'dark');
+
+      localStorage.setItem('theme', t);
+
+      setTimeout(() => {
+        document.body.style.pointerEvents = '';
+      }, 250);
+    });
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved) setTheme(saved);
+
+  /* ── PAGE NAVIGATION ── */
+  const pages = ['home','bab1','bab2','bab3','bab4','bab5','pustaka'];
+
+  function showPage(id) {
+    // Hide all pages
+    pages.forEach(p => {
+      const el = document.getElementById('page-' + p);
+      if (el) el.classList.remove('active');
+    });
+
+    // Show target page
+    const target = document.getElementById('page-' + id);
+    if (target) target.classList.add('active');
+
+    // Update body data-page for background color switching
+    document.body.setAttribute('data-page', id);
+
+    // Update navbar active states
+    const nlHome = document.getElementById('nl-home');
+    const isHome = id === 'home';
+    nlHome.classList.toggle('active', isHome);
+
+    // Update chapter dropdown items
+    document.querySelectorAll('.chap-item').forEach(item => {
+      const bab = item.getAttribute('data-bab');
+      item.classList.toggle('active', bab === id);
+    });
+
+    // Update chapter button active state
+    const chBtn = document.getElementById('chapterBtn');
+    const isChap = id.startsWith('bab') || id === 'pustaka';
+    chBtn.classList.toggle('active', isChap);
+
+    // Move nav pill to correct position
+    updateNavPill(isHome ? 'nl-home' : null);
+
+    // Close dropdown
+    closeChapterMenu();
+
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Trigger scroll reveal
+    setTimeout(initReveal, 100);
+  }
+
+  /* ── NAV PILL INDICATOR (fix #5: pill follows clicked item) ── */
+  function updateNavPill(activeId) {
+    const pill = document.getElementById('navPill');
+    const container = document.getElementById('navLinks');
+    if (!pill || !container) return;
+
+    if (!activeId) {
+      // No active nav-link item; hide pill gracefully
+      pill.style.opacity = '0';
+      return;
+    }
+
+    const activeEl = document.getElementById(activeId);
+    if (!activeEl) { pill.style.opacity = '0'; return; }
+
+    const containerRect = container.getBoundingClientRect();
+    const elRect = activeEl.getBoundingClientRect();
+
+    pill.style.opacity = '1';
+    pill.style.width = elRect.width + 'px';
+    pill.style.transform = `translateX(${elRect.left - containerRect.left}px)`;
+  }
+
+  /* ── SCROLL TO SECTION (only on home page) ── */
+  function goSection(id) {
+    if (!document.getElementById('page-home').classList.contains('active')) {
+      window.top.location.href='index.html';
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 320);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Move pill to corresponding nav link
+    const idMap = { about: 'nl-tentang', findings: 'nl-temuan', team: 'nl-tim' };
+    const navId = idMap[id];
+    if (navId) {
+      // Remove active from all nav links first
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const el = document.getElementById(navId);
+      if (el) {
+        el.classList.add('active');
+        updateNavPill(navId);
+      }
+    }
+  }
+
+  /* ── CHAPTER DROPDOWN ── */
+  function toggleChapterMenu() {
+    const menu = document.getElementById('chapterMenu');
+    const btn = document.getElementById('chapterBtn');
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) { closeChapterMenu(); }
+    else { menu.classList.add('open'); btn.classList.add('open'); }
+  }
+  function closeChapterMenu() {
+    document.getElementById('chapterMenu').classList.remove('open');
+    document.getElementById('chapterBtn').classList.remove('open');
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-chapter-wrap')) closeChapterMenu();
+  });
+
+  /* ── SCROLL REVEAL ── */
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+  }
+  initReveal();
+
+  /* ── PUSTAKA FILTER ── */
+  function filterRefs(kategori) {
+    const items = document.querySelectorAll('.ref-item');
+    items.forEach(item => {
+      if (kategori === 'semua' || item.dataset.kategori === kategori) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`.filter-btn[onclick*="${kategori}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+
+  // Auto-count categories
+  (function countCategories() {
+    const counts = {};
+    document.querySelectorAll('.ref-item[data-kategori]').forEach(item => {
+      const k = item.dataset.kategori;
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    Object.entries(counts).forEach(([k, v]) => {
+      const el = document.getElementById('count-' + k);
+      if (el) el.textContent = v;
+    });
+    const totalEl = document.getElementById('count-semua');
+    if (totalEl) totalEl.textContent = document.querySelectorAll('.ref-item').length;
+  })();
+
+
+  window.addEventListener('load', () => {
+    updateNavPill('nl-home');
+  });
+  // Also update after fonts/layout settle
+  setTimeout(() => updateNavPill('nl-home'), 500);
+
+  /* ── FIELD CAROUSEL ── */
+  (function(){
+    let cur = 0;
+    const total = document.querySelectorAll('.fc-slide').length;
+
+    function fcUpdate(n) {
+      const slides = document.querySelectorAll('.fc-slide');
+      const dots = document.querySelectorAll('.fc-dot');
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      cur = ((n % total) + total) % total;
+      slides[cur].classList.add('active');
+      dots[cur].classList.add('active');
+      const el = document.getElementById('fc-current');
+      if (el) el.textContent = cur + 1;
+    }
+
+    window.fcStep = (d) => fcUpdate(cur + d);
+    window.fcGoTo = (n) => fcUpdate(n);
+
+    // Auto-advance every 5s
+    setInterval(() => fcStep(1), 5000);
+
+    // Touch / swipe support
+    const wrap = document.querySelector('.fc-track-wrap');
+    if (wrap) {
+      let startX = 0;
+      wrap.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+      wrap.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) fcStep(dx < 0 ? 1 : -1);
+      });
+    }
+  })();
+
+</script>
+</body>
+</html>
