@@ -431,44 +431,19 @@
 
     /* ── CHAPTER PAGE COLOR ACCENTS ── */
     .chapter-view { position: relative; }
+    /* ── BAB CANVAS BACKGROUND ── */
+    #babCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* ensure content sits above canvas */
+    nav, .scroll-dock, #preloader { z-index: 500; }
+    .chapter-view { position: relative; z-index: 1; }
 
-    /* Decorative blob per bab */
-    #page-bab1 .chapter-view::before {
-      content: ''; position: fixed; top: -120px; right: -120px;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(107,124,82,.13) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    #page-bab2 .chapter-view::before {
-      content: ''; position: fixed; top: -100px; left: -100px;
-      width: 480px; height: 480px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(82,110,124,.12) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    #page-bab3 .chapter-view::before {
-      content: ''; position: fixed; bottom: -100px; right: -80px;
-      width: 460px; height: 460px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(184,134,11,.11) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    #page-bab4 .chapter-view::before {
-      content: ''; position: fixed; bottom: -80px; left: -80px;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,116,74,.12) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    #page-bab5 .chapter-view::before {
-      content: ''; position: fixed; top: 30%; right: -120px;
-      width: 460px; height: 460px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(130,110,160,.10) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    #page-pustaka .chapter-view::before {
-      content: ''; position: fixed; top: -80px; left: 30%;
-      width: 500px; height: 300px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(184,134,11,.13) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
 
     /* Chapter header accent bar */
     .chapter-header { position: relative; }
@@ -740,6 +715,7 @@
   </style>
 </head>
 <body data-page="bab3">
+<canvas id="babCanvas"></canvas>
 
 <!-- ═══ PRELOADER ═══ -->
 <div id="preloader">
@@ -1140,6 +1116,47 @@
         if (Math.abs(dx) > 40) fcStep(dx < 0 ? 1 : -1);
       });
     }
+  })();
+
+
+  /* BAB III — Gelombang sinus mengalir (biru-hijau metodis) */
+  (function(){
+    const cv = document.getElementById('babCanvas');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    let W, H, aid, t=0;
+    const WAVES = [
+      {amp:38, freq:.009, speed:.012, yOff:.25, hue:185, opacity:.06},
+      {amp:28, freq:.013, speed:.018, yOff:.40, hue:195, opacity:.05},
+      {amp:50, freq:.007, speed:.009, yOff:.58, hue:175, opacity:.055},
+      {amp:22, freq:.016, speed:.022, yOff:.72, hue:200, opacity:.04},
+      {amp:42, freq:.010, speed:.014, yOff:.85, hue:180, opacity:.05},
+    ];
+
+    function resize(){ W=cv.width=window.innerWidth; H=cv.height=window.innerHeight; }
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      const dark=document.documentElement.getAttribute('data-theme')==='dark';
+      t += 1;
+      for(const w of WAVES){
+        ctx.beginPath();
+        ctx.moveTo(0, H*w.yOff);
+        for(let x=0;x<=W;x+=4){
+          const y = H*w.yOff + Math.sin(x*w.freq + t*w.speed)*w.amp;
+          ctx.lineTo(x,y);
+        }
+        ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
+        const a = w.opacity*(dark?.9:1);
+        ctx.fillStyle=`hsla(${w.hue},50%,${dark?60:40}%,${a})`;
+        ctx.fill();
+      }
+      aid=requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) cancelAnimationFrame(aid); else aid=requestAnimationFrame(draw); });
+    resize(); aid=requestAnimationFrame(draw);
   })();
 
 </script>
