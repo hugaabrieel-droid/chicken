@@ -761,7 +761,7 @@
   <div class="nav-sep"></div>
   <div class="nav-links" id="navLinks">
     <div class="nav-pill-indicator" id="navPill"></div>
-    <a href="#" onclick="window.top.location.href='index.html';return false;" id="nl-home" class="active">Beranda</a>
+    <a href="#" onclick="window.top.location.href='index.html';return false;" id="nl-home">Beranda</a>
     <a href="#" onclick="window.top.location.href='index.html#about';return false;" id="nl-tentang">Tentang</a>
     <a href="#" onclick="window.top.location.href='index.html#findings';return false;" id="nl-temuan">Temuan</a>
     <a href="#" onclick="window.top.location.href='index.html#team';return false;" id="nl-tim">Tim</a>
@@ -1009,7 +1009,6 @@
     if (!pill || !container) return;
 
     if (!activeId) {
-      // No active nav-link item; hide pill gracefully
       pill.style.opacity = '0';
       return;
     }
@@ -1017,12 +1016,13 @@
     const activeEl = document.getElementById(activeId);
     if (!activeEl) { pill.style.opacity = '0'; return; }
 
-    const containerRect = container.getBoundingClientRect();
-    const elRect = activeEl.getBoundingClientRect();
-
-    pill.style.opacity = '1';
-    pill.style.width = elRect.width + 'px';
-    pill.style.transform = `translateX(${elRect.left - containerRect.left}px)`;
+    requestAnimationFrame(() => {
+      const containerRect = container.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      pill.style.opacity = '1';
+      pill.style.width = elRect.width + 'px';
+      pill.style.transform = `translateX(${elRect.left - containerRect.left}px)`;
+    });
   }
 
   /* ── SCROLL TO SECTION (only on home page) ── */
@@ -1111,10 +1111,28 @@
 
 
   window.addEventListener('load', () => {
-    updateNavPill('nl-home');
+    // On bab pages: activate the Bab button in navbar, not Beranda
+    const nlHome = document.getElementById('nl-home');
+    if (nlHome) nlHome.classList.remove('active');
+    const chBtn = document.getElementById('chapterBtn');
+    if (chBtn) chBtn.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => updateNavPillToChapter()));
   });
-  // Also update after fonts/layout settle
-  setTimeout(() => updateNavPill('nl-home'), 500);
+  setTimeout(() => updateNavPillToChapter(), 600);
+
+  function updateNavPillToChapter() {
+    const pill = document.getElementById('navPill');
+    const chBtn = document.getElementById('chapterBtn');
+    if (!pill || !chBtn) return;
+    const chRect = chBtn.getBoundingClientRect();
+    const container = document.getElementById('navLinks');
+    // pill lives inside navLinks; offset relative to navLinks left edge
+    // chapterBtn is OUTSIDE navLinks, so we need navLinks parent (nav) for reference
+    // Actually pill is inside navLinks; chBtn is a sibling. We position pill at width 0 and hide it
+    // Better: hide pill when on bab pages (pill only makes sense inside nav-links)
+    pill.style.opacity = '0';
+    // Instead highlight chapterBtn via its own CSS active class (already done above)
+  }
 
   /* ── FIELD CAROUSEL ── */
   (function(){
