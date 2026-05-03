@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light" data-page="bab1">
+<html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -757,14 +757,14 @@
 
 <!-- ═══ NAVBAR ═══ -->
 <nav>
-  <span class="nav-brand" onclick="showPage('home')">🐓 TESIS 36</span>
+  <span class="nav-brand" onclick="window.top.location.href='index.html'">🐓 TESIS 36</span>
   <div class="nav-sep"></div>
   <div class="nav-links" id="navLinks">
     <div class="nav-pill-indicator" id="navPill"></div>
-    <a href="#" onclick="showPage('home');return false;" id="nl-home" class="active">Beranda</a>
-    <a href="#" onclick="goSection('about');return false;" id="nl-tentang">Tentang</a>
-    <a href="#" onclick="goSection('findings');return false;" id="nl-temuan">Temuan</a>
-    <a href="#" onclick="goSection('team');return false;" id="nl-tim">Tim</a>
+    <a href="#" onclick="window.top.location.href='index.html';return false;" id="nl-home" class="active">Beranda</a>
+    <a href="#" onclick="window.top.location.href='index.html#about';return false;" id="nl-tentang">Tentang</a>
+    <a href="#" onclick="window.top.location.href='index.html#findings';return false;" id="nl-temuan">Temuan</a>
+    <a href="#" onclick="window.top.location.href='index.html#team';return false;" id="nl-tim">Tim</a>
   </div>
   <!-- Chapter dropdown -->
   <div class="nav-chapter-wrap">
@@ -772,22 +772,22 @@
       Bab <span class="arrow">▾</span>
     </button>
     <div class="chapter-dropdown" id="chapterMenu">
-      <a class="chap-item" onclick="showPage('bab1');return false;" href="#" data-bab="bab1">
+      <a class="chap-item" onclick="window.top.location.href='bab1.html';return false;" href="#" data-bab="bab1">
         <span class="chap-num">I</span><span>Pendahuluan</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab2');return false;" href="#" data-bab="bab2">
+      <a class="chap-item" onclick="window.top.location.href='bab2.html';return false;" href="#" data-bab="bab2">
         <span class="chap-num">II</span><span>Landasan Teori</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab3');return false;" href="#" data-bab="bab3">
+      <a class="chap-item" onclick="window.top.location.href='bab3.html';return false;" href="#" data-bab="bab3">
         <span class="chap-num">III</span><span>Metode Penelitian</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab4');return false;" href="#" data-bab="bab4">
+      <a class="chap-item" onclick="window.top.location.href='bab4.html';return false;" href="#" data-bab="bab4">
         <span class="chap-num">IV</span><span>Hasil &amp; Pembahasan</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab5');return false;" href="#" data-bab="bab5">
+      <a class="chap-item" onclick="window.top.location.href='bab5.html';return false;" href="#" data-bab="bab5">
         <span class="chap-num">V</span><span>Penutup</span>
       </a>
-      <a class="chap-item" onclick="showPage('pustaka');return false;" href="#" data-bab="pustaka">
+      <a class="chap-item" onclick="window.top.location.href='bab6.html';return false;" href="#" data-bab="pustaka">
         <span class="chap-num">VI</span><span>Daftar Pustaka</span>
       </a>
     </div>
@@ -811,7 +811,7 @@
 <div id="page-bab1" class="page active">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Bab I</span>
     </div>
@@ -860,7 +860,7 @@
 
         <div class="chapter-footer-nav">
           <span class="chap-nav-spacer"></span>
-          <a href="#" onclick="showPage('bab2');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='bab2.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
             <span>→</span>
           </a>
@@ -878,11 +878,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
-            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab5.html';return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -995,7 +995,7 @@
   /* ── SCROLL TO SECTION (only on home page) ── */
   function goSection(id) {
     if (!document.getElementById('page-home').classList.contains('active')) {
-      showPage('home');
+      window.top.location.href='index.html';
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
