@@ -757,11 +757,11 @@
 
 <!-- ═══ NAVBAR ═══ -->
 <nav>
-  <span class="nav-brand" onclick="showPage('home')">🐓 TESIS 36</span>
+  <span class="nav-brand" onclick="goHome()">🐓 TESIS 36</span>
   <div class="nav-sep"></div>
   <div class="nav-links" id="navLinks">
     <div class="nav-pill-indicator" id="navPill"></div>
-    <a href="#" onclick="showPage('home');return false;" id="nl-home" class="active">Beranda</a>
+    <a href="#" onclick="goHome();return false;" id="nl-home" class="active">Beranda</a>
     <a href="#" onclick="goSection('about');return false;" id="nl-tentang">Tentang</a>
     <a href="#" onclick="goSection('findings');return false;" id="nl-temuan">Temuan</a>
     <a href="#" onclick="goSection('team');return false;" id="nl-tim">Tim</a>
@@ -772,22 +772,22 @@
       Bab <span class="arrow">▾</span>
     </button>
     <div class="chapter-dropdown" id="chapterMenu">
-      <a class="chap-item" onclick="showPage('bab1');return false;" href="#" data-bab="bab1">
+      <a class="chap-item" onclick="window.top.location.href='bab1.html';return false;" href="#" data-bab="bab1">
         <span class="chap-num">I</span><span>Pendahuluan</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab2');return false;" href="#" data-bab="bab2">
+      <a class="chap-item" onclick="window.top.location.href='bab2.html';return false;" href="#" data-bab="bab2">
         <span class="chap-num">II</span><span>Landasan Teori</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab3');return false;" href="#" data-bab="bab3">
+      <a class="chap-item" onclick="window.top.location.href='bab3.html';return false;" href="#" data-bab="bab3">
         <span class="chap-num">III</span><span>Metode Penelitian</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab4');return false;" href="#" data-bab="bab4">
+      <a class="chap-item" onclick="window.top.location.href='bab4.html';return false;" href="#" data-bab="bab4">
         <span class="chap-num">IV</span><span>Hasil &amp; Pembahasan</span>
       </a>
-      <a class="chap-item" onclick="showPage('bab5');return false;" href="#" data-bab="bab5">
+      <a class="chap-item" onclick="window.top.location.href='bab5.html';return false;" href="#" data-bab="bab5">
         <span class="chap-num">V</span><span>Penutup</span>
       </a>
-      <a class="chap-item" onclick="showPage('pustaka');return false;" href="#" data-bab="pustaka">
+      <a class="chap-item" onclick="window.top.location.href='bab6.html';return false;" href="#" data-bab="pustaka">
         <span class="chap-num">VI</span><span>Daftar Pustaka</span>
       </a>
     </div>
@@ -880,31 +880,31 @@
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;">
       <!-- Each card uses chapter-nav-card class for explicit top color border fix -->
-      <div class="finding-card chapter-nav-card c1 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab1')">
+      <div class="finding-card chapter-nav-card c1 reveal" style="cursor:pointer;padding:22px;" onclick="window.top.location.href='bab1.html'">
         <div class="finding-num" style="font-size:2rem;">I</div>
         <div class="finding-title">Pendahuluan</div>
         <div class="finding-text">Latar belakang, rumusan masalah, tujuan, dan manfaat penelitian.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card chapter-nav-card c2 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab2')">
+      <div class="finding-card chapter-nav-card c2 reveal" style="cursor:pointer;padding:22px;" onclick="window.top.location.href='bab2.html'">
         <div class="finding-num" style="font-size:2rem;">II</div>
         <div class="finding-title">Landasan Teori</div>
         <div class="finding-text">Tinjauan pustaka tentang Avian Influenza dan prinsip biosekuriti.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card chapter-nav-card c3 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab3')">
+      <div class="finding-card chapter-nav-card c3 reveal" style="cursor:pointer;padding:22px;" onclick="window.top.location.href='bab3.html'">
         <div class="finding-num" style="font-size:2rem;">III</div>
         <div class="finding-title">Metode Penelitian</div>
         <div class="finding-text">Pendekatan kualitatif deskriptif, waktu, tempat, dan teknik pengumpulan data.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card chapter-nav-card c4 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab4')">
+      <div class="finding-card chapter-nav-card c4 reveal" style="cursor:pointer;padding:22px;" onclick="window.top.location.href='bab4.html'">
         <div class="finding-num" style="font-size:2rem;">IV</div>
         <div class="finding-title">Hasil &amp; Pembahasan</div>
         <div class="finding-text">Temuan lapangan, analisis biosekuriti, dan pembahasan mendalam.</div>
         <div style="margin-top:14px;font-size:.78rem;color:var(--moss);font-weight:600;">Baca Bab →</div>
       </div>
-      <div class="finding-card chapter-nav-card c5 reveal" style="cursor:pointer;padding:22px;" onclick="showPage('bab5')">
+      <div class="finding-card chapter-nav-card c5 reveal" style="cursor:pointer;padding:22px;" onclick="window.top.location.href='bab5.html'">
         <div class="finding-num" style="font-size:2rem;">V</div>
         <div class="finding-title">Penutup</div>
         <div class="finding-text">Kesimpulan akhir dan saran bagi peternak, pemerintah, dan peneliti.</div>
@@ -982,7 +982,7 @@
 <div id="page-bab1" class="page">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Bab I</span>
     </div>
@@ -1031,7 +1031,7 @@
 
         <div class="chapter-footer-nav">
           <span class="chap-nav-spacer"></span>
-          <a href="#" onclick="showPage('bab2');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='bab2.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
             <span>→</span>
           </a>
@@ -1049,11 +1049,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
-            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab5.html';return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1068,7 +1068,7 @@
 <div id="page-bab2" class="page">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Bab II</span>
     </div>
@@ -1138,11 +1138,11 @@
         <p>Penelitian ini berpijak pada pemahaman bahwa virus H5N1 yang terus berevolusi mempertegas urgensi pengendalian di tingkat peternakan rakyat sebagai garis terdepan dalam rantai penyebaran. Biosekuriti yang diterapkan oleh peternak merupakan variabel sentral, namun keberhasilannya dipengaruhi oleh tingkat pengetahuan, ketersediaan layanan kesehatan hewan, konsistensi penyuluhan, dan kondisi sosial-ekonomi peternak.</p>
 
         <div class="chapter-footer-nav">
-          <a href="#" onclick="showPage('bab1');return false;" class="chap-nav-btn">
+          <a href="#" onclick="window.top.location.href='bab1.html';return false;" class="chap-nav-btn">
             <span>←</span>
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab I — Pendahuluan</div></div>
           </a>
-          <a href="#" onclick="showPage('bab3');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='bab3.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab III — Metode Penelitian</div></div>
             <span>→</span>
           </a>
@@ -1168,11 +1168,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
-            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab1.html';return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab5.html';return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1187,7 +1187,7 @@
 <div id="page-bab3" class="page">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Bab III</span>
     </div>
@@ -1239,11 +1239,11 @@
         </ul>
 
         <div class="chapter-footer-nav">
-          <a href="#" onclick="showPage('bab2');return false;" class="chap-nav-btn">
+          <a href="#" onclick="window.top.location.href='bab2.html';return false;" class="chap-nav-btn">
             <span>←</span>
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab II — Landasan Teori</div></div>
           </a>
-          <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='bab4.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
             <span>→</span>
           </a>
@@ -1260,11 +1260,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
-            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
-            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab1.html';return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab5.html';return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1279,7 +1279,7 @@
 <div id="page-bab4" class="page">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Bab IV</span>
     </div>
@@ -1421,11 +1421,11 @@
         </ul>
 
         <div class="chapter-footer-nav">
-          <a href="#" onclick="showPage('bab3');return false;" class="chap-nav-btn">
+          <a href="#" onclick="window.top.location.href='bab3.html';return false;" class="chap-nav-btn">
             <span>←</span>
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab III — Metode Penelitian</div></div>
           </a>
-          <a href="#" onclick="showPage('bab5');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='bab5.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab V — Penutup</div></div>
             <span>→</span>
           </a>
@@ -1448,11 +1448,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
-            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
-            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab1.html';return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab5.html';return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1467,7 +1467,7 @@
 <div id="page-bab5" class="page">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Bab V</span>
     </div>
@@ -1538,11 +1538,11 @@
         </div>
 
         <div class="chapter-footer-nav">
-          <a href="#" onclick="showPage('bab4');return false;" class="chap-nav-btn">
+          <a href="#" onclick="window.top.location.href='bab4.html';return false;" class="chap-nav-btn">
             <span>←</span>
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab IV — Hasil & Pembahasan</div></div>
           </a>
-          <a href="#" onclick="showPage('pustaka');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='bab6.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Selanjutnya</div><div class="cn-title">Bab VI — Daftar Pustaka</div></div>
             <span>→</span>
           </a>
@@ -1558,11 +1558,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Bab Lain</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
-            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
-            <li><a href="#" onclick="showPage('pustaka');return false;">VI — Daftar Pustaka</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab1.html';return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab6.html';return false;">VI — Daftar Pustaka</a></li>
           </ul>
         </div>
       </aside>
@@ -1577,7 +1577,7 @@
 <div id="page-pustaka" class="page">
   <div class="chapter-view">
     <div class="breadcrumb">
-      <a href="#" onclick="showPage('home');return false;">Beranda</a>
+      <a href="#" onclick="window.top.location.href='index.html';return false;">Beranda</a>
       <span class="breadcrumb-sep">›</span>
       <span>Daftar Pustaka</span>
     </div>
@@ -1737,11 +1737,11 @@
         </ul>
 
         <div class="chapter-footer-nav">
-          <a href="#" onclick="showPage('bab5');return false;" class="chap-nav-btn">
+          <a href="#" onclick="window.top.location.href='bab5.html';return false;" class="chap-nav-btn">
             <span>←</span>
             <div><div class="cn-label">Sebelumnya</div><div class="cn-title">Bab V — Penutup</div></div>
           </a>
-          <a href="#" onclick="showPage('home');return false;" class="chap-nav-btn right">
+          <a href="#" onclick="window.top.location.href='index.html';return false;" class="chap-nav-btn right">
             <div><div class="cn-label">Kembali ke</div><div class="cn-title">Beranda</div></div>
             <span>🏠</span>
           </a>
@@ -1760,11 +1760,11 @@
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
           <div class="panel-title">Navigasi Bab</div>
           <ul class="panel-list">
-            <li><a href="#" onclick="showPage('bab1');return false;">I — Pendahuluan</a></li>
-            <li><a href="#" onclick="showPage('bab2');return false;">II — Landasan Teori</a></li>
-            <li><a href="#" onclick="showPage('bab3');return false;">III — Metode Penelitian</a></li>
-            <li><a href="#" onclick="showPage('bab4');return false;">IV — Hasil & Pembahasan</a></li>
-            <li><a href="#" onclick="showPage('bab5');return false;">V — Penutup</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab1.html';return false;">I — Pendahuluan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab2.html';return false;">II — Landasan Teori</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab3.html';return false;">III — Metode Penelitian</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab4.html';return false;">IV — Hasil & Pembahasan</a></li>
+            <li><a href="#" onclick="window.top.location.href='bab5.html';return false;">V — Penutup</a></li>
           </ul>
         </div>
       </aside>
@@ -1847,14 +1847,13 @@
     setTimeout(initReveal, 100);
   }
 
-  /* ── NAV PILL INDICATOR (fix #5: pill follows clicked item) ── */
+  /* ── NAV PILL INDICATOR ── */
   function updateNavPill(activeId) {
     const pill = document.getElementById('navPill');
     const container = document.getElementById('navLinks');
     if (!pill || !container) return;
 
     if (!activeId) {
-      // No active nav-link item; hide pill gracefully
       pill.style.opacity = '0';
       return;
     }
@@ -1862,35 +1861,45 @@
     const activeEl = document.getElementById(activeId);
     if (!activeEl) { pill.style.opacity = '0'; return; }
 
-    const containerRect = container.getBoundingClientRect();
-    const elRect = activeEl.getBoundingClientRect();
-
-    pill.style.opacity = '1';
-    pill.style.width = elRect.width + 'px';
-    pill.style.transform = `translateX(${elRect.left - containerRect.left}px)`;
+    // Use rAF so layout is settled before measuring
+    requestAnimationFrame(() => {
+      const containerRect = container.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      pill.style.opacity = '1';
+      pill.style.width = elRect.width + 'px';
+      pill.style.transform = `translateX(${elRect.left - containerRect.left}px)`;
+    });
   }
 
-  /* ── SCROLL TO SECTION (only on home page) ── */
+  /* ── GO HOME ── */
+  function goHome() {
+    showPage('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const el = document.getElementById('nl-home');
+    if (el) el.classList.add('active');
+    updateNavPill('nl-home');
+  }
+
+  /* ── SCROLL TO SECTION (stay on home page, no reload) ── */
   function goSection(id) {
     if (!document.getElementById('page-home').classList.contains('active')) {
       showPage('home');
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 320);
+      }, 120);
     } else {
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    // Move pill to corresponding nav link
     const idMap = { about: 'nl-tentang', findings: 'nl-temuan', team: 'nl-tim' };
     const navId = idMap[id];
     if (navId) {
-      // Remove active from all nav links first
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      const el = document.getElementById(navId);
-      if (el) {
-        el.classList.add('active');
+      const navEl = document.getElementById(navId);
+      if (navEl) {
+        navEl.classList.add('active');
         updateNavPill(navId);
       }
     }
@@ -1956,10 +1965,11 @@
 
 
   window.addEventListener('load', () => {
-    updateNavPill('nl-home');
+    // Double rAF ensures fonts and layout are fully settled
+    requestAnimationFrame(() => requestAnimationFrame(() => updateNavPill('nl-home')));
   });
-  // Also update after fonts/layout settle
-  setTimeout(() => updateNavPill('nl-home'), 500);
+  // Fallback after fonts settle
+  setTimeout(() => updateNavPill('nl-home'), 600);
 
   /* ── FIELD CAROUSEL ── */
   (function(){
@@ -1999,3 +2009,4 @@
 </script>
 </body>
 </html>
+      
