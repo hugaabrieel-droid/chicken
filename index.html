@@ -108,7 +108,34 @@
     }
 
     /* ── PER-PAGE BACKGROUND TINTS ── */
-    body[data-page="home"]   { --page-bg: linear-gradient(180deg, #f6f0e5 0%, #ebe3d3 100%); }
+    body[data-page="home"]   { --page-bg: linear-gradient(180deg, #f7ede0 0%, #f0dfc8 50%, #e8d0b8 100%); }
+
+    /* ── DIAGONAL LINES OVERLAY (home only) ── */
+    body[data-page="home"]::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(160, 110, 60, 0.045) 0px,
+        rgba(160, 110, 60, 0.045) 1px,
+        transparent 1px,
+        transparent 28px
+      );
+    }
+    [data-theme="dark"] body[data-page="home"]::before {
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(200, 150, 80, 0.055) 0px,
+        rgba(200, 150, 80, 0.055) 1px,
+        transparent 1px,
+        transparent 28px
+      );
+    }
+    body[data-page="home"] #page-home { position: relative; z-index: 1; }
+
     body[data-page="bab1"]   { --page-bg: linear-gradient(180deg, #eef5e7 0%, #dfe9d5 100%); }
     body[data-page="bab2"]   { --page-bg: linear-gradient(180deg, #e8f1f5 0%, #d7e5ec 100%); }
     body[data-page="bab3"]   { --page-bg: linear-gradient(180deg, #f6eee4 0%, #eadbc9 100%); }
@@ -294,17 +321,10 @@
       position: relative; overflow: hidden;
     }
     .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-    .hero-bg::before {
-      content: ''; position: absolute;
-      width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(163,181,138,.22) 0%, transparent 70%);
-      top: -200px; right: -200px;
-    }
-    .hero-bg::after {
-      content: ''; position: absolute;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,116,74,.12) 0%, transparent 70%);
-      bottom: -150px; left: -100px;
+    #heroCanvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
     }
     .hero-grain {
       position: absolute; inset: 0;
@@ -810,8 +830,7 @@
 <div id="page-home" class="page active">
 
   <section id="home">
-    <div class="hero-bg"><div class="hero-grain"></div></div>
-    <span class="feather-deco">🐔</span>
+    <div class="hero-bg"><canvas id="heroCanvas"></canvas><div class="hero-grain"></div></div>
     <div class="hero-content">
       <div class="hero-badge">
         <span class="badge-dot"></span>
@@ -2006,7 +2025,108 @@
     }
   })();
 
+  /* ── HERO PARTICLE CANVAS ── */
+  (function () {
+    const canvas = document.getElementById('heroCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // Colour palettes for light / dark
+    const PALETTES = {
+      light: [
+        'rgba(196,116,74,',   // terracotta
+        'rgba(184,134,11,',   // amber
+        'rgba(107,124,82,',   // moss
+        'rgba(201,184,130,',  // straw
+        'rgba(163,181,138,',  // sage
+      ],
+      dark: [
+        'rgba(196,116,74,',
+        'rgba(200,150,12,',
+        'rgba(107,124,82,',
+        'rgba(138,120,72,',
+        'rgba(114,133,96,',
+      ]
+    };
+
+    let W, H, particles = [], animId;
+
+    function getTheme() {
+      return document.documentElement.getAttribute('data-theme') || 'light';
+    }
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      W = canvas.width  = rect.width  || window.innerWidth;
+      H = canvas.height = rect.height || window.innerHeight;
+    }
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    function mkParticle() {
+      const size = rand(2, 6);
+      return {
+        x: rand(0, W),
+        y: rand(0, H),
+        r: size,
+        // slow drift: mostly upward with gentle horizontal wobble
+        vx: rand(-0.18, 0.18),
+        vy: rand(-0.35, -0.08),
+        alpha: rand(0.12, 0.55),
+        // each particle fades in/out at its own rate
+        phase: rand(0, Math.PI * 2),
+        freq:  rand(0.004, 0.012),
+        colorIdx: Math.floor(rand(0, PALETTES.light.length)),
+      };
+    }
+
+    function init() {
+      resize();
+      const count = Math.floor((W * H) / 9000); // density: ~1 per 9000px²
+      particles = Array.from({ length: Math.min(count, 110) }, mkParticle);
+    }
+
+    function draw(ts) {
+      ctx.clearRect(0, 0, W, H);
+      const palette = PALETTES[getTheme()];
+
+      for (const p of particles) {
+        // pulsing opacity
+        const pulse = 0.5 + 0.5 * Math.sin(p.phase + ts * p.freq);
+        const a = p.alpha * pulse;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = palette[p.colorIdx] + a.toFixed(3) + ')';
+        ctx.fill();
+
+        // drift
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // wrap: when particle drifts off top, reset at bottom
+        if (p.y + p.r < 0)  { p.y = H + p.r; p.x = rand(0, W); }
+        if (p.x + p.r < 0)  p.x = W + p.r;
+        if (p.x - p.r > W)  p.x = -p.r;
+      }
+
+      animId = requestAnimationFrame(draw);
+    }
+
+    // Pause when page is hidden (battery friendly)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { cancelAnimationFrame(animId); }
+      else { animId = requestAnimationFrame(draw); }
+    });
+
+    window.addEventListener('resize', () => { resize(); });
+
+    init();
+    animId = requestAnimationFrame(draw);
+  })();
+
+
 </script>
 </body>
 </html>
-      
+  
