@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Biosekuriti Unggas — Desa Sukaruas</title>
+  <title>Avian Influenza — TESIS 36</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
@@ -412,8 +412,7 @@
     .info-card-text { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
 
     /* ── KEY FINDINGS ── */
-    #findings { background: var(--warm); padding: 100px 24px; }
-    [data-theme="dark"] #findings { background: var(--surface); }
+    #findings { background: transparent; padding: 100px 24px; }
     .findings-inner { max-width: 1100px; margin: 0 auto; }
     .findings-header { text-align: center; margin-bottom: 56px; }
     .findings-header .section-body { margin: 0 auto; }
@@ -430,8 +429,13 @@
     .finding-card:nth-child(3)::before { background: var(--amber); }
     .finding-card:nth-child(4)::before { background: var(--sage); }
     .finding-card:nth-child(5)::before { background: var(--straw); }
-    .finding-num { font-family: 'DM Serif Display', serif; font-size: 3rem; color: var(--feather); line-height: 1; margin-bottom: 16px; }
-    [data-theme="dark"] .finding-num { opacity: .4; }
+    .finding-num { font-family: 'DM Serif Display', serif; font-size: 3rem; line-height: 1; margin-bottom: 16px; opacity: .22; }
+    .finding-card:nth-child(1) .finding-num { color: var(--terracotta); }
+    .finding-card:nth-child(2) .finding-num { color: var(--moss); }
+    .finding-card:nth-child(3) .finding-num { color: var(--amber); }
+    .finding-card:nth-child(4) .finding-num { color: var(--sage); }
+    .finding-card:nth-child(5) .finding-num { color: var(--straw); }
+    .finding-card:hover .finding-num { opacity: .45; transition: opacity .2s; }
     .finding-title { font-weight: 600; font-size: 1rem; color: var(--text); margin-bottom: 10px; }
     .finding-text { font-size: .88rem; line-height: 1.65; color: var(--text-muted); }
 
@@ -2135,4 +2139,3 @@
 </script>
 </body>
 </html>
-  
