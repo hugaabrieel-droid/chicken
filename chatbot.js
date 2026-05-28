@@ -1,42 +1,43 @@
 // ==========================================
-// DATA PENELITIAN TESIS 36 (INTERAKTIF & HUMANIS)
+// DATA PENELITIAN TESIS 36 (VERSI FINAL REVISI LINK)
 // ==========================================
 const BOT_RESPONSES = {
-  default: "Sori bro, gw belum paham maksud lu. Coba tanya hal lain seputar riset TESIS 36, klik tombol pintas di bawah, atau kalau ada kendala bisa hubungi tim gw via WhatsApp di 087719627045 atau DM Instagram @hugaabrieel ya!",
+  default: `Sori bro, gw belum paham maksud lu. Coba tanya hal lain seputar riset TESIS 36 atau klik tombol pintas di bawah. 
+
+Kalau butuh bantuan lebih lanjut, langsung chat tim gw aja lewat tautan ini:
+👉 <a href="https://api.whatsapp.com/send?phone=6287719627045&text=halo,%20saya%20ingin%20bertanya%20sesuatu%20tentang%20TESIS%2036" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">Hubungi via WhatsApp</a> atau DM Instagram <a href="https://instagram.com/hugaabrieel" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">@hugaabrieel</a>!`,
   
   halo: "Halo juga bro! Selamat datang! Ada yang bisa gw bantu seputar penelitian kualitatif TESIS 36? Tanya aja santai, gw siap nemenin ngobrol.",
   
-  ringkasan: `Inti Riset: Riset kualitatif ini menganalisis celah kritis biosekuriti peternak unggas rakyat terhadap virus Flu Burung (H5N1) di Kampung Sukaruas, Tasikmalaya.
-  Temuan Utama: Kebanyakan peternak mandiri abai APD (masker/baju khusus) dan minim sekat disinfeksi kandang akibat keterbatasan modal ekonomi.`,
+  ringkasan: `<b>Inti Riset:</b> Riset kualitatif ini menganalisis celah kritis biosekuriti peternak unggas rakyat terhadap virus Flu Burung (H5N1) di Kampung Sukaruas, Tasikmalaya.
   
-  jurnal: `Referensi Utama Riset:
+  <b>Temuan Utama:</b> Kebanyakan peternak mandiri abai APD (masker/baju khusus) dan minim sekat disinfeksi kandang akibat keterbatasan modal ekonomi.`,
+  
+  jurnal: `<b>Referensi Utama Riset:</b>
   1. Standar Sanitasi Global: Panduan Biosekuriti FAO (2008).
   2. Mitigasi Transmisi Unggas-Manusia: Data GISRS WHO (2024).
   3. Dampak Ekonomi: Jurnal Epidemiologi Kesehatan Komunitas terkait kendala finansial peternak kecil.`,
   
-  lokasi: "Lokasi & Waktu: Sektor peternakan unggas Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat. Pengambilan data lapangan dilakukan pada 21–24 Januari 2026.",
+  lokasi: "<b>Lokasi & Waktu:</b> Sektor peternakan unggas Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat. Pengambilan data lapangan dilakukan pada 21–24 Januari 2026.",
 
-  tujuan: "Tujuan: Mengidentifikasi sejauh mana penerapan higienitas kandang oleh peternak mandiri, sekaligus memetakan hambatan finansial dan struktural nyata mereka dalam memutus rantai penyebaran H5N1.",
+  tujuan: "<b>Tujuan:</b> Mengidentifikasi sejauh mana penerapan higienitas kandang oleh peternak mandiri, sekaligus memetakan hambatan finansial dan struktural nyata mereka dalam memutus rantai penyebaran H5N1.",
 
-  saran: "Rekomendasi Riset: Peternak butuh subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
+  saran: "<b>Rekomendasi Riset:</b> Peternak butuh subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
 
-  jenis: "Jenis Penelitian: Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara kontekstual.",
+  jenis: "<b>Jenis Penelitian:</b> Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara kontekstual.",
 
-  responden: "Subjek/Responden: Para peternak unggas mandiri (skala kecil/rakyat) di Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dan akurat.",
+  responden: "<b>Subjek/Responden:</b> Para peternak unggas mandiri (skala kecil/rakyat) di Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dan akurat.",
 
-  latar_belakang: "Latar Belakang: Virus Avian Influenza (H5N1) masih endemis dan mengancam peternakan rakyat. Kampung Sukaruas dipilih karena aktivitas peternakan mandirinya tinggi, namun penerapan biosekuritinya fluktuatif akibat benturan ekonomi."
+  latar_belakang: "<b>Latar Belakang:</b> Virus Avian Influenza (H5N1) masih endemis dan mengancam peternakan rakyat. Kampung Sukaruas dipilih karena aktivitas peternakan mandirinya tinggi, namun penerapan biosekuritinya fluktuatif akibat benturan ekonomi."
 };
 
-// Logika Pintar untuk memetakan respon obrolan chat
 function getSimulatedResponse(inputText) {
   const text = inputText.toLowerCase().trim();
   
-  // 1. Deteksi Pujian / Apresiasi (Family Friendly)
   if (text.includes("keren") || text.includes("bagus") || text.includes("mantap") || text.includes("hebat") || text.includes("terima kasih") || text.includes("makasih") || text.includes("top")) {
     return "Wah, terima kasih banyak atas pujiannya bro! Makasih udah sempetin mampir dan nyoba chatbot ini. Semoga lu sehat selalu, dilancarkan segala urusannya, dan sukses terus ya! Berkah selalu! 🙌✨";
   }
 
-  // 2. Deteksi Obrolan Santai / Ajakan Ngobrol
   if (text.includes("lagi apa") || text.includes("sedang apa")) {
     return "Lagi siap siaga nungguin lu nanya seputar TESIS 36 nih, bro! Hehe. Lu sendiri lagi sibuk apa?";
   }
@@ -47,12 +48,16 @@ function getSimulatedResponse(inputText) {
     return "Gw Chatbot pintar asisten riset TESIS 36. Tugas gw nemenin lu ngobrol dan jawab info seputar riset unggas di Tasikmalaya!";
   }
 
-  // 3. Deteksi Butuh Kontak / Pertanyaan Lain / Bingung
+  // Tautan WA Otomatis dengan template text pesanan lu bro
   if (text.includes("kontak") || text.includes("wa") || text.includes("whatsapp") || text.includes("ig") || text.includes("instagram") || text.includes("tanya lain") || text.includes("hubungi")) {
-    return "Kalau butuh diskusi lebih lanjut atau ada pertanyaan khusus yang gak ada di menu, langsung hubungi tim gw aja bro! \n\n📱 WhatsApp: 087719627045 \n📸 Instagram: @hugaabrieel \n\nMereka ramah banget kok, bakal siap bantu lu!";
+    return `Kalau butuh diskusi lebih lanjut atau mau nanya langsung ke gw, klik aja link di bawah ini bro!
+    
+    📱 <b>WhatsApp:</b> <a href="https://api.whatsapp.com/send?phone=6287719627045&text=halo,%20saya%20ingin%20bertanya%20sesuatu%20tentang%20TESIS%2036" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">Hubungi via WA (Klik Sini)</a>
+    📸 <b>Instagram:</b> <a href="https://instagram.com/hugaabrieel" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">@hugaabrieel (Klik Sini)</a>
+    
+    Gw bakalan siap bantu jawab pertanyaan lu secepatnya!`;
   }
 
-  // 4. Keyword Utama Riset
   if (text.includes("halo") || text.includes("hai") || text === "p") return BOT_RESPONSES.halo;
   if (text.includes("ringkasan") || text.includes("rangkuman") || text.includes("kesimpulan") || text.includes("inti")) return BOT_RESPONSES.ringkasan;
   if (text.includes("jurnal") || text.includes("referensi") || text.includes("pustaka") || text.includes("buku")) return BOT_RESPONSES.jurnal;
@@ -67,14 +72,14 @@ function getSimulatedResponse(inputText) {
 }
 
 const chatbotHTML = `
-<div id="cb-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
+<div id="cb-widget" style="position: fixed; bottom: 25px; right: 85px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
   <!-- Tombol Utama Bulat Minimalis -->
   <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
     <span id="cb-icon" style="display: inline-block;">🐓</span>
   </div>
   
-  <!-- Panel Chat Interface (Responsive & Adaptif Layar) -->
-  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
+  <!-- Panel Chat Interface -->
+  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: -10px; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <!-- Header -->
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
@@ -87,7 +92,7 @@ const chatbotHTML = `
     <!-- Wadah Pesan -->
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <!-- Quick Reply Container dengan Scrollbar Indikator Tipis Berwarna Senada -->
+    <!-- Quick Reply Container -->
     <div id="cb-quick-replies" style="display: flex; flex-direction: row; gap: 6px; padding: 6px 14px 10px 14px; background: #ebdcb9; overflow-x: auto; white-space: nowrap; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
       <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pustaka</button>
@@ -129,7 +134,6 @@ style.innerHTML = `
   .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); white-space: pre-line; }
   .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
-  /* Animasi Dot Mengetik WA Style */
   .cb-dot { display: inline-block; width: 6px; height: 6px; background-color: #5c4a2a; border-radius: 50%; margin-right: 3px; animation: cbPulse 1s infinite ease-in-out; }
   .cb-dot:nth-child(2) { animation-delay: 0.2s; }
   .cb-dot:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
@@ -146,7 +150,6 @@ style.innerHTML = `
   .cb-qr-btn { display: inline-flex; align-items: center; background: rgba(253, 250, 244, 0.83); border: 1px solid rgba(92,74,42,0.12); color: #5c4a2a; padding: 5px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
   .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
-  /* Custom Scrollbar Menu Pintas biar ketahuan bisa di-geser */
   #cb-quick-replies::-webkit-scrollbar { height: 4px; }
   #cb-quick-replies::-webkit-scrollbar-track { background: rgba(92,74,42,0.05); border-radius: 10px; }
   #cb-quick-replies::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.25); border-radius: 10px; }
@@ -167,7 +170,6 @@ function initChatbot() {
     chatBox.style.display = 'flex';
   }
   
-  // Sistem reset histori saat murni refresh halaman halaman
   const isNavigating = sessionStorage.getItem('cb_navigating');
   if (!isNavigating) {
     localStorage.removeItem('chat_history');
@@ -237,7 +239,6 @@ function sendMessage() {
   input.value = '';
   checkInputToggle(); 
 
-  // BIKIN BUBBLE TYPING ANIMATION (3 TITIK PULSE) ALA WHATSAPP
   const typingDiv = document.createElement('div');
   typingDiv.classList.add('cb-msg', 'cb-bot');
   typingDiv.id = 'cb-typing-indicator';
@@ -252,15 +253,20 @@ function sendMessage() {
 
     const botReply = getSimulatedResponse(text);
     appendMessage('bot', botReply, true);
-  }, 900); // 0.9 detik jeda mengetik biar kerasa natural
+  }, 900); 
 }
 
+// MENGGANTI INNERTEXT MENJADI INNERHTML BIAR LINK & FORMAT BOLD AKTIF DI CHAT
 function appendMessage(sender, text, save = false) {
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('cb-msg', `cb-${sender}`);
-  msgDiv.innerText = text;
+  msgDiv.innerHTML = text; 
   msgContainer.appendChild(msgDiv);
-  msgContainer.scrollTop = msgContainer.scrollHeight;
+  
+  // Memastikan scroll bar otomatis turun penuh sesudah pesan masuk
+  setTimeout(() => {
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+  }, 50);
 
   if (save) {
     const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
@@ -269,7 +275,6 @@ function appendMessage(sender, text, save = false) {
   }
 }
 
-// LOGIKA SMART DRAG VS CLICK UNTUK FIX BUG DI LAYAR HP
 function makeSmartInteraction(elmnt, dragAnchor) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   let startX = 0, startY = 0;
@@ -351,7 +356,7 @@ function adjustChatBoxPosition() {
     chatBox.style.left = "0px";
   } else {
     chatBox.style.left = "auto";
-    chatBox.style.right = "0px";
+    chatBox.style.right = "-10px";
   }
 
   if (rect.top < 470) {
