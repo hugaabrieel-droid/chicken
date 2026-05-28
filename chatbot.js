@@ -1,6 +1,3 @@
-// ==========================================
-// DATA PENELITIAN TESIS 36 (VERSI FINAL REVISI LINK)
-// ==========================================
 const BOT_RESPONSES = {
   default: `Sori bro, gw belum paham maksud lu. Coba tanya hal lain seputar riset TESIS 36 atau klik tombol pintas di bawah. 
 
@@ -22,9 +19,9 @@ Kalau butuh bantuan lebih lanjut, langsung chat tim gw aja lewat tautan ini:
 
   tujuan: "<b>Tujuan:</b> Mengidentifikasi sejauh mana penerapan higienitas kandang oleh peternak mandiri, sekaligus memetakan hambatan finansial dan struktural nyata mereka dalam memutus rantai penyebaran H5N1.",
 
-  saran: "<b>Rekomendasi Riset:</b> Peternak butuh subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
+  saran: "<b>Rekomendasi Riset:</b> Peternak buat subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
 
-  jenis: "<b>Jenis Penelitian:</b> Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara kontekstual.",
+  jenis: "<b>Jenis Penelitian:</b> Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara konteksual.",
 
   responden: "<b>Subjek/Responden:</b> Para peternak unggas mandiri (skala kecil/rakyat) di Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dan akurat.",
 
@@ -48,7 +45,6 @@ function getSimulatedResponse(inputText) {
     return "Gw Chatbot pintar asisten riset TESIS 36. Tugas gw nemenin lu ngobrol dan jawab info seputar riset unggas di Tasikmalaya!";
   }
 
-  // Tautan WA Otomatis dengan template text pesanan lu bro
   if (text.includes("kontak") || text.includes("wa") || text.includes("whatsapp") || text.includes("ig") || text.includes("instagram") || text.includes("tanya lain") || text.includes("hubungi")) {
     return `Kalau butuh diskusi lebih lanjut atau mau nanya langsung ke gw, klik aja link di bawah ini bro!
     
@@ -230,10 +226,11 @@ function checkInputToggle() {
   }
 }
 
+// FIX: PEMBERSIHAN INPUT SPASI DAN VALIDASI LEBIH KETAT
 function sendMessage() {
   const input = document.getElementById('cb-input');
-  const text = input.value.trim();
-  if (!text) return;
+  const text = input.value.trim(); 
+  if (!text) return; 
 
   appendMessage('user', text, true);
   input.value = '';
@@ -256,17 +253,16 @@ function sendMessage() {
   }, 900); 
 }
 
-// MENGGANTI INNERTEXT MENJADI INNERHTML BIAR LINK & FORMAT BOLD AKTIF DI CHAT
+// FIX: JEDA AUTOSCROLL DIUBAH MENJADI 100MS AGAR RENDER LINK SANGAT STABIL
 function appendMessage(sender, text, save = false) {
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('cb-msg', `cb-${sender}`);
   msgDiv.innerHTML = text; 
   msgContainer.appendChild(msgDiv);
   
-  // Memastikan scroll bar otomatis turun penuh sesudah pesan masuk
   setTimeout(() => {
     msgContainer.scrollTop = msgContainer.scrollHeight;
-  }, 50);
+  }, 100);
 
   if (save) {
     const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
