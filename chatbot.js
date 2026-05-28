@@ -27,14 +27,14 @@ Gaya Komunikasi:
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
   <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 130px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 13.5px; font-weight: 500;">
-    <span id="cb-icon" style="font-size: 18px; display: inline-block;">✨</span>
-    <span>Tanya AI</span>
+    <span id="cb-icon" style="font-size: 18px; display: inline-block;">🐔</span>
+    <span>Chat?</span>
   </div>
   
   <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
-        <span>🤖</span>
+        <span>🐔</span>
         <span>Asisten Pintar TESIS 36</span>
       </div>
       <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 22px; font-weight: 300; line-height: 1;">&times;</span>
