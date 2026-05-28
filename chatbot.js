@@ -1,7 +1,8 @@
 // ==========================================
 // CONFIGURATION - GEMINI API KEY INTEGRATED
 // ==========================================
-const GEMINI_API_KEY = "AQ.Ab8RN6IDbhRv2Y4dTBClDmzvlRoKcMMs4B9kxbXg3Le-S5yr-Q"; 
+// Menggunakan API Key terbaru lu yang dari "Gemini API Key 2"
+const GEMINI_API_KEY = "AQ.Ab8RN6J4xWhN3mWpHZLyAEXUCfy2YQ3HlLwMDUYH39A44KdDwQ"; 
 
 // System Instruction: Menjaga kepribadian bot tetap santai (gw-lu) & menguasai materi TESIS 36
 const SYSTEM_INSTRUCTION = `
@@ -14,7 +15,7 @@ Materi & Fakta Penelitian (Gunakan ini untuk menjawab pertanyaan):
 2. Fokus Penelitian: Studi kualitatif mengenai implementasi higienitas, sanitasi, dan biosekuriti peternak unggas mandiri/rakyat terhadap virus H5N1.
 3. Temuan Utama: Adanya celah kritis pada minimnya sekat disinfeksi, peternak sangat jarang memakai APD (terutama masker/pelindung pernapasan), serta adanya benturan modal ekonomi sebagai alasan utama rendahnya kepatuhan higienitas kandang.
 4. Jurnal/Dokumen Pendukung Utama:
-   - FAO (2008): "Biosecurity for Highly Pathogenic Devian Influenza: FAO Animal Production and Health Paper" (Standar sanitasi global).
+   - FAO (2008): "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper" (Standar sanitasi global).
    - WHO (2024): "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring" (Mitigasi transmisi unggas ke manusia).
    - Jurnal Epidemiologi & Kesehatan Komunitas tentang kendala struktural finansial peternak kecil.
 
@@ -225,10 +226,9 @@ async function sendMessage() {
     const indicator = document.getElementById('cb-typing-indicator');
     if (indicator) indicator.remove();
     
-    // FIX ERROR STATE: Tampilkan pesan error & pastikan quick replies reset kembali dengan aman
-    appendMessage('bot', 'Aduh sori bro, gagal nyambung ke otak AI. Coba cek API Key lu deh, kayaknya kepotong atau belum valid.', true);
+    appendMessage('bot', 'Aduh sori bro, gagal nyambung ke otak AI. Coba cek integrasi API Key-nya di konsol web lu.', true);
     chatContextHistory.pop(); 
-    checkInputToggle(); // Paksa quick reply muncul lagi biar user ga stuck
+    checkInputToggle(); 
     console.error("Gemini API Error: ", error);
   }
 }
