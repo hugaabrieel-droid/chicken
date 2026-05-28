@@ -162,6 +162,7 @@ async function sendMessage() {
   msgContainer.appendChild(loadingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
+  // Masukkan percakapan user ke history array
   chatContextHistory.push({ role: "user", parts: [{ text: text }] });
 
   try {
@@ -171,7 +172,7 @@ async function sendMessage() {
       body: JSON.stringify({
         contents: chatContextHistory,
         systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        generationConfig: { maxOutputTokens: 250, temperature: 0.7 }
+        generationConfig: { maxOutputTokens: 800, temperature: 0.7 } // Dioptimalkan ke 800 token agar tidak terpotong
       })
     });
 
@@ -189,6 +190,7 @@ async function sendMessage() {
 
     appendMessage('bot', botReply, true);
 
+    // Amankan history percakapan timbal balik
     chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
     localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
 
