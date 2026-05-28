@@ -1,34 +1,32 @@
 // ==========================================
-// DATA PENELITIAN TESIS 36 (REVISI MATANG & PADAT)
+// DATA PENELITIAN TESIS 36 (RULE-BASED SYSTEM)
 // ==========================================
 const BOT_RESPONSES = {
   default: "Sori bro, gw gak paham maksud lu. Coba tanya hal lain seputar riset TESIS 36, atau klik aja tombol pintas di bawah biar cepet!",
   
   halo: "Halo juga bro! Ada yang bisa gw bantu seputar penelitian TESIS 36? Tanya aja santai.",
   
-  ringkasan: `Riset kualitatif deskriptif ini berfokus pada analisis perilaku dan kendala peternak unggas mandiri dalam menerapkan biosekuriti terhadap virus Avian Influenza (H5N1) di Kampung Sukaruas, Tasikmalaya.
-
-Temuan Utama lapangan menunjukkan adanya celah biosekuriti yang kritis:
-1. Minimnya penggunaan APD (masker/baju khusus) saat kontak langsung dengan unggas.
-2. Absennya sekat desinfeksi kendaraan dan pembatasan zona steril di area kandang.
-3. Faktor determinan utama adalah hambatan ekonomi (keterbatasan modal) pada sektor peternakan rakyat untuk membangun fasilitas standar.`,
+  ringkasan: `Ringkasan Penelitian TESIS 36:
+  Riset kualitatif deskriptif ini menganalisis implementasi biosekuriti peternak unggas mandiri terhadap virus Avian Influenza (H5N1) di Kampung Sukaruas, Tasikmalaya. 
   
-  jurnal: `Riset ini dipijak oleh tiga landasan literatur utama:
-1. Standardisasi Biosekuriti Global (FAO, 2008) - Mengenai pedoman teknis higienitas peternakan skala kecil-menengah.
-2. Protokol Mitigasi Zoonosis (WHO, 2024) - Panduan pengawasan transmisi influenza dari unggas ke manusia berbasis GISRS.
-3. Studi Epidemiologi & Sosio-Ekonomi - Menyoroti korelasi antara keterbatasan finansial peternak mandiri dengan kerentanan penyebaran wabah di daerah rural.`,
+  Temuan Utama: Kesadaran peternak sudah ada, namun penerapan riil di lapangan masih memiliki celah kritis (seperti absennya APD/masker dan minimnya penyekatan disinfeksi area kandang). Hal ini terjadi akibat benturan keterbatasan modal ekonomi peternak rakyat dalam skala mandiri.`,
   
-  lokasi: "Studi kasus lapangan ini dilaksanakan di Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat. Pengambilan data primer berupa wawancara mendalam dan observasi kandang dilakukan pada tanggal 21–24 Januari 2026 kemarin.",
+  jurnal: `Riset ini didukung oleh tiga pilar literatur utama, bro:
+  1. Standar Biosekuriti Global FAO (2008) - Mengenai regulasi sanitasi peternakan di negara berkembang.
+  2. Panduan Mitigasi Transmisi WHO (2024) - Melalui sistem GISRS untuk memutus rantai penularan zoonosis dari unggas ke manusia.
+  3. Jurnal Epidemiologi Veteriner & Kebijakan Publik - Terkait analisis dampak finansial terhadap kepatuhan peternak kecil.`,
+  
+  lokasi: "Studi lapangan dilakukan secara mendalam di pemukiman peternakan unggas rakyat Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat. Pengambilan data primer dilaksanakan selama periode tanggal 21–24 Januari 2026.",
 
-  tujuan: "Tujuan utama riset ini adalah mengidentifikasi tingkat pemahaman peternak mandiri mengenai rantai penularan H5N1, mengevaluasi implementasi nyata biosekuriti di kandang, serta memetakan hambatan struktural dan ekonomi yang dihadapi peternak dalam memutus mata rantai virus.",
+  tujuan: "Tujuan utama riset ini adalah memetakan tingkat kepatuhan higienitas kandang peternak mandiri, sekaligus mengidentifikasi hambatan sosio-ekonomi yang mereka hadapi secara nyata dalam memutus rantai penyebaran virus H5N1.",
 
-  saran: "Rekomendasi taktis dari riset ini meliputi:\n1. Pemerintah Daerah perlunya skema subsidi penyediaan desinfektan dan APD bagi peternak mandiri.\n2. Pendekatan edukasi non-formal yang berkala (tidak kaku/teoretis) agar peternak paham pentingnya zonasi kandang dan proteksi diri.",
+  saran: "Rekomendasi Riset: Peternak mandiri memerlukan intervensi berupa subsidi disinfektan dan APD dari dinas terkait, serta model edukasi partisipatif yang tidak kaku agar mereka memahami urgensi pembatasan zonasi kandang secara konsisten.",
 
-  jenis: "Riset ini murni menggunakan pendekatan KUALITATIF DESKRIPTIF dengan metode studi kasus. Riset tidak memakai olah data statistik (kuantitatif), melainkan berfokus pada kedalaman data, narasi perilaku, dan analisis kontekstual di lapangan.",
+  jenis: "Riset ini murni menggunakan pendekatan KUALITATIF dengan metode deskriptif analitis. Data tidak diukur dengan angka statistik/kuantitatif, melainkan melalui teknik wawancara mendalam dan observasi lingkungan kandang untuk menjabarkan fenomena sosial di lapangan.",
 
-  responden: "Informan utama (responden) ditentukan melalui teknik purposive sampling, yaitu para peternak unggas mandiri/rakyat di Kampung Sukaruas yang mengelola kandang secara mandiri tanpa terikat korporasi besar, sehingga didapatkan data hambatan modal yang valid.",
+  responden: "Subjek data atau informan utama riset ini meliputi para peternak unggas mandiri (skala kecil/rakyat) di wilayah Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dengan kriteria riset biosekuriti.",
 
-  latar_belakang: "Didasari oleh fluktuasi kasus Avian Influenza (H5N1) yang masih mengancam sektor peternakan rakyat. Kampung Sukaruas dipilih sebagai lokus karena mobilitas peternakan mandirinya tinggi, namun di sisi lain memiliki kerentanan besar akibat penerapan biosekuriti yang masih minim karena benturan modal."
+  latar_belakang: "Latar Belakang: Virus Avian Influenza (H5N1) tetap menjadi ancaman endemis dengan risiko mutasi zoonosis yang tinggi. Kampung Sukaruas dipilih sebagai lokus karena sektor peternakan mandirinya aktif namun rentan akibat fluktuasi penerapan standar biosekuriti."
 };
 
 // Fungsi pencari jawaban berdasarkan kata kunci (Keyword Matching)
@@ -68,8 +66,8 @@ function getSimulatedResponse(inputText) {
 
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
-  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: default; box-shadow: 0 6px 20px rgba(78,94,56,0.35); user-select: none;">
-    <span id="cb-icon" style="font-size: 22px; display: inline-block;">🐓</span>
+  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: default; box-shadow: 0 6px 20px rgba(78,94,56,0.35); user-select: none; font-size: 22px;">
+    <span id="cb-icon" style="display: inline-block;">🐓</span>
   </div>
   
   <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
@@ -78,7 +76,9 @@ const chatbotHTML = `
         <span>🐔</span>
         <span>Chatbot TESIS 36</span>
       </div>
-      <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 11px; font-weight: bold; background: rgba(255,255,255,0.15); padding: 4px 8px; border-radius: 12px; transition: background 0.2s;">CLOSE</span>
+      <div id="cb-close" onclick="toggleChat()" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; transition: background 0.2s;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
     </div>
     
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
@@ -114,21 +114,21 @@ style.innerHTML = `
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 85%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+  .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
   .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); white-space: pre-line; }
   .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
-  #cb-button:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(78,94,56,0.4); }
+  #cb-button:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(78,94,56,0.45); }
   #cb-button:hover #cb-icon { animation: cbRotate 0.5s ease-in-out; }
-  #cb-button:active { transform: scale(0.94); }
+  #cb-button:active { transform: scale(0.95); }
   
-  #cb-close:hover { background: rgba(255,255,255,0.3) !important; }
+  #cb-close:hover { background: rgba(250, 247, 241, 0.2); color: #ff8a8a; }
   #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
   #cb-send:hover { background: #4e5e38; }
   
-  .cb-qr-btn { display: inline-flex; align-items: center; background: rgba(253, 250, 244, 0.8); border: 1px solid rgba(92,74,42,0.12); color: #5c4a2a; padding: 5px 11px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
-  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; }
+  .cb-qr-btn { display: inline-flex; align-items: center; background: rgba(253, 250, 244, 0.8); border: 1px solid rgba(92,74,42,0.12); color: #5c4a2a; padding: 5px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
+  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
   #cb-quick-replies::-webkit-scrollbar { height: 0px; background: transparent; }
   #cb-messages::-webkit-scrollbar { width: 4px; }
@@ -162,13 +162,13 @@ function initChatbot() {
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
 
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas seputar riset, sapa gw, atau geser tombol cepat di bawah biar instan.');
+    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau geser tombol cepat di bawah biar instan.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
   
   checkInputToggle();
-  setupSmartTouchDrag(cbWidget, cbButton);
+  makeDraggable(cbWidget, cbButton);
 }
 
 function toggleChat() {
@@ -245,86 +245,80 @@ function appendMessage(sender, text, save = false) {
   }
 }
 
-// SISTEM FIX MOBILE BUG: Memisahkan Event Click dan Drag secara Sempurna via Threshold Jarak
-function setupSmartTouchDrag(elmnt, dragAnchor) {
+// LOGIKA DRAG TERBARU: Menyelesaikan isu bug ketukan sekali/long click di Smartphone
+function makeDraggable(elmnt, dragAnchor) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   let startX = 0, startY = 0;
-  let posX1 = 0, posX2 = 0, posY1 = 0, posY2 = 0;
-  let moveThreshold = 6; // Nilai piksel batas toleransi getaran jari sebelum dianggap 'drag'
-  let isDragging = false;
+  let isMoved = false;
 
-  // Handler PC
-  dragAnchor.addEventListener('mousedown', (e) => {
-    isDragging = false;
-    startX = e.clientX;
-    startY = e.clientY;
-    posX3 = e.clientX;
-    posX4 = e.clientY;
+  dragAnchor.onmousedown = startDrag;
+  dragAnchor.ontouchstart = startDrag;
 
-    document.onmousemove = (ev) => {
-      if (Math.abs(ev.clientX - startX) > moveThreshold || Math.abs(ev.clientY - startY) > moveThreshold) {
-        isDragging = true;
-      }
-      if (isDragging) {
-        posX1 = posX3 - ev.clientX;
-        posY1 = posX4 - ev.clientY;
-        posX3 = ev.clientX;
-        posX4 = ev.clientY;
-        updateElementPosition(elmnt, elmnt.offsetTop - posY1, elmnt.offsetLeft - posX1);
-      }
-    };
+  function startDrag(e) {
+    e = e || window.event;
+    isMoved = false;
+    
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+    
+    startX = clientX;
+    startY = clientY;
+    pos3 = clientX;
+    pos4 = clientY;
 
-    document.onmouseup = () => {
-      document.onmousemove = null;
-      document.onmouseup = null;
-      if (!isDragging) toggleChat();
-    };
-  });
+    if (e.type === 'mousedown') {
+      document.onmouseup = stopDrag;
+      document.onmousemove = moveElement;
+    } else if (e.type === 'touchstart') {
+      document.ontouchend = stopDrag;
+      document.ontouchmove = moveElement;
+    }
+  }
 
-  // Handler MOBILE Layar Sentuh (Aman Sekali Klik)
-  dragAnchor.addEventListener('touchstart', (e) => {
-    isDragging = false;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    posX3 = startX;
-    posX4 = startY;
-  }, { passive: true });
+  function moveElement(e) {
+    e = e || window.event;
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
 
-  dragAnchor.addEventListener('touchmove', (e) => {
-    let currentX = e.touches[0].clientX;
-    let currentY = e.touches[0].clientY;
-
-    if (Math.abs(currentX - startX) > moveThreshold || Math.abs(currentY - startY) > moveThreshold) {
-      isDragging = true;
+    // Jika bergeser lebih dari 5 piksel, tandai sebagai pergerakan geser (drag)
+    if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
+      isMoved = true;
     }
 
-    if (isDragging) {
-      posX1 = posX3 - currentX;
-      posY1 = posX4 - currentY;
-      posX3 = currentX;
-      posX4 = currentY;
-      updateElementPosition(elmnt, elmnt.offsetTop - posY1, elmnt.offsetLeft - posX1);
+    pos1 = pos3 - clientX;
+    pos2 = pos4 - clientY;
+    pos3 = clientX;
+    pos4 = clientY;
+
+    let newTop = elmnt.offsetTop - pos2;
+    let newLeft = elmnt.offsetLeft - pos1;
+
+    const maxTop = window.innerHeight - 60;
+    const maxLeft = window.innerWidth - 70;
+    if (newTop < 10) newTop = 10;
+    if (newTop > maxTop) newTop = maxTop;
+    if (newLeft < 10) newLeft = 10;
+    if (newLeft > maxLeft) newLeft = maxLeft;
+
+    elmnt.style.top = newTop + "px";
+    elmnt.style.left = newLeft + "px";
+    elmnt.style.bottom = "auto";
+    elmnt.style.right = "auto";
+
+    adjustChatBoxPosition();
+  }
+
+  function stopDrag() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+    document.ontouchend = null;
+    document.ontouchmove = null;
+
+    // Jika posisi tidak bergeser banyak, berarti eksekusi sebagai klik biasa (Langsung responsif!)
+    if (!isMoved) {
+      toggleChat();
     }
-  }, { passive: true });
-
-  dragAnchor.addEventListener('touchend', () => {
-    if (!isDragging) toggleChat();
-  });
-}
-
-function updateElementPosition(elmnt, top, left) {
-  const maxTop = window.innerHeight - 60;
-  const maxLeft = window.innerWidth - 70;
-  if (top < 10) top = 10;
-  if (top > maxTop) top = maxTop;
-  if (left < 10) left = 10;
-  if (left > maxLeft) left = maxLeft;
-
-  elmnt.style.top = top + "px";
-  elmnt.style.left = left + "px";
-  elmnt.style.bottom = "auto";
-  elmnt.style.right = "auto";
-
-  adjustChatBoxPosition();
+  }
 }
 
 function adjustChatBoxPosition() {
