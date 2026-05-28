@@ -96,6 +96,7 @@ const cbWidget = document.getElementById('cb-widget');
 const cbButton = document.getElementById('cb-button');
 const qrContainer = document.getElementById('cb-quick-replies');
 
+// Array penampung context history murni (hanya dikirim ke API)
 let chatContextHistory = [];
 
 function initChatbot() {
@@ -175,10 +176,12 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
+  // Tampilkan pesan user di UI & reset input text area
   appendMessage('user', text, true);
   input.value = '';
   checkInputToggle(); 
 
+  // Tampilkan efek loading ketik sederhana
   const loadingDiv = document.createElement('div');
   loadingDiv.classList.add('cb-msg', 'cb-bot');
   loadingDiv.id = 'cb-typing-indicator';
@@ -186,8 +189,13 @@ async function sendMessage() {
   msgContainer.appendChild(loadingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
-  // Masukkan input user terbaru ke dalam riwayat
-  chatContextHistory.push({ role: "user", parts: [{ text: text }] });
+  // AMAN: Validasi riwayat agar polanya selang-seling (user -> model -> user) sebelum di-push
+  if (chatContextHistory.length > 0 && chatContextHistory[chatContextHistory.length - 1].role === 'user') {
+    // Jika input ganda/cepat terjadi, gabungkan dengan teks sebelumnya agar API tidak crash
+    chatContextHistory[chatContextHistory.length - 1].parts[0].text += " " + text;
+  } else {
+    chatContextHistory.push({ role: "user", parts: [{ text: text }] });
+  }
 
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
@@ -206,23 +214,28 @@ async function sendMessage() {
     if (indicator) indicator.remove();
 
     let botReply = "";
-    // Validasi respons API agar aman dari bug blank screen
-    if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+    
+    // Protokol pengecekan respons berlapis agar tidak rentan blank screen
+    if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
       botReply = data.candidates[0].content.parts[0].text.trim();
+      
+      // Simpan balasan bot ke memory array setelah sukses divalidasi
+      chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
+      localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
     } else {
-      botReply = "Sori banget bro, koneksi ke AI sempat terputus sebentar. Boleh coba kirim ulang pertanyaannya?";
+      botReply = "Sori banget bro, koneksi AI sempat terputus sebentar. Boleh coba kirim ulang pertanyaannya?";
+      // Hapus data rusak terakhir dari riwayat agar tidak merusak sesi obrolan berikutnya
+      chatContextHistory.pop();
     }
 
     appendMessage('bot', botReply, true);
 
-    // Amankan respons bot ke riwayat agar sinkron
-    chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
-    localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
-
   } catch (error) {
     const indicator = document.getElementById('cb-typing-indicator');
     if (indicator) indicator.remove();
+    
     appendMessage('bot', 'Koneksi gagal atau API Key bermasalah nih. Coba dicek kembali ya.', true);
+    chatContextHistory.pop(); // Bersihkan sisa history yang gagal
     console.error("Gemini API Error: ", error);
   }
 }
