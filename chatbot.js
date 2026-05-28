@@ -1,11 +1,11 @@
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
-  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 120px; height: 50px; border-radius: 25px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 16px rgba(0,0,0,0.2); user-select: none; font-size: 14px; font-weight: 500;">
-    <span id="cb-icon" style="font-size: 20px; display: inline-block;">✨</span>
+  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 130px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 13.5px; font-weight: 500;">
+    <span id="cb-icon" style="font-size: 18px; display: inline-block;">✨</span>
     <span>Tanya AI</span>
   </div>
   
-  <div id="cb-box" style="display: none; width: 330px; height: 430px; background: #f4ede2; border: 1px solid rgba(90,70,40,.12); border-radius: 16px; box-shadow: 0 12px 36px rgba(90,70,40,.2); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
+  <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>🤖</span>
@@ -14,16 +14,16 @@ const chatbotHTML = `
       <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 22px; font-weight: 300; line-height: 1;">&times;</span>
     </div>
     
-    <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #f4ede2;"></div>
+    <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <div id="cb-quick-replies" style="display: flex; gap: 6px; padding: 8px 14px; background: #f4ede2; overflow-x: auto; white-space: nowrap; border-top: 1px solid rgba(90,70,40,.06);">
-      <button class="cb-qr-btn" onclick="sendQuickReply('📋 Ringkasan Penelitian')">📋 Ringkasan</button>
+    <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 6px; padding: 10px 14px; background: #ebdcb9; border-top: 1px solid rgba(92,74,42,0.1);">
+      <button class="cb-qr-btn" onclick="sendQuickReply('📋 Ringkasan Penelitian')">📋 Ringkasan Penelitian</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('📚 Jurnal Pendukung')">📚 Jurnal Pendukung</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('📍 Lokasi & Waktu')">📍 Lokasi & Waktu</button>
     </div>
 
-    <div id="cb-input-area" style="display: flex; border-top: 1px solid rgba(90,70,40,.1); background: #ffffff; padding: 4px;">
-      <input type="text" id="cb-input" placeholder="Tanya atau minta jurnal pendukung..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 12px; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
+    <div id="cb-input-area" style="display: flex; border-top: 1px solid rgba(92,74,42,0.15); background: #ffffff; padding: 4px;">
+      <input type="text" id="cb-input" placeholder="Tanya sesuatu atau ketik kata kunci..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 12px; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
       <button id="cb-send" onclick="sendMessage()" style="background: transparent; border: none; color: #6b7c52; padding: 0 16px; cursor: pointer; font-weight: 600; font-size: 12.5px;">Kirim</button>
     </div>
   </div>
@@ -32,33 +32,32 @@ const chatbotHTML = `
 
 document.body.insertAdjacentHTML('beforeend', chatbotHTML);
 
-// Injection Styles, Animasi Muter Ikon (Hover), Animasi Bubbly Terbuka (Pop)
+// Injection Styles, Animasi Muter Ikon (Hover), Animasi Bubbly Efek Pop Balon Chat
 const style = document.createElement('style');
 style.innerHTML = `
   @keyframes cbPop {
-    0% { transform: scale(0.6); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(0.7) translateY(10px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
   }
   @keyframes cbRotate {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
-  .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; }
-  .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; }
+  .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+  .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.1); }
+  .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
-  #cb-button:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+  #cb-button:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(78,94,56,0.4); }
   #cb-button:hover #cb-icon { animation: cbRotate 0.6s ease-in-out; }
-  #cb-button:active { transform: scale(0.95); }
+  #cb-button:active { transform: scale(0.96); }
   
-  .cb-qr-btn { background: #ffffff; border: 1px solid rgba(90,70,40,.15); color: #5c4a2a; padding: 6px 12px; border-radius: 15px; font-size: 11.5px; cursor: pointer; font-weight: 500; transition: all 0.2s; display: inline-block; }
-  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateY(-1px); }
+  /* Styling Tombol Pesan Cepat Ditumpuk */
+  .cb-qr-btn { background: #ffffff; border: 1px solid rgba(92,74,42,0.18); color: #5c4a2a; padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(92,74,42,0.05); }
+  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateX(2px); }
   
-  #cb-quick-replies::-webkit-scrollbar { display: none; }
-  #cb-quick-replies { -ms-overflow-style: none; scrollbar-width: none; }
   #cb-messages::-webkit-scrollbar { width: 4px; }
-  #cb-messages::-webkit-scrollbar-thumb { background: rgba(90,70,40,0.15); border-radius: 2px; }
+  #cb-messages::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.2); border-radius: 2px; }
 `;
 document.head.appendChild(style);
 
@@ -72,9 +71,23 @@ function initChatbot() {
     chatBox.style.display = 'flex';
   }
   
+  // LOGIKA CLEAR PERMANEN SAAT REFRESH HALAMAN (Kecuali pindah halaman lewat navigasi bab)
+  const isNavigating = sessionStorage.getItem('cb_navigating');
+  if (!isNavigating) {
+    localStorage.removeItem('chat_history');
+  }
+  sessionStorage.removeItem('cb_navigating');
+  
+  // Pasang listener pada semua link menu navigasi internal biar memori ga kehapus pas diklik
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      sessionStorage.setItem('cb_navigating', 'true');
+    });
+  });
+
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw sistem AI TESIS 36. Lu bisa minta ringkasan riset atau jurnal pendukung biosekuriti Avian Influenza (H5N1) di sini.');
+    appendMessage('bot', 'Halo! Gw sistem AI TESIS 36. Ada yang bisa dibantu terkait riset biosekuriti Avian Influenza (H5N1)? Lu juga bisa nanya ringkasan atau minta jurnal pendukung.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -112,18 +125,18 @@ function sendMessage() {
 
   setTimeout(() => {
     const query = text.toLowerCase();
-    let reply = 'Maaf, gw kurang paham. Coba minta "ringkasan", klik menu "jurnal pendukung", atau tanyakan "lokasi".';
+    let reply = 'Maaf, gw kurang paham konteksnya. Coba ketik perintah ringkas seperti "ringkasan", klik opsi "jurnal pendukung", atau tanyakan mengenai "lokasi".';
 
-    // Logika Pemrosesan Bahasa & Keyword Contextual Berdasarkan Permintaan User
-    if (query.includes('jurnal') || query.includes('pendukung') || query.includes('referensi') || query.includes('buku')) {
-      reply = 'Berikut beberapa jurnal pendukung biosekuriti unggas utama yang kami gunakan:\n\n' +
-              '1. FAO (2008) - "Biosecurity for Avian Influenza Consistent Guidelines"\n' +
-              '2. WHO (2024) - "Global Influenza Surveillance Protocols for H5N1"\n' +
-              '3. Jurnal Epidemiologi Indonesia - "Faktor Penghambat Implementasi Biosekuriti 3 Sektor Peternakan Rakyat".';
-    } else if (query.includes('ringkasan') || query.includes('summarize') || query.includes('kesimpulan') || query.includes('info')) {
-      reply = 'Abstrak/Ringkasan Riset:\nPenelitian kualitatif ini menganalisis penerapan biosekuriti peternak rakyat terhadap virus H5N1. Ditemukan hambatan utama berupa faktor struktural ekonomi, kurangnya kesadaran APD, dan keterbatasan sanitasi mandiri di area pemukiman padat.';
-    } else if (query.includes('lokasi') || query.includes('tempat') || query.includes('kapan') || query.includes('waktu')) {
-      reply = 'Studi kasus lapangan ini dilaksanakan secara kualitatif di Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat pada rentang tanggal 21-24 Januari 2026.';
+    // Konteks Cerdas: Meringkas otomatis & Menampilkan Jurnal Pendukung Riset
+    if (query.includes('jurnal') || query.includes('pendukung') || query.includes('referensi') || query.includes('buku') || query.includes('pustaka')) {
+      reply = 'Berikut adalah daftar dokumen serta jurnal pendukung utama yang mendasari analisis biosekuriti riset ini:\n\n' +
+              '• Food and Agriculture Organization (FAO, 2008) – "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper". Acuan standar prosedur sanitasi global.\n\n' +
+              '• World Health Organization (WHO, 2024) – "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring". Panduan mitigasi transmisi dari unggas ke manusia.\n\n' +
+              '• Jurnal Epidemiologi & Kesehatan Komunitas – "Analisis Kendala Struktural Finansial Peternakan Rakyat Menengah Kebawah dalam Penerapan Regulasi Biosekuriti 3 Sektor".';
+    } else if (query.includes('ringkasan') || query.includes('summarize') || query.includes('kesimpulan') || query.includes('abstrak') || query.includes('isi')) {
+      reply = 'Ringkasan Eksekutif Penelitian:\nStudi kualitatif ini menginvestigasi efektivitas penegakan biosekuriti peternak unggas mandiri di pemukiman semi-padat terhadap ancaman Avian Influenza (H5N1). Hasil analisis mendeteksi celah kritis pada minimnya ketersediaan sekat disinfeksi, absennya penggunaan APD standar pelindung pernapasan, serta benturan modal ekonomi sebagai pemicu utama rendahnya kepatuhan higienitas kandang.';
+    } else if (query.includes('lokasi') || query.includes('tempat') || query.includes('kapan') || query.includes('waktu') || query.includes('tasik')) {
+      reply = 'Pengumpulan data primer dan observasi lapangan dilakukan secara mendalam di kawasan peternakan rakyat Kampung Sukaruas, Kabupaten Tasikmalaya, Provinsi Jawa Barat. Studi ini berlangsung selama empat hari penuh, tepatnya pada 21 hingga 24 Januari 2026.';
     }
 
     appendMessage('bot', reply, true);
@@ -183,7 +196,7 @@ function makeDraggable(elmnt, dragAnchor) {
     let newLeft = elmnt.offsetLeft - pos1;
 
     const maxTop = window.innerHeight - 60;
-    const maxLeft = window.innerWidth - 130;
+    const maxLeft = window.innerWidth - 140;
     if (newTop < 10) newTop = 10;
     if (newTop > maxTop) newTop = maxTop;
     if (newLeft < 10) newLeft = 10;
@@ -219,7 +232,7 @@ function adjustChatBoxPosition() {
     chatBox.style.right = "0px";
   }
 
-  if (rect.top < 450) {
+  if (rect.top < 470) {
     chatBox.style.bottom = "auto";
     chatBox.style.top = "60px";
   } else {
