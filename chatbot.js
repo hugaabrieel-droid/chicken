@@ -1,10 +1,10 @@
 // ==========================================
-// DATA PENELITIAN TESIS 36 (REVISI PADAT & BERISI)
+// DATA PENELITIAN TESIS 36 (INTERAKTIF & HUMANIS)
 // ==========================================
 const BOT_RESPONSES = {
-  default: "Sori bro, gw gak paham. Coba tanya hal lain seputar riset TESIS 36, atau klik tombol pintas di bawah biar cepet!",
+  default: "Sori bro, gw belum paham maksud lu. Coba tanya hal lain seputar riset TESIS 36, klik tombol pintas di bawah, atau kalau ada kendala bisa hubungi tim gw via WhatsApp di 087719627045 atau DM Instagram @hugaabrieel ya!",
   
-  halo: "Halo bro! Ada yang bisa gw bantu seputar penelitian kualitatif TESIS 36? Tanya aja santai.",
+  halo: "Halo juga bro! Selamat datang! Ada yang bisa gw bantu seputar penelitian kualitatif TESIS 36? Tanya aja santai, gw siap nemenin ngobrol.",
   
   ringkasan: `Inti Riset: Riset kualitatif ini menganalisis celah kritis biosekuriti peternak unggas rakyat terhadap virus Flu Burung (H5N1) di Kampung Sukaruas, Tasikmalaya.
   Temuan Utama: Kebanyakan peternak mandiri abai APD (masker/baju khusus) dan minim sekat disinfeksi kandang akibat keterbatasan modal ekonomi.`,
@@ -27,8 +27,32 @@ const BOT_RESPONSES = {
   latar_belakang: "Latar Belakang: Virus Avian Influenza (H5N1) masih endemis dan mengancam peternakan rakyat. Kampung Sukaruas dipilih karena aktivitas peternakan mandirinya tinggi, namun penerapan biosekuritinya fluktuatif akibat benturan ekonomi."
 };
 
+// Logika Pintar untuk memetakan respon obrolan chat
 function getSimulatedResponse(inputText) {
-  const text = inputText.toLowerCase();
+  const text = inputText.toLowerCase().trim();
+  
+  // 1. Deteksi Pujian / Apresiasi (Family Friendly)
+  if (text.includes("keren") || text.includes("bagus") || text.includes("mantap") || text.includes("hebat") || text.includes("terima kasih") || text.includes("makasih") || text.includes("top")) {
+    return "Wah, terima kasih banyak atas pujiannya bro! Makasih udah sempetin mampir dan nyoba chatbot ini. Semoga lu sehat selalu, dilancarkan segala urusannya, dan sukses terus ya! Berkah selalu! 🙌✨";
+  }
+
+  // 2. Deteksi Obrolan Santai / Ajakan Ngobrol
+  if (text.includes("lagi apa") || text.includes("sedang apa")) {
+    return "Lagi siap siaga nungguin lu nanya seputar TESIS 36 nih, bro! Hehe. Lu sendiri lagi sibuk apa?";
+  }
+  if (text.includes("apa kabar") || text.includes("gimana kabar") || text.includes("sehat")) {
+    return "Kabar baik dan super sehat bro! Semoga lu juga selalu dalam lindungan-Nya, sehat lahir batin, dan harinya menyenangkan!";
+  }
+  if (text.includes("siapa lu") || text.includes("nama kamu") || text.includes("kamu siapa")) {
+    return "Gw Chatbot pintar asisten riset TESIS 36. Tugas gw nemenin lu ngobrol dan jawab info seputar riset unggas di Tasikmalaya!";
+  }
+
+  // 3. Deteksi Butuh Kontak / Pertanyaan Lain / Bingung
+  if (text.includes("kontak") || text.includes("wa") || text.includes("whatsapp") || text.includes("ig") || text.includes("instagram") || text.includes("tanya lain") || text.includes("hubungi")) {
+    return "Kalau butuh diskusi lebih lanjut atau ada pertanyaan khusus yang gak ada di menu, langsung hubungi tim gw aja bro! \n\n📱 WhatsApp: 087719627045 \n📸 Instagram: @hugaabrieel \n\nMereka ramah banget kok, bakal siap bantu lu!";
+  }
+
+  // 4. Keyword Utama Riset
   if (text.includes("halo") || text.includes("hai") || text === "p") return BOT_RESPONSES.halo;
   if (text.includes("ringkasan") || text.includes("rangkuman") || text.includes("kesimpulan") || text.includes("inti")) return BOT_RESPONSES.ringkasan;
   if (text.includes("jurnal") || text.includes("referensi") || text.includes("pustaka") || text.includes("buku")) return BOT_RESPONSES.jurnal;
@@ -38,16 +62,20 @@ function getSimulatedResponse(inputText) {
   if (text.includes("jenis") || text.includes("kualitatif") || text.includes("kuantitatif") || text.includes("metode")) return BOT_RESPONSES.jenis;
   if (text.includes("responden") || text.includes("informan") || text.includes("peternak")) return BOT_RESPONSES.responden;
   if (text.includes("latar belakang") || text.includes("alasan") || text.includes("kenapa")) return BOT_RESPONSES.latar_belakang;
+  
   return BOT_RESPONSES.default;
 }
 
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
+  <!-- Tombol Utama Bulat Minimalis -->
   <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
     <span id="cb-icon" style="display: inline-block;">🐓</span>
   </div>
   
+  <!-- Panel Chat Interface (Responsive & Adaptif Layar) -->
   <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
+    <!-- Header -->
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>🐔</span>
@@ -56,9 +84,11 @@ const chatbotHTML = `
       <span id="cb-close" onclick="toggleChat(event)" style="cursor: pointer; font-size: 14px; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); transition: all 0.2s;">✕</span>
     </div>
     
+    <!-- Wadah Pesan -->
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <div id="cb-quick-replies" style="display: flex; flex-direction: row; gap: 6px; padding: 6px 14px; background: #ebdcb9; overflow-x: auto; white-space: nowrap; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
+    <!-- Quick Reply Container dengan Scrollbar Indikator Tipis Berwarna Senada -->
+    <div id="cb-quick-replies" style="display: flex; flex-direction: row; gap: 6px; padding: 6px 14px 10px 14px; background: #ebdcb9; overflow-x: auto; white-space: nowrap; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
       <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pustaka</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini jenis risetnya kualitatif atau kuantitatif?')">🧐 Jenis Riset</button>
@@ -67,6 +97,7 @@ const chatbotHTML = `
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa rekomendasi atau saran dari riset ini?')">💡 Solusi & Saran</button>
     </div>
 
+    <!-- Area Input Modern -->
     <div style="padding: 10px 14px; background: #ebdcb9;">
       <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
         <input type="text" id="cb-input" placeholder="Ketik disini!" onkeypress="handleKey(event)" oninput="checkInputToggle()" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
@@ -89,10 +120,20 @@ style.innerHTML = `
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+  @keyframes cbPulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+  
   .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
   .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); white-space: pre-line; }
   .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
+  /* Animasi Dot Mengetik WA Style */
+  .cb-dot { display: inline-block; width: 6px; height: 6px; background-color: #5c4a2a; border-radius: 50%; margin-right: 3px; animation: cbPulse 1s infinite ease-in-out; }
+  .cb-dot:nth-child(2) { animation-delay: 0.2s; }
+  .cb-dot:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
+
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
   #cb-button:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(78,94,56,0.5); }
   #cb-button:hover #cb-icon { animation: cbRotate 0.5s ease-in-out; }
@@ -102,10 +143,14 @@ style.innerHTML = `
   #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
   #cb-send:hover { background: #4e5e38; }
   
-  .cb-qr-btn { display: inline-flex; align-items: center; background: rgba(253, 250, 244, 0.8); border: 1px solid rgba(92,74,42,0.12); color: #5c4a2a; padding: 5px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
+  .cb-qr-btn { display: inline-flex; align-items: center; background: rgba(253, 250, 244, 0.83); border: 1px solid rgba(92,74,42,0.12); color: #5c4a2a; padding: 5px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
   .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
-  #cb-quick-replies::-webkit-scrollbar { height: 0px; background: transparent; }
+  /* Custom Scrollbar Menu Pintas biar ketahuan bisa di-geser */
+  #cb-quick-replies::-webkit-scrollbar { height: 4px; }
+  #cb-quick-replies::-webkit-scrollbar-track { background: rgba(92,74,42,0.05); border-radius: 10px; }
+  #cb-quick-replies::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.25); border-radius: 10px; }
+  
   #cb-messages::-webkit-scrollbar { width: 4px; }
   #cb-messages::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.2); border-radius: 2px; }
 `;
@@ -122,15 +167,13 @@ function initChatbot() {
     chatBox.style.display = 'flex';
   }
   
-  // Deteksi Navigasi vs Refresh Halaman
+  // Sistem reset histori saat murni refresh halaman halaman
   const isNavigating = sessionStorage.getItem('cb_navigating');
   if (!isNavigating) {
-    // Kalau murni REFRESH atau TAB BARU, hapus histori agar chat bersih lagi
     localStorage.removeItem('chat_history');
   }
   sessionStorage.removeItem('cb_navigating');
   
-  // Set flag jika user klik link internal (pindah page website)
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       sessionStorage.setItem('cb_navigating', 'true');
@@ -140,7 +183,7 @@ function initChatbot() {
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
 
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Silakan tanya apa saja secara bebas atau geser pintasan di bawah.');
+    appendMessage('bot', 'Halo! Selamat datang di Chatbot TESIS 36. 🐔\n\nSilakan tanya apa saja seputar riset kami secara bebas, sapa gw buat ngobrol, atau geser menu pintas di bawah ini ya!');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -194,11 +237,13 @@ function sendMessage() {
   input.value = '';
   checkInputToggle(); 
 
-  const loadingDiv = document.createElement('div');
-  loadingDiv.classList.add('cb-msg', 'cb-bot');
-  loadingDiv.id = 'cb-typing-indicator';
-  loadingDiv.innerText = 'Ketik...';
-  msgContainer.appendChild(loadingDiv);
+  // BIKIN BUBBLE TYPING ANIMATION (3 TITIK PULSE) ALA WHATSAPP
+  const typingDiv = document.createElement('div');
+  typingDiv.classList.add('cb-msg', 'cb-bot');
+  typingDiv.id = 'cb-typing-indicator';
+  typingDiv.style.padding = '12px 16px';
+  typingDiv.innerHTML = '<span class="cb-dot"></span><span class="cb-dot"></span><span class="cb-dot"></span>';
+  msgContainer.appendChild(typingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
   setTimeout(() => {
@@ -207,7 +252,7 @@ function sendMessage() {
 
     const botReply = getSimulatedResponse(text);
     appendMessage('bot', botReply, true);
-  }, 400); 
+  }, 900); // 0.9 detik jeda mengetik biar kerasa natural
 }
 
 function appendMessage(sender, text, save = false) {
@@ -224,12 +269,12 @@ function appendMessage(sender, text, save = false) {
   }
 }
 
-// SOLUSI BUG HP: Logika Pintar Memisahkan Drag (Geser) dan Click (Sentuh)
+// LOGIKA SMART DRAG VS CLICK UNTUK FIX BUG DI LAYAR HP
 function makeSmartInteraction(elmnt, dragAnchor) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   let startX = 0, startY = 0;
   let isDragging = false;
-  const dragThreshold = 6; // Toleransi pixel pergerakan untuk membedakan geser vs klik
+  const dragThreshold = 6; 
 
   dragAnchor.addEventListener('mousedown', startDrag);
   dragAnchor.addEventListener('touchstart', startDrag, { passive: true });
@@ -257,13 +302,12 @@ function makeSmartInteraction(elmnt, dragAnchor) {
     const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
 
-    // Hitung jarak pergerakan dari posisi awal
     if (Math.abs(clientX - startX) > dragThreshold || Math.abs(clientY - startY) > dragThreshold) {
       isDragging = true;
     }
 
     if (!isDragging) return;
-    if (e.cancelable) e.preventDefault(); // Cegah layar hp ikut scroll pas tombol digeser
+    if (e.cancelable) e.preventDefault(); 
 
     pos1 = pos3 - clientX;
     pos2 = pos4 - clientY;
@@ -273,7 +317,6 @@ function makeSmartInteraction(elmnt, dragAnchor) {
     let newTop = elmnt.offsetTop - pos2;
     let newLeft = elmnt.offsetLeft - pos1;
 
-    // Batasan agar widget gak keluar dari layar browser
     const maxTop = window.innerHeight - 60;
     const maxLeft = window.innerWidth - 65;
     if (newTop < 10) newTop = 10;
@@ -295,7 +338,6 @@ function makeSmartInteraction(elmnt, dragAnchor) {
     document.removeEventListener('touchmove', onDrag);
     document.removeEventListener('touchend', endDrag);
 
-    // Jika user TIDAK melakukan drag bermakna, berarti dia melakukan KLIK/SENTUH murni
     if (!isDragging) {
       toggleChat();
     }
