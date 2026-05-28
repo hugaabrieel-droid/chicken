@@ -145,12 +145,13 @@ function handleKey(e) {
 }
 
 function sendQuickReply(text) {
-  document.getElementById('cb-input').value = text;
-  checkInputToggle(); // Menyembunyikan tombol instan langsung
+  const inputEl = document.getElementById('cb-input');
+  if (!inputEl) return;
+  inputEl.value = text;
+  checkInputToggle(); 
   sendMessage();
 }
 
-// FIX LOGIC: Deteksi input teks untuk menyembunyikan kontainer & padding tombol pintas secara presisi
 function checkInputToggle() {
   const inputEl = document.getElementById('cb-input');
   if (!inputEl) return;
@@ -176,7 +177,7 @@ async function sendMessage() {
 
   appendMessage('user', text, true);
   input.value = '';
-  checkInputToggle(); // Reset dan munculkan kembali tombol pintas karena input sudah bersih kembali
+  checkInputToggle(); 
 
   const loadingDiv = document.createElement('div');
   loadingDiv.classList.add('cb-msg', 'cb-bot');
@@ -185,6 +186,7 @@ async function sendMessage() {
   msgContainer.appendChild(loadingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
+  // Masukkan input user terbaru ke dalam riwayat
   chatContextHistory.push({ role: "user", parts: [{ text: text }] });
 
   try {
@@ -204,14 +206,16 @@ async function sendMessage() {
     if (indicator) indicator.remove();
 
     let botReply = "";
-    if (data.candidates && data.candidates[0].content.parts[0].text) {
+    // Validasi respons API agar aman dari bug blank screen
+    if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
       botReply = data.candidates[0].content.parts[0].text.trim();
     } else {
-      botReply = "Aduh sori, otak AI gw tiba-tiba ngeblank. Coba kirim ulang pertanyaannya.";
+      botReply = "Sori banget bro, koneksi ke AI sempat terputus sebentar. Boleh coba kirim ulang pertanyaannya?";
     }
 
     appendMessage('bot', botReply, true);
 
+    // Amankan respons bot ke riwayat agar sinkron
     chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
     localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
 
