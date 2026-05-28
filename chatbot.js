@@ -19,9 +19,9 @@ Kalau butuh bantuan lebih lanjut, langsung chat tim gw aja lewat tautan ini:
 
   tujuan: "<b>Tujuan:</b> Mengidentifikasi sejauh mana penerapan higienitas kandang oleh peternak mandiri, sekaligus memetakan hambatan finansial dan struktural nyata mereka dalam memutus rantai penyebaran H5N1.",
 
-  saran: "<b>Rekomendasi Riset:</b> Peternak buat subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
+  saran: "<b>Rekomendasi Riset:</b> Peternak butuh subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
 
-  jenis: "<b>Jenis Penelitian:</b> Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara konteksual.",
+  jenis: "<b>Jenis Penelitian:</b> Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara kontekstual.",
 
   responden: "<b>Subjek/Responden:</b> Para peternak unggas mandiri (skala kecil/rakyat) di Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dan akurat.",
 
@@ -226,7 +226,6 @@ function checkInputToggle() {
   }
 }
 
-// FIX: PEMBERSIHAN INPUT SPASI DAN VALIDASI LEBIH KETAT
 function sendMessage() {
   const input = document.getElementById('cb-input');
   const text = input.value.trim(); 
@@ -253,7 +252,6 @@ function sendMessage() {
   }, 900); 
 }
 
-// FIX: JEDA AUTOSCROLL DIUBAH MENJADI 100MS AGAR RENDER LINK SANGAT STABIL
 function appendMessage(sender, text, save = false) {
   const msgDiv = document.createElement('div');
   msgDiv.classList.add('cb-msg', `cb-${sender}`);
@@ -271,6 +269,7 @@ function appendMessage(sender, text, save = false) {
   }
 }
 
+// FIX FINAL: IMPLEMENTASI KETUK INSTAN ANTI-DELAY DI MOBILE HP
 function makeSmartInteraction(elmnt, dragAnchor) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   let startX = 0, startY = 0;
@@ -278,11 +277,12 @@ function makeSmartInteraction(elmnt, dragAnchor) {
   const dragThreshold = 6; 
 
   dragAnchor.addEventListener('mousedown', startDrag);
-  dragAnchor.addEventListener('touchstart', startDrag, { passive: true });
+  dragAnchor.addEventListener('touchstart', startDrag, { passive: false });
 
   function startDrag(e) {
-    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-    const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+    const isTouch = e.type === 'touchstart';
+    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
     
     startX = clientX;
     startY = clientY;
@@ -290,7 +290,7 @@ function makeSmartInteraction(elmnt, dragAnchor) {
     pos4 = clientY;
     isDragging = false;
 
-    if (e.type === 'mousedown') {
+    if (!isTouch) {
       document.addEventListener('mousemove', onDrag);
       document.addEventListener('mouseup', endDrag);
     } else {
@@ -300,8 +300,9 @@ function makeSmartInteraction(elmnt, dragAnchor) {
   }
 
   function onDrag(e) {
-    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    const isTouch = e.type === 'touchmove';
+    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
 
     if (Math.abs(clientX - startX) > dragThreshold || Math.abs(clientY - startY) > dragThreshold) {
       isDragging = true;
@@ -333,13 +334,14 @@ function makeSmartInteraction(elmnt, dragAnchor) {
     adjustChatBoxPosition();
   }
 
-  function endDrag() {
+  function endDrag(e) {
     document.removeEventListener('mousemove', onDrag);
     document.removeEventListener('mouseup', endDrag);
     document.removeEventListener('touchmove', onDrag);
     document.removeEventListener('touchend', endDrag);
 
     if (!isDragging) {
+      if (e.cancelable) e.preventDefault();
       toggleChat();
     }
   }
