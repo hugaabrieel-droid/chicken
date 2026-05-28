@@ -1,8 +1,8 @@
 // ==========================================
 // CONFIGURATION - GEMINI API KEY INTEGRATED
 // ==========================================
-// Menggunakan API Key terbaru lu yang dari "Gemini API Key 2"
-const GEMINI_API_KEY = "AQ.Ab8RN6J4xWhN3mWpHZLyAEXUCfy2YQ3HlLwMDUYH39A44KdDwQ"; 
+// Menggunakan API Key paling baru dari image_ae57c3.png
+const GEMINI_API_KEY = "AQ.Ab8RN6JeQq8mm_x4bpy4DuMt3C_0BRaLZMQ_I3H2xi2Z8Bt2vw"; 
 
 // System Instruction: Menjaga kepribadian bot tetap santai (gw-lu) & menguasai materi TESIS 36
 const SYSTEM_INSTRUCTION = `
@@ -27,12 +27,15 @@ Gaya Komunikasi:
 
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
+  <!-- Tombol Utama Kapsul Interaktif (🐓 Chat) -->
   <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 14px; font-weight: 500;">
     <span id="cb-icon" style="font-size: 18px; display: inline-block;">🐓</span>
     <span>Chat</span>
   </div>
   
+  <!-- Panel Chat Interface -->
   <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
+    <!-- Header (🐔 Chatbot TESIS 36) -->
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>🐔</span>
@@ -41,14 +44,17 @@ const chatbotHTML = `
       <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 22px; font-weight: 300; line-height: 1;">&times;</span>
     </div>
     
+    <!-- Wadah Pesan -->
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
+    <!-- Quick Reply Buttons Container -->
     <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 5px; padding: 8px 14px; background: #ebdcb9; transition: all 0.25s ease-in-out; max-height: 120px; opacity: 1; overflow: hidden;">
       <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan Penelitian</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pendukung</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini lokasinya di mana?')">📍 Lokasi & Waktu</button>
     </div>
 
+    <!-- Area Input Modern -->
     <div style="padding: 10px 14px; background: #ebdcb9;">
       <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
         <input type="text" id="cb-input" placeholder="Tanya apa saja ke AI..." onkeypress="handleKey(event)" oninput="checkInputToggle()" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
@@ -194,9 +200,12 @@ async function sendMessage() {
   }
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${GEMINI_API_KEY}`
+      },
       body: JSON.stringify({
         contents: chatContextHistory,
         systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
