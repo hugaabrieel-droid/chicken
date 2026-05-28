@@ -67,15 +67,16 @@ function getSimulatedResponse(inputText) {
   return BOT_RESPONSES.default;
 }
 
+// FIX: Tombol utama langsung ditembak onclick="toggleChat(event)" biar gak lewat perantara gesture drag yang bikin delay
 const chatbotHTML = `
-<div id="cb-widget" style="position: fixed; bottom: 25px; right: 85px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
-  <!-- Tombol Utama Bulat Minimalis -->
-  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
+<div id="cb-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif;">
+  <!-- Tombol Utama Murni Klik Instan -->
+  <div id="cb-button" onclick="toggleChat(event)" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
     <span id="cb-icon" style="display: inline-block;">🐓</span>
   </div>
   
   <!-- Panel Chat Interface -->
-  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: -10px; flex-direction: column; overflow: hidden; pointer-events: auto;">
+  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0px; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <!-- Header -->
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
@@ -157,9 +158,6 @@ document.head.appendChild(style);
 
 const msgContainer = document.getElementById('cb-messages');
 const chatBox = document.getElementById('cb-box');
-const cbWidget = document.getElementById('cb-widget');
-const cbButton = document.getElementById('cb-button');
-const qrContainer = document.getElementById('cb-quick-replies');
 
 function initChatbot() {
   if (localStorage.getItem('chat_open') === 'true') {
@@ -187,15 +185,16 @@ function initChatbot() {
   }
   
   checkInputToggle();
-  makeSmartInteraction(cbWidget, cbButton);
 }
 
 function toggleChat(e) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault(); // Mengunci event mobile click biar gak kena delay browser
+  }
   if (chatBox.style.display === 'none' || chatBox.style.display === '') {
     chatBox.style.display = 'flex';
     localStorage.setItem('chat_open', 'true');
-    adjustChatBoxPosition();
   } else {
     chatBox.style.display = 'none';
     localStorage.setItem('chat_open', 'false');
@@ -219,6 +218,7 @@ function checkInputToggle() {
   if (!inputEl) return;
   
   const inputVal = inputEl.value.trim();
+  const qrContainer = document.getElementById('cb-quick-replies');
   if (inputVal.length > 0) {
     qrContainer.style.display = 'none';
   } else {
@@ -266,103 +266,6 @@ function appendMessage(sender, text, save = false) {
     const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
     savedMessages.push({ sender, text });
     localStorage.setItem('chat_history', JSON.stringify(savedMessages));
-  }
-}
-
-// FIX FINAL: IMPLEMENTASI KETUK INSTAN ANTI-DELAY DI MOBILE HP
-function makeSmartInteraction(elmnt, dragAnchor) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let startX = 0, startY = 0;
-  let isDragging = false;
-  const dragThreshold = 6; 
-
-  dragAnchor.addEventListener('mousedown', startDrag);
-  dragAnchor.addEventListener('touchstart', startDrag, { passive: false });
-
-  function startDrag(e) {
-    const isTouch = e.type === 'touchstart';
-    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
-    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
-    
-    startX = clientX;
-    startY = clientY;
-    pos3 = clientX;
-    pos4 = clientY;
-    isDragging = false;
-
-    if (!isTouch) {
-      document.addEventListener('mousemove', onDrag);
-      document.addEventListener('mouseup', endDrag);
-    } else {
-      document.addEventListener('touchmove', onDrag, { passive: false });
-      document.addEventListener('touchend', endDrag);
-    }
-  }
-
-  function onDrag(e) {
-    const isTouch = e.type === 'touchmove';
-    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
-    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
-
-    if (Math.abs(clientX - startX) > dragThreshold || Math.abs(clientY - startY) > dragThreshold) {
-      isDragging = true;
-    }
-
-    if (!isDragging) return;
-    if (e.cancelable) e.preventDefault(); 
-
-    pos1 = pos3 - clientX;
-    pos2 = pos4 - clientY;
-    pos3 = clientX;
-    pos4 = clientY;
-
-    let newTop = elmnt.offsetTop - pos2;
-    let newLeft = elmnt.offsetLeft - pos1;
-
-    const maxTop = window.innerHeight - 60;
-    const maxLeft = window.innerWidth - 65;
-    if (newTop < 10) newTop = 10;
-    if (newTop > maxTop) newTop = maxTop;
-    if (newLeft < 10) newLeft = 10;
-    if (newLeft > maxLeft) newLeft = maxLeft;
-
-    elmnt.style.top = newTop + "px";
-    elmnt.style.left = newLeft + "px";
-    elmnt.style.bottom = "auto";
-    elmnt.style.right = "auto";
-
-    adjustChatBoxPosition();
-  }
-
-  function endDrag(e) {
-    document.removeEventListener('mousemove', onDrag);
-    document.removeEventListener('mouseup', endDrag);
-    document.removeEventListener('touchmove', onDrag);
-    document.removeEventListener('touchend', endDrag);
-
-    if (!isDragging) {
-      if (e.cancelable) e.preventDefault();
-      toggleChat();
-    }
-  }
-}
-
-function adjustChatBoxPosition() {
-  const rect = cbWidget.getBoundingClientRect();
-  if (rect.left < 350) {
-    chatBox.style.right = "auto";
-    chatBox.style.left = "0px";
-  } else {
-    chatBox.style.left = "auto";
-    chatBox.style.right = "-10px";
-  }
-
-  if (rect.top < 470) {
-    chatBox.style.bottom = "auto";
-    chatBox.style.top = "60px";
-  } else {
-    chatBox.style.top = "auto";
-    chatBox.style.bottom = "65px";
   }
 }
 
