@@ -20,7 +20,7 @@ const BOT_RESPONSES = {
 
   tujuan: "Tujuan riset ini tuh buat nyari tahu sejauh mana peternak mandiri paham dan nerapin higienitas kandang, sekaligus nyari tahu hambatan nyata mereka di lapangan dalam mencegah penyebaran H5N1.",
 
-  saran: "Saran dari riset ini: peternak butuh bantuan modal atau subsidi disinfektan/APD dari pemerintah, plus edukasi berkala yang gak kaku biar mereka paham pentingnya masker sama sekat pembatas kandang.",
+  saran: "Saran dari riset ini: peternak buat butuh bantuan modal atau subsidi disinfektan/APD dari pemerintah, plus edukasi berkala yang gak kaku biar mereka paham pentingnya masker sama sekat pembatas kandang.",
 
   jenis: "Riset ini pake jenis penelitian KUALITATIF deskriptif, bro. Jadi gw gak pake angka-angka statistik atau rumus kuantitatif, melainkan fokus ke analisis mendalam terhadap perilaku dan wawancara nyata di lapangan.",
 
@@ -82,11 +82,11 @@ const chatbotHTML = `
     
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 4px; padding: 6px 14px; background: #ebdcb9; transition: all 0.25s ease-in-out; max-height: 150px; opacity: 1; overflow-y: auto;">
-      <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan Penelitian</button>
-      <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pendukung</button>
-      <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini jenis risetnya kualitatif atau kuantitatif?')">🧐 Jenis Penelitian</button>
-      <button class="cb-qr-btn" onclick="sendQuickReply('Siapa saja data responden peternak di riset ini?')">🐓 Data Responden</button>
+    <div id="cb-quick-replies" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px 14px; background: #ebdcb9; transition: all 0.25s ease-in-out; max-height: 110px; opacity: 1; overflow: hidden;">
+      <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan</button>
+      <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pustaka</button>
+      <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini jenis risetnya kualitatif atau kuantitatif?')">🧐 Jenis Riset</button>
+      <button class="cb-qr-btn" onclick="sendQuickReply('Siapa saja data responden peternak di riset ini?')">🐓 Responden</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini lokasinya di mana?')">📍 Lokasi & Waktu</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa rekomendasi atau saran dari riset ini?')">💡 Solusi & Saran</button>
     </div>
@@ -125,11 +125,10 @@ style.innerHTML = `
   #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
   #cb-send:hover { background: #4e5e38; }
   
-  .cb-qr-btn { background: rgba(253, 250, 244, 0.6); border: 1px solid rgba(92,74,42,0.1); color: #5c4a2a; padding: 6px 12px; border-radius: 10px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
-  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateX(2px); box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
+  /* Styling tombol QR yang lebih ringkas dan pas di grid */
+  .cb-qr-btn { background: rgba(253, 250, 244, 0.65); border: 1px solid rgba(92,74,42,0.1); color: #5c4a2a; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(92,74,42,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
-  #cb-quick-replies::-webkit-scrollbar { width: 3px; }
-  #cb-quick-replies::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.15); border-radius: 2px; }
   #cb-messages::-webkit-scrollbar { width: 4px; }
   #cb-messages::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.2); border-radius: 2px; }
 `;
@@ -161,7 +160,7 @@ function initChatbot() {
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
 
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau pencet tombol-tombol cepat di bawah biar instan.');
+    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau pencet tombol cepat di bawah biar instan.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -199,15 +198,9 @@ function checkInputToggle() {
   
   const inputVal = inputEl.value.trim();
   if (inputVal.length > 0) {
-    qrContainer.style.maxHeight = '0px';
-    qrContainer.style.opacity = '0';
-    qrContainer.style.paddingTop = '0px';
-    qrContainer.style.paddingBottom = '0px';
+    qrContainer.style.display = 'none'; // Sembunyikan grid total pas ngetik biar space chat lega
   } else {
-    qrContainer.style.maxHeight = '150px';
-    qrContainer.style.opacity = '1';
-    qrContainer.style.paddingTop = '6px';
-    qrContainer.style.paddingBottom = '6px';
+    qrContainer.style.display = 'grid'; // Tampilkan kembali grid pas input kosong
   }
 }
 
