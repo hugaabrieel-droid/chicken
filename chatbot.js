@@ -16,15 +16,17 @@ const chatbotHTML = `
     
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 6px; padding: 10px 14px; background: #ebdcb9; border-top: 1px solid rgba(92,74,42,0.1);">
+    <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 5px; padding: 8px 14px; background: #ebdcb9;">
       <button class="cb-qr-btn" onclick="sendQuickReply('📋 Ringkasan Penelitian')">📋 Ringkasan Penelitian</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('📚 Jurnal Pendukung')">📚 Jurnal Pendukung</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('📍 Lokasi & Waktu')">📍 Lokasi & Waktu</button>
     </div>
 
-    <div id="cb-input-area" style="display: flex; border-top: 1px solid rgba(92,74,42,0.15); background: #ffffff; padding: 4px;">
-      <input type="text" id="cb-input" placeholder="Tanya sesuatu atau ketik kata kunci..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 12px; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
-      <button id="cb-send" onclick="sendMessage()" style="background: transparent; border: none; color: #6b7c52; padding: 0 16px; cursor: pointer; font-weight: 600; font-size: 12.5px;">Kirim</button>
+    <div style="padding: 10px 14px; background: #ebdcb9;">
+      <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
+        <input type="text" id="cb-input" placeholder="Tanya sesuatu..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
+        <button id="cb-send" onclick="sendMessage()" style="background: #6b7c52; border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; transition: background 0.2s; box-shadow: 0 2px 6px rgba(107,124,82,0.2);">➔</button>
+      </div>
     </div>
   </div>
 </div>
@@ -32,7 +34,6 @@ const chatbotHTML = `
 
 document.body.insertAdjacentHTML('beforeend', chatbotHTML);
 
-// Injection Styles, Animasi Muter Ikon (Hover), Animasi Bubbly Efek Pop Balon Chat
 const style = document.createElement('style');
 style.innerHTML = `
   @keyframes cbPop {
@@ -44,7 +45,7 @@ style.innerHTML = `
     100% { transform: rotate(360deg); }
   }
   .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
-  .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.1); }
+  .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); }
   .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
@@ -52,9 +53,12 @@ style.innerHTML = `
   #cb-button:hover #cb-icon { animation: cbRotate 0.6s ease-in-out; }
   #cb-button:active { transform: scale(0.96); }
   
-  /* Styling Tombol Pesan Cepat Ditumpuk */
-  .cb-qr-btn { background: #ffffff; border: 1px solid rgba(92,74,42,0.18); color: #5c4a2a; padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(92,74,42,0.05); }
-  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateX(2px); }
+  #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
+  #cb-send:hover { background: #4e5e38; }
+  
+  /* Styling Pesan Cepat Minimalis Polos Menyatu Tanpa Border Tebal */
+  .cb-qr-btn { background: rgba(253, 250, 244, 0.6); border: 1px solid rgba(92,74,42,0.1); color: #5c4a2a; padding: 7px 12px; border-radius: 10px; font-size: 11.5px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
+  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateX(2px); box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
   #cb-messages::-webkit-scrollbar { width: 4px; }
   #cb-messages::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.2); border-radius: 2px; }
@@ -71,14 +75,12 @@ function initChatbot() {
     chatBox.style.display = 'flex';
   }
   
-  // LOGIKA CLEAR PERMANEN SAAT REFRESH HALAMAN (Kecuali pindah halaman lewat navigasi bab)
   const isNavigating = sessionStorage.getItem('cb_navigating');
   if (!isNavigating) {
     localStorage.removeItem('chat_history');
   }
   sessionStorage.removeItem('cb_navigating');
   
-  // Pasang listener pada semua link menu navigasi internal biar memori ga kehapus pas diklik
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       sessionStorage.setItem('cb_navigating', 'true');
@@ -87,7 +89,7 @@ function initChatbot() {
 
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw sistem AI TESIS 36. Ada yang bisa dibantu terkait riset biosekuriti Avian Influenza (H5N1)? Lu juga bisa nanya ringkasan atau minta jurnal pendukung.');
+    appendMessage('bot', 'Halo! Gw sistem AI TESIS 36. Ada yang bisa dibantu terkait riset biosekuriti Avian Influenza (H5N1)? Lu bisa nanya ringkasan atau minta jurnal pendukung.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -127,7 +129,6 @@ function sendMessage() {
     const query = text.toLowerCase();
     let reply = 'Maaf, gw kurang paham konteksnya. Coba ketik perintah ringkas seperti "ringkasan", klik opsi "jurnal pendukung", atau tanyakan mengenai "lokasi".';
 
-    // Konteks Cerdas: Meringkas otomatis & Menampilkan Jurnal Pendukung Riset
     if (query.includes('jurnal') || query.includes('pendukung') || query.includes('referensi') || query.includes('buku') || query.includes('pustaka')) {
       reply = 'Berikut adalah daftar dokumen serta jurnal pendukung utama yang mendasari analisis biosekuriti riset ini:\n\n' +
               '• Food and Agriculture Organization (FAO, 2008) – "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper". Acuan standar prosedur sanitasi global.\n\n' +
