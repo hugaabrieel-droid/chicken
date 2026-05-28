@@ -56,7 +56,6 @@ style.innerHTML = `
   #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
   #cb-send:hover { background: #4e5e38; }
   
-  /* Styling Pesan Cepat Minimalis Polos Menyatu Tanpa Border Tebal */
   .cb-qr-btn { background: rgba(253, 250, 244, 0.6); border: 1px solid rgba(92,74,42,0.1); color: #5c4a2a; padding: 7px 12px; border-radius: 10px; font-size: 11.5px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
   .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateX(2px); box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
@@ -127,9 +126,21 @@ function sendMessage() {
 
   setTimeout(() => {
     const query = text.toLowerCase();
-    let reply = 'Maaf, gw kurang paham konteksnya. Coba ketik perintah ringkas seperti "ringkasan", klik opsi "jurnal pendukung", atau tanyakan mengenai "lokasi".';
+    let reply = '';
 
-    if (query.includes('jurnal') || query.includes('pendukung') || query.includes('referensi') || query.includes('buku') || query.includes('pustaka')) {
+    // 1. Obrolan Santai / Sapaan (User-Friendly Conversational Flow)
+    if (query.match(/(halo|hai|hello|hey|hei|p|permisi|assalamualaikum|spada)/)) {
+      reply = 'Halo juga! Ada yang bisa gw bantu seputar website atau hasil riset Avian Influenza tim TESIS 36?';
+    } else if (query.match(/(kabar|gimana|apa kabar|how are you)/)) {
+      reply = 'Kabar baik banget! Gw siap bantu nemuin informasi ringkasan atau jurnal di web ini. Lu gimana?';
+    } else if (query.match(/(makasih|terima kasih|thanks|thank you|ok|oke|siap)/)) {
+      reply = 'Sama-sama! Senang bisa bantu. Kalau ada bagian bab yang kurang jelas, tanyain lagi aja ya.';
+    } else if (query.match(/(siapa|nama|lu siapa|identity|bot)/)) {
+      reply = 'Gw Asisten Pintar berbasis AI yang dipasang khusus buat bantu pembaca memahami seluruh isi materi penelitian TESIS 36.';
+    }
+    
+    // 2. Konten Inti / Jurnal Pendukung (Riset Context)
+    else if (query.includes('jurnal') || query.includes('pendukung') || query.includes('referensi') || query.includes('buku') || query.includes('pustaka')) {
       reply = 'Berikut adalah daftar dokumen serta jurnal pendukung utama yang mendasari analisis biosekuriti riset ini:\n\n' +
               '• Food and Agriculture Organization (FAO, 2008) – "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper". Acuan standar prosedur sanitasi global.\n\n' +
               '• World Health Organization (WHO, 2024) – "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring". Panduan mitigasi transmisi dari unggas ke manusia.\n\n' +
@@ -138,6 +149,11 @@ function sendMessage() {
       reply = 'Ringkasan Eksekutif Penelitian:\nStudi kualitatif ini menginvestigasi efektivitas penegakan biosekuriti peternak unggas mandiri di pemukiman semi-padat terhadap ancaman Avian Influenza (H5N1). Hasil analisis mendeteksi celah kritis pada minimnya ketersediaan sekat disinfeksi, absennya penggunaan APD standar pelindung pernapasan, serta benturan modal ekonomi sebagai pemicu utama rendahnya kepatuhan higienitas kandang.';
     } else if (query.includes('lokasi') || query.includes('tempat') || query.includes('kapan') || query.includes('waktu') || query.includes('tasik')) {
       reply = 'Pengumpulan data primer dan observasi lapangan dilakukan secara mendalam di kawasan peternakan rakyat Kampung Sukaruas, Kabupaten Tasikmalaya, Provinsi Jawa Barat. Studi ini berlangsung selama empat hari penuh, tepatnya pada 21 hingga 24 Januari 2026.';
+    }
+    
+    // 3. Fallback cerdas jika out of topic parah
+    else {
+      reply = 'Hmm, gw belum punya data spesifik tentang itu di repositori TESIS 36. Tapi kalau terkait ringkasan bab, metodologi di Tasikmalaya, atau jurnal pendukung flu burung, gw paham banget. Mau cari tahu bagian itu?';
     }
 
     appendMessage('bot', reply, true);
