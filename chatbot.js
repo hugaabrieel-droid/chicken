@@ -42,7 +42,7 @@ const chatbotHTML = `
     
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 5px; padding: 8px 14px; background: #ebdcb9;">
+    <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 5px; padding: 8px 14px; background: #ebdcb9; transition: all 0.25s ease-in-out; max-height: 120px; opacity: 1; overflow: hidden;">
       <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan Penelitian</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pendukung</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini lokasinya di mana?')">📍 Lokasi & Waktu</button>
@@ -50,7 +50,7 @@ const chatbotHTML = `
 
     <div style="padding: 10px 14px; background: #ebdcb9;">
       <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
-        <input type="text" id="cb-input" placeholder="Tanya apa saja ke AI..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
+        <input type="text" id="cb-input" placeholder="Tanya apa saja ke AI..." onkeypress="handleKey(event)" oninput="checkInputToggle()" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
         <button id="cb-send" onclick="sendMessage()" style="background: #6b7c52; border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; transition: background 0.2s; box-shadow: 0 2px 6px rgba(107,124,82,0.2);">➔</button>
       </div>
     </div>
@@ -94,6 +94,7 @@ const msgContainer = document.getElementById('cb-messages');
 const chatBox = document.getElementById('cb-box');
 const cbWidget = document.getElementById('cb-widget');
 const cbButton = document.getElementById('cb-button');
+const qrContainer = document.getElementById('cb-quick-replies');
 
 let chatContextHistory = [];
 
@@ -124,6 +125,7 @@ function initChatbot() {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
   
+  checkInputToggle();
   makeDraggable(cbWidget, cbButton);
 }
 
@@ -144,7 +146,27 @@ function handleKey(e) {
 
 function sendQuickReply(text) {
   document.getElementById('cb-input').value = text;
+  checkInputToggle(); // Menyembunyikan tombol instan langsung
   sendMessage();
+}
+
+// FIX LOGIC: Deteksi input teks untuk menyembunyikan kontainer & padding tombol pintas secara presisi
+function checkInputToggle() {
+  const inputEl = document.getElementById('cb-input');
+  if (!inputEl) return;
+  
+  const inputVal = inputEl.value.trim();
+  if (inputVal.length > 0) {
+    qrContainer.style.maxHeight = '0px';
+    qrContainer.style.opacity = '0';
+    qrContainer.style.paddingTop = '0px';
+    qrContainer.style.paddingBottom = '0px';
+  } else {
+    qrContainer.style.maxHeight = '120px';
+    qrContainer.style.opacity = '1';
+    qrContainer.style.paddingTop = '8px';
+    qrContainer.style.paddingBottom = '8px';
+  }
 }
 
 async function sendMessage() {
@@ -154,6 +176,7 @@ async function sendMessage() {
 
   appendMessage('user', text, true);
   input.value = '';
+  checkInputToggle(); // Reset dan munculkan kembali tombol pintas karena input sudah bersih kembali
 
   const loadingDiv = document.createElement('div');
   loadingDiv.classList.add('cb-msg', 'cb-bot');
@@ -162,7 +185,6 @@ async function sendMessage() {
   msgContainer.appendChild(loadingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
-  // Masukkan percakapan user ke history array
   chatContextHistory.push({ role: "user", parts: [{ text: text }] });
 
   try {
@@ -172,7 +194,7 @@ async function sendMessage() {
       body: JSON.stringify({
         contents: chatContextHistory,
         systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        generationConfig: { maxOutputTokens: 800, temperature: 0.7 } // Dioptimalkan ke 800 token agar tidak terpotong
+        generationConfig: { maxOutputTokens: 800, temperature: 0.7 }
       })
     });
 
@@ -190,7 +212,6 @@ async function sendMessage() {
 
     appendMessage('bot', botReply, true);
 
-    // Amankan history percakapan timbal balik
     chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
     localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
 
