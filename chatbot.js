@@ -1,29 +1,69 @@
 // ==========================================
-// CONFIGURATION - GEMINI API KEY INTEGRATED
+// DATA PENELITIAN TESIS 36 (RULE-BASED SYSTEM)
 // ==========================================
-// Menggunakan API Key paling gres dari image_ae57c3.png
-const GEMINI_API_KEY = "AQ.Ab8RN6JeQq8mm_x4bpy4DuMt3C_0BRaLZMQ_I3H2xi2Z8Bt2vw"; 
+const BOT_RESPONSES = {
+  default: "Sori bro, gw gak paham maksud lu. Coba tanya hal lain seputar riset TESIS 36, atau klik aja tombol pintas di bawah biar cepet!",
+  
+  halo: "Halo juga bro! Ada yang bisa gw bantu seputar penelitian TESIS 36? Tanya aja santai.",
+  
+  ringkasan: `Nih ringkasan riset gw:
+  Riset kualitatif ini nganalisis praktik biosekuriti peternak unggas terhadap virus Flu Burung (H5N1) di Kampung Sukaruas, Tasikmalaya. 
+  
+  Temuan utamanya: masih banyak celah kritis karena peternak jarang pakai APD (masker/baju khusus) dan minim sekat disinfeksi. Faktor utamanya jelas karena benturan modal ekonomi peternak rakyat.`,
+  
+  jurnal: `Riset ini didukung beberapa jurnal utama, bro:
+  1. FAO (2008) - Soal standar sanitasi global & biosekuriti flu burung.
+  2. WHO (2024) - Panduan mitigasi transmisi dari unggas ke manusia (GISRS).
+  3. Jurnal Epidemiologi & Kesehatan Komunitas terkait kendala finansial peternak kecil.`,
+  
+  lokasi: "Riset lapangan ini diambil di Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat, pas tanggal 21–24 Januari 2026 kemarin bro.",
 
-// System Instruction: Menjaga kepribadian bot tetap santai (gw-lu) & menguasai materi TESIS 36
-const SYSTEM_INSTRUCTION = `
-Lu adalah Asisten Pintar berbasis AI bernama "Chatbot TESIS 36".
-Tugas utama lu adalah membantu pengunjung website memahami hasil penelitian kualitatif berjudul:
-"Analisis Praktik Biosekuriti Peternak Ungas Terhadap Avian Influenza (H5N1) di Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat" oleh Tim TESIS 36 SMAN 8 Jakarta.
+  tujuan: "Tujuan riset ini tuh buat nyari tahu sejauh mana peternak mandiri paham dan nerapin higienitas kandang, sekaligus nyari tahu hambatan nyata mereka di lapangan dalam mencegah penyebaran H5N1.",
 
-Materi & Fakta Penelitian (Gunakan ini untuk menjawab pertanyaan):
-1. Waktu & Lokasi: Lapangan di Kampung Sukaruas, Tasikmalaya pada 21–24 Januari 2026.
-2. Fokus Penelitian: Studi kualitatif mengenai implementasi higienitas, sanitasi, dan biosekuriti peternak unggas mandiri/rakyat terhadap virus H5N1.
-3. Temuan Utama: Adanya celah kritis pada minimnya sekat disinfeksi, peternak sangat jarang memakai APD (terutama masker/pelindung pernapasan), serta adanya benturan modal ekonomi sebagai alasan utama rendahnya kepatuhan higienitas kandang.
-4. Jurnal/Dokumen Pendukung Utama:
-   - FAO (2008): "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper" (Standar sanitasi global).
-   - WHO (2024): "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring" (Mitigasi transmisi unggas ke manusia).
-   - Jurnal Epidemiologi & Kesehatan Komunitas tentang kendala struktural finansial peternak kecil.
+  saran: "Saran dari riset ini: peternak butuh bantuan modal atau subsidi disinfektan/APD dari pemerintah, plus edukasi berkala yang gak kaku biar mereka paham pentingnya masker sama sekat pembatas kandang.",
 
-Gaya Komunikasi:
-- Gunakan bahasa Indonesia yang santai, interaktif, ramah, dan bersahabat (wajib gunakan panggilan "gw-lu" agar sangat user-friendly).
-- Jawab secara singkat, padat, jelas, langsung ke inti pertanyaan tanpa penjelasan bertele-tele (no yapping).
-- Jika user menyapa (halo, hai, p, apa kabar, dll) atau sekadar basa-basi di luar topik, balas dengan sangat santai, ramah, lalu arahkan kembali secara halus untuk mendiskusikan riset atau mencoba tombol pintas yang ada.
-`;
+  // --- TAMBAHAN DATA BARU YANG SERING DITANYAKAN ---
+  jenis: "Riset ini pake jenis penelitian KUALITATIF deskriptif, bro. Jadi gw gak pake angka-angka statistik atau rumus kuantitatif, melainkan fokus ke analisis mendalam terhadap perilaku dan wawancara nyata di lapangan.",
+
+  responden: "Data responden atau informan di riset ini adalah para peternak unggas mandiri/rakyat yang ada di Kampung Sukaruas, Tasikmalaya. Pemilihannya pake teknik purposive sampling supaya dapet peternak yang emang sesuai kriteria riset.",
+
+  latar_belakang: "Latar belakang riset ini karena virus Avian Influenza (H5N1) masih jadi ancaman nyata buat peternakan rakyat. Kampung Sukaruas dipilih karena sektor peternakan unggas mandiri di sana aktif, tapi pemahaman soal biosekuriti ketat masih fluktuatif akibat kendala ekonomi."
+};
+
+// Fungsi pencari jawaban berdasarkan kata kunci (Keyword Matching)
+function getSimulatedResponse(inputText) {
+  const text = inputText.toLowerCase();
+  
+  if (text.includes("halo") || text.includes("hai") || text.includes(" p ") || text === "p") {
+    return BOT_RESPONSES.halo;
+  }
+  if (text.includes("ringkasan") || text.includes("rangkuman") || text.includes("kesimpulan") || text.includes("tentang") || text.includes("inti")) {
+    return BOT_RESPONSES.ringkasan;
+  }
+  if (text.includes("jurnal") || text.includes("buku") || text.includes("referensi") || text.includes("dokumen") || text.includes("pustaka")) {
+    return BOT_RESPONSES.jurnal;
+  }
+  if (text.includes("lokasi") || text.includes("tempat") || text.includes("di mana") || text.includes("waktu") || text.includes("kapan") || text.includes("tasikmalaya")) {
+    return BOT_RESPONSES.lokasi;
+  }
+  if (text.includes("tujuan") || text.includes("maksud") || text.includes("buat apa")) {
+    return BOT_RESPONSES.tujuan;
+  }
+  if (text.includes("saran") || text.includes("rekomendasi") || text.includes("solusi") || text.includes("perbaikan")) {
+    return BOT_RESPONSES.saran;
+  }
+  if (text.includes("jenis") || text.includes("kualitatif") || text.includes("kuantitatif") || text.includes("metode") || text.includes("metodologi")) {
+    return BOT_RESPONSES.jenis;
+  }
+  if (text.includes("responden") || text.includes("informan") || text.includes("peternak") || text.includes("subjek") || text.includes("objek")) {
+    return BOT_RESPONSES.responden;
+  }
+  if (text.includes("latar belakang") || text.includes("alasan") || text.includes("kenapa") || text.includes("mengapa")) {
+    return BOT_RESPONSES.latar_belakang;
+  }
+  
+  return BOT_RESPONSES.default;
+}
 
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
@@ -51,7 +91,7 @@ const chatbotHTML = `
 
     <div style="padding: 10px 14px; background: #ebdcb9;">
       <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
-        <input type="text" id="cb-input" placeholder="Tanya apa saja ke AI..." onkeypress="handleKey(event)" oninput="checkInputToggle()" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
+        <input type="text" id="cb-input" placeholder="Ketik disini!" onkeypress="handleKey(event)" oninput="checkInputToggle()" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
         <button id="cb-send" onclick="sendMessage()" style="background: #6b7c52; border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; transition: background 0.2s; box-shadow: 0 2px 6px rgba(107,124,82,0.2);">➔</button>
       </div>
     </div>
@@ -97,8 +137,6 @@ const cbWidget = document.getElementById('cb-widget');
 const cbButton = document.getElementById('cb-button');
 const qrContainer = document.getElementById('cb-quick-replies');
 
-let chatContextHistory = [];
-
 function initChatbot() {
   if (localStorage.getItem('chat_open') === 'true') {
     chatBox.style.display = 'flex';
@@ -107,7 +145,6 @@ function initChatbot() {
   const isNavigating = sessionStorage.getItem('cb_navigating');
   if (!isNavigating) {
     localStorage.removeItem('chat_history');
-    localStorage.removeItem('cb_context_memory');
   }
   sessionStorage.removeItem('cb_navigating');
   
@@ -118,7 +155,6 @@ function initChatbot() {
   });
 
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
-  chatContextHistory = JSON.parse(localStorage.getItem('cb_context_memory')) || [];
 
   if (savedMessages.length === 0) {
     appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau minta rangkuman & jurnal pendukung secara langsung.');
@@ -171,7 +207,7 @@ function checkInputToggle() {
   }
 }
 
-async function sendMessage() {
+function sendMessage() {
   const input = document.getElementById('cb-input');
   const text = input.value.trim();
   if (!text) return;
@@ -187,53 +223,13 @@ async function sendMessage() {
   msgContainer.appendChild(loadingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
-  if (chatContextHistory.length > 0 && chatContextHistory[chatContextHistory.length - 1].role === 'user') {
-    chatContextHistory[chatContextHistory.length - 1].parts[0].text += " " + text;
-  } else {
-    chatContextHistory.push({ role: "user", parts: [{ text: text }] });
-  }
-
-  try {
-    // FIX API URL: Mengembalikan metode penembakan key resmi lewat parameter URL (?key=)
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        contents: chatContextHistory,
-        systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        generationConfig: { maxOutputTokens: 800, temperature: 0.7 }
-      })
-    });
-
-    const data = await response.json();
-    
+  setTimeout(() => {
     const indicator = document.getElementById('cb-typing-indicator');
     if (indicator) indicator.remove();
 
-    let botReply = "";
-    
-    if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-      botReply = data.candidates[0].content.parts[0].text.trim();
-      chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
-      localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
-    } else {
-      botReply = "Sori banget bro, koneksi AI sempat terputus sebentar. Boleh coba kirim ulang pertanyaannya?";
-      chatContextHistory.pop();
-    }
-
+    const botReply = getSimulatedResponse(text);
     appendMessage('bot', botReply, true);
-
-  } catch (error) {
-    const indicator = document.getElementById('cb-typing-indicator');
-    if (indicator) indicator.remove();
-    
-    appendMessage('bot', 'Aduh sori bro, gagal nyambung ke otak AI. Coba cek integrasi API Key-nya di konsol web lu.', true);
-    chatContextHistory.pop(); 
-    checkInputToggle(); 
-    console.error("Gemini API Error: ", error);
-  }
+  }, 400); 
 }
 
 function appendMessage(sender, text, save = false) {
