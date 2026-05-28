@@ -1,10 +1,7 @@
-// ==========================================
-// DATA PENELITIAN TESIS 36 (VERSI LEFT ALIGNED + INSTANT CLICK)
-// ==========================================
 const BOT_RESPONSES = {
   default: `Sori bro, gw belum paham maksud lu. Coba tanya hal lain seputar riset TESIS 36 atau klik tombol pintas di bawah. 
 
-Kalau butuh bantuan lebih lanjut, langsung chat ketuanya aja lewat tautan ini:
+Kalau butuh bantuan lebih lanjut, langsung chat tim gw aja lewat tautan ini:
 👉 <a href="https://api.whatsapp.com/send?phone=6287719627045&text=halo,%20saya%20ingin%20bertanya%20sesuatu%20tentang%20TESIS%2036" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">Hubungi via WhatsApp</a> atau DM Instagram <a href="https://instagram.com/hugaabrieel" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">@hugaabrieel</a>!`,
   
   halo: "Halo juga bro! Selamat datang! Ada yang bisa gw bantu seputar penelitian kualitatif TESIS 36? Tanya aja santai, gw siap nemenin ngobrol.",
@@ -70,12 +67,11 @@ function getSimulatedResponse(inputText) {
   return BOT_RESPONSES.default;
 }
 
-// FIX POSITION: Pindah ke kiri bawah (left: 25px) dan panel box sejajar (right: auto; left: 0px;)
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; left: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif;">
   <!-- Tombol Utama Kiri Bawah -->
   <div id="cb-button" onclick="toggleChat(event)" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
-    <span id="cb-icon" style="display: inline-block;">🐓</span>
+    <span id="cb-icon" style="display: inline-block; transition: transform 0.4s ease-out;">🐓</span>
   </div>
   
   <!-- Panel Chat Interface (Membuka lurus ke atas dari kiri) -->
@@ -121,14 +117,23 @@ style.innerHTML = `
     0% { transform: scale(0.7) translateY(10px); opacity: 0; }
     100% { transform: scale(1) translateY(0); opacity: 1; }
   }
-  @keyframes cbRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
   @keyframes cbPulse {
     0%, 100% { opacity: 0.3; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1.1); }
   }
+  
+  /* ANIMASI LUCU BERGOYANG KETIKA CHAT SEDANG TERBUKA */
+  @keyframes cbWobble {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-10deg) scale(1.05); }
+    75% { transform: rotate(10deg) scale(1.05); }
+  }
+  
+  /* Class pemicu animasi klik muter */
+  .cb-spin-effect { transform: rotate(360deg) scale(1.2); }
+  
+  /* Class pemicu animasi lucu ketika panel chat aktif terbuka */
+  .cb-active-swing { animation: cbWobble 1.5s ease-in-out infinite; }
   
   .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
   .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); white-space: pre-line; }
@@ -140,7 +145,6 @@ style.innerHTML = `
 
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
   #cb-button:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(78,94,56,0.5); }
-  #cb-button:hover #cb-icon { animation: cbRotate 0.5s ease-in-out; }
   #cb-button:active { transform: scale(0.95); }
   
   #cb-close:hover { background: rgba(255,255,255,0.25); transform: rotate(90deg); }
@@ -161,10 +165,12 @@ document.head.appendChild(style);
 
 const msgContainer = document.getElementById('cb-messages');
 const chatBox = document.getElementById('cb-box');
+const cbIcon = document.getElementById('cb-icon');
 
 function initChatbot() {
   if (localStorage.getItem('chat_open') === 'true') {
     chatBox.style.display = 'flex';
+    cbIcon.classList.add('cb-active-swing'); // Tetap goyang kalau status pas reload lagi kebuka
   }
   
   const isNavigating = sessionStorage.getItem('cb_navigating');
@@ -190,17 +196,32 @@ function initChatbot() {
   checkInputToggle();
 }
 
+// FIX ANIMATION TRIGGER: Mengatur efek putar klik dan efek bergoyang ketika aktif
 function toggleChat(e) {
   if (e) {
     e.stopPropagation();
     e.preventDefault(); 
   }
+
+  // 1. Efek Putar Instan pas diklik (Tombol Utama & Tombol Silang)
+  cbIcon.classList.remove('cb-spin-effect');
+  void cbIcon.offsetWidth; // Mengulang trigger render CSS animation
+  cbIcon.classList.add('cb-spin-effect');
+
+  // Bersihkan class putar setelah animasi rotasi beres (400ms)
+  setTimeout(() => {
+    cbIcon.classList.remove('cb-spin-effect');
+  }, 400);
+
+  // 2. Tampilkan/Sembunyikan panel chat beserta animasi goyang tambahannya
   if (chatBox.style.display === 'none' || chatBox.style.display === '') {
     chatBox.style.display = 'flex';
     localStorage.setItem('chat_open', 'true');
+    cbIcon.classList.add('cb-active-swing'); // Mulai goyang lucu pas kebuka
   } else {
     chatBox.style.display = 'none';
     localStorage.setItem('chat_open', 'false');
+    cbIcon.classList.remove('cb-active-swing'); // Berhenti goyang pas ditutup
   }
 }
 
