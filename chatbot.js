@@ -1,3 +1,29 @@
+// ==========================================
+// CONFIGURATION - GEMINI API KEY INTEGRATED
+// ==========================================
+const GEMINI_API_KEY = "AQ.Ab8RN6IDbhRv2Y4dTBClDmzvlRoKcMMs4B9kxbXg3Le-S5yr-Q"; 
+
+// System Instruction: Menjaga kepribadian bot tetap santai (gw-lu) & menguasai materi TESIS 36
+const SYSTEM_INSTRUCTION = `
+Lu adalah Asisten Pintar berbasis AI bernama "Asisten TESIS 36".
+Tugas utama lu adalah membantu pengunjung website memahami hasil penelitian kualitatif berjudul:
+"Analisis Praktik Biosekuriti Peternak Ungas Terhadap Avian Influenza (H5N1) di Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat" oleh Tim TESIS 36 SMAN 8 Jakarta.
+
+Materi & Fakta Penelitian (Gunakan ini untuk menjawab pertanyaan):
+1. Waktu & Lokasi: Lapangan di Kampung Sukaruas, Tasikmalaya pada 21–24 Januari 2026.
+2. Fokus Penelitian: Studi kualitatif mengenai implementasi higienitas, sanitasi, dan biosekuriti peternak unggas mandiri/rakyat terhadap virus H5N1.
+3. Temuan Utama: Adanya celah kritis pada minimnya sekat disinfeksi, peternak sangat jarang memakai APD (terutama masker/pelindung pernapasan), serta adanya benturan modal ekonomi sebagai alasan utama rendahnya kepatuhan higienitas kandang.
+4. Jurnal/Dokumen Pendukung Utama:
+   - FAO (2008): "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper" (Standar sanitasi global).
+   - WHO (2024): "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring" (Mitigasi transmisi unggas ke manusia).
+   - Jurnal Epidemiologi & Kesehatan Komunitas tentang kendala struktural finansial peternak kecil.
+
+Gaya Komunikasi:
+- Gunakan bahasa Indonesia yang santai, interaktif, ramah, dan bersahabat (wajib gunakan panggilan "gw-lu" agar sangat user-friendly).
+- Jawab secara singkat, padat, jelas, langsung ke inti pertanyaan tanpa penjelasan bertele-tele (no yapping).
+- Jika user menyapa (halo, hai, p, apa kabar, dll) atau sekadar basa-basi di luar topik, balas dengan sangat santai, ramah, lalu arahkan kembali secara halus untuk mendiskusikan riset atau mencoba tombol pintas yang ada.
+`;
+
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
   <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 130px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 13.5px; font-weight: 500;">
@@ -17,14 +43,14 @@ const chatbotHTML = `
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
     <div id="cb-quick-replies" style="display: flex; flex-direction: column; gap: 5px; padding: 8px 14px; background: #ebdcb9;">
-      <button class="cb-qr-btn" onclick="sendQuickReply('📋 Ringkasan Penelitian')">📋 Ringkasan Penelitian</button>
-      <button class="cb-qr-btn" onclick="sendQuickReply('📚 Jurnal Pendukung')">📚 Jurnal Pendukung</button>
-      <button class="cb-qr-btn" onclick="sendQuickReply('📍 Lokasi & Waktu')">📍 Lokasi & Waktu</button>
+      <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan Penelitian</button>
+      <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pendukung</button>
+      <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini lokasinya di mana?')">📍 Lokasi & Waktu</button>
     </div>
 
     <div style="padding: 10px 14px; background: #ebdcb9;">
       <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
-        <input type="text" id="cb-input" placeholder="Tanya sesuatu..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
+        <input type="text" id="cb-input" placeholder="Tanya apa saja ke AI..." onkeypress="handleKey(event)" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
         <button id="cb-send" onclick="sendMessage()" style="background: #6b7c52; border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; transition: background 0.2s; box-shadow: 0 2px 6px rgba(107,124,82,0.2);">➔</button>
       </div>
     </div>
@@ -45,7 +71,7 @@ style.innerHTML = `
     100% { transform: rotate(360deg); }
   }
   .cb-msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.45; word-wrap: break-word; box-sizing: border-box; animation: cbPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
-  .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); }
+  .cb-bot { background: #e8dfc8; color: #2e2416; align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 2px 5px rgba(92,74,42,0.08); white-space: pre-line; }
   .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
@@ -69,6 +95,8 @@ const chatBox = document.getElementById('cb-box');
 const cbWidget = document.getElementById('cb-widget');
 const cbButton = document.getElementById('cb-button');
 
+let chatContextHistory = [];
+
 function initChatbot() {
   if (localStorage.getItem('chat_open') === 'true') {
     chatBox.style.display = 'flex';
@@ -77,6 +105,7 @@ function initChatbot() {
   const isNavigating = sessionStorage.getItem('cb_navigating');
   if (!isNavigating) {
     localStorage.removeItem('chat_history');
+    localStorage.removeItem('cb_context_memory');
   }
   sessionStorage.removeItem('cb_navigating');
   
@@ -87,8 +116,10 @@ function initChatbot() {
   });
 
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
+  chatContextHistory = JSON.parse(localStorage.getItem('cb_context_memory')) || [];
+
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw sistem AI TESIS 36. Ada yang bisa dibantu terkait riset biosekuriti Avian Influenza (H5N1)? Lu bisa nanya ringkasan atau minta jurnal pendukung.');
+    appendMessage('bot', 'Halo! Gw Asisten AI TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau minta rangkuman & jurnal pendukung secara langsung.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -116,7 +147,7 @@ function sendQuickReply(text) {
   sendMessage();
 }
 
-function sendMessage() {
+async function sendMessage() {
   const input = document.getElementById('cb-input');
   const text = input.value.trim();
   if (!text) return;
@@ -124,40 +155,49 @@ function sendMessage() {
   appendMessage('user', text, true);
   input.value = '';
 
-  setTimeout(() => {
-    const query = text.toLowerCase();
-    let reply = '';
+  const loadingDiv = document.createElement('div');
+  loadingDiv.classList.add('cb-msg', 'cb-bot');
+  loadingDiv.id = 'cb-typing-indicator';
+  loadingDiv.innerText = 'Ketik...';
+  msgContainer.appendChild(loadingDiv);
+  msgContainer.scrollTop = msgContainer.scrollHeight;
 
-    // 1. Obrolan Santai / Sapaan (User-Friendly Conversational Flow)
-    if (query.match(/(halo|hai|hello|hey|hei|p|permisi|assalamualaikum|spada)/)) {
-      reply = 'Halo juga! Ada yang bisa gw bantu seputar website atau hasil riset Avian Influenza tim TESIS 36?';
-    } else if (query.match(/(kabar|gimana|apa kabar|how are you)/)) {
-      reply = 'Kabar baik banget! Gw siap bantu nemuin informasi ringkasan atau jurnal di web ini. Lu gimana?';
-    } else if (query.match(/(makasih|terima kasih|thanks|thank you|ok|oke|siap)/)) {
-      reply = 'Sama-sama! Senang bisa bantu. Kalau ada bagian bab yang kurang jelas, tanyain lagi aja ya.';
-    } else if (query.match(/(siapa|nama|lu siapa|identity|bot)/)) {
-      reply = 'Gw Asisten Pintar berbasis AI yang dipasang khusus buat bantu pembaca memahami seluruh isi materi penelitian TESIS 36.';
-    }
+  chatContextHistory.push({ role: "user", parts: [{ text: text }] });
+
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: chatContextHistory,
+        systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+        generationConfig: { maxOutputTokens: 250, temperature: 0.7 }
+      })
+    });
+
+    const data = await response.json();
     
-    // 2. Konten Inti / Jurnal Pendukung (Riset Context)
-    else if (query.includes('jurnal') || query.includes('pendukung') || query.includes('referensi') || query.includes('buku') || query.includes('pustaka')) {
-      reply = 'Berikut adalah daftar dokumen serta jurnal pendukung utama yang mendasari analisis biosekuriti riset ini:\n\n' +
-              '• Food and Agriculture Organization (FAO, 2008) – "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper". Acuan standar prosedur sanitasi global.\n\n' +
-              '• World Health Organization (WHO, 2024) – "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring". Panduan mitigasi transmisi dari unggas ke manusia.\n\n' +
-              '• Jurnal Epidemiologi & Kesehatan Komunitas – "Analisis Kendala Struktural Finansial Peternakan Rakyat Menengah Kebawah dalam Penerapan Regulasi Biosekuriti 3 Sektor".';
-    } else if (query.includes('ringkasan') || query.includes('summarize') || query.includes('kesimpulan') || query.includes('abstrak') || query.includes('isi')) {
-      reply = 'Ringkasan Eksekutif Penelitian:\nStudi kualitatif ini menginvestigasi efektivitas penegakan biosekuriti peternak unggas mandiri di pemukiman semi-padat terhadap ancaman Avian Influenza (H5N1). Hasil analisis mendeteksi celah kritis pada minimnya ketersediaan sekat disinfeksi, absennya penggunaan APD standar pelindung pernapasan, serta benturan modal ekonomi sebagai pemicu utama rendahnya kepatuhan higienitas kandang.';
-    } else if (query.includes('lokasi') || query.includes('tempat') || query.includes('kapan') || query.includes('waktu') || query.includes('tasik')) {
-      reply = 'Pengumpulan data primer dan observasi lapangan dilakukan secara mendalam di kawasan peternakan rakyat Kampung Sukaruas, Kabupaten Tasikmalaya, Provinsi Jawa Barat. Studi ini berlangsung selama empat hari penuh, tepatnya pada 21 hingga 24 Januari 2026.';
-    }
-    
-    // 3. Fallback cerdas jika out of topic parah
-    else {
-      reply = 'Hmm, gw belum punya data spesifik tentang itu di repositori TESIS 36. Tapi kalau terkait ringkasan bab, metodologi di Tasikmalaya, atau jurnal pendukung flu burung, gw paham banget. Mau cari tahu bagian itu?';
+    const indicator = document.getElementById('cb-typing-indicator');
+    if (indicator) indicator.remove();
+
+    let botReply = "";
+    if (data.candidates && data.candidates[0].content.parts[0].text) {
+      botReply = data.candidates[0].content.parts[0].text.trim();
+    } else {
+      botReply = "Aduh sori, otak AI gw tiba-tiba ngeblank. Coba kirim ulang pertanyaannya.";
     }
 
-    appendMessage('bot', reply, true);
-  }, 650);
+    appendMessage('bot', botReply, true);
+
+    chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
+    localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
+
+  } catch (error) {
+    const indicator = document.getElementById('cb-typing-indicator');
+    if (indicator) indicator.remove();
+    appendMessage('bot', 'Koneksi gagal atau API Key bermasalah nih. Coba dicek kembali ya.', true);
+    console.error("Gemini API Error: ", error);
+  }
 }
 
 function appendMessage(sender, text, save = false) {
