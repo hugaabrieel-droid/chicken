@@ -20,7 +20,7 @@ const BOT_RESPONSES = {
 
   tujuan: "Tujuan riset ini tuh buat nyari tahu sejauh mana peternak mandiri paham dan nerapin higienitas kandang, sekaligus nyari tahu hambatan nyata mereka di lapangan dalam mencegah penyebaran H5N1.",
 
-  saran: "Saran dari riset ini: peternak buat butuh bantuan modal atau subsidi disinfektan/APD dari pemerintah, plus edukasi berkala yang gak kaku biar mereka paham pentingnya masker sama sekat pembatas kandang.",
+  saran: "Saran dari riset ini: peternak butuh bantuan modal atau subsidi disinfektan/APD dari pemerintah, plus edukasi berkala yang gak kaku biar mereka paham pentingnya masker sama sekat pembatas kandang.",
 
   jenis: "Riset ini pake jenis penelitian KUALITATIF deskriptif, bro. Jadi gw gak pake angka-angka statistik atau rumus kuantitatif, melainkan fokus ke analisis mendalam terhadap perilaku dan wawancara nyata di lapangan.",
 
@@ -66,12 +66,15 @@ function getSimulatedResponse(inputText) {
 
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
+  <!-- Tombol Utama Kapsul Interaktif (🐓 Chat) -->
   <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 14px; font-weight: 500;">
     <span id="cb-icon" style="font-size: 18px; display: inline-block;">🐓</span>
     <span>Chat</span>
   </div>
   
+  <!-- Panel Chat Interface -->
   <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
+    <!-- Header -->
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>🐔</span>
@@ -80,9 +83,11 @@ const chatbotHTML = `
       <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 22px; font-weight: 300; line-height: 1;">&times;</span>
     </div>
     
+    <!-- Wadah Pesan -->
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
     
-    <div id="cb-quick-replies" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px 14px; background: #ebdcb9; transition: all 0.25s ease-in-out; max-height: 110px; opacity: 1; overflow: hidden;">
+    <!-- Quick Reply Container BARU: Geser Nyamping (Horizontal Scroll) Super Tipis -->
+    <div id="cb-quick-replies" style="display: flex; flex-direction: row; gap: 6px; padding: 6px 14px; background: #ebdcb9; overflow-x: auto; white-space: nowrap; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
       <button class="cb-qr-btn" onclick="sendQuickReply('Minta ringkasan penelitian dong')">📋 Ringkasan</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa saja jurnal pendukung riset ini?')">📚 Jurnal Pustaka</button>
       <button class="cb-qr-btn" onclick="sendQuickReply('Penelitian ini jenis risetnya kualitatif atau kuantitatif?')">🧐 Jenis Riset</button>
@@ -91,6 +96,7 @@ const chatbotHTML = `
       <button class="cb-qr-btn" onclick="sendQuickReply('Apa rekomendasi atau saran dari riset ini?')">💡 Solusi & Saran</button>
     </div>
 
+    <!-- Area Input Modern -->
     <div style="padding: 10px 14px; background: #ebdcb9;">
       <div id="cb-input-container" style="display: flex; align-items: center; background: #fdfaf4; border: 1px solid rgba(92,74,42,0.2); border-radius: 22px; padding: 4px 6px 4px 14px; box-shadow: 0 4px 12px rgba(92,74,42,0.08); transition: border-color 0.2s, box-shadow 0.2s;">
         <input type="text" id="cb-input" placeholder="Ketik disini!" onkeypress="handleKey(event)" oninput="checkInputToggle()" style="flex: 1; border: none; padding: 8px 0; outline: none; font-size: 12.5px; background: transparent; color: #2e2416;">
@@ -125,10 +131,12 @@ style.innerHTML = `
   #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
   #cb-send:hover { background: #4e5e38; }
   
-  /* Styling tombol QR yang lebih ringkas dan pas di grid */
-  .cb-qr-btn { background: rgba(253, 250, 244, 0.65); border: 1px solid rgba(92,74,42,0.1); color: #5c4a2a; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; text-align: left; width: 100%; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(92,74,42,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
+  /* Desain tombol horizontal super ramping */
+  .cb-qr-btn { display: inline-flex; align-items: center; background: rgba(253, 250, 244, 0.75); border: 1px solid rgba(92,74,42,0.12); color: #5c4a2a; padding: 5px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 500; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 1px 3px rgba(92,74,42,0.03); }
+  .cb-qr-btn:hover { background: #6b7c52; color: #ffffff; border-color: #6b7c52; box-shadow: 0 2px 6px rgba(107,124,82,0.12); }
   
+  /* Sembunyikan scrollbar bawaan browser biar rapi tapi tetep bisa di-scroll */
+  #cb-quick-replies::-webkit-scrollbar { height: 0px; background: transparent; }
   #cb-messages::-webkit-scrollbar { width: 4px; }
   #cb-messages::-webkit-scrollbar-thumb { background: rgba(92,74,42,0.2); border-radius: 2px; }
 `;
@@ -160,7 +168,7 @@ function initChatbot() {
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
 
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau pencet tombol cepat di bawah biar instan.');
+    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau geser tombol cepat di bawah biar instan.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -198,9 +206,9 @@ function checkInputToggle() {
   
   const inputVal = inputEl.value.trim();
   if (inputVal.length > 0) {
-    qrContainer.style.display = 'none'; // Sembunyikan grid total pas ngetik biar space chat lega
+    qrContainer.style.display = 'none'; // Sembunyikan penuh pas ngetik
   } else {
-    qrContainer.style.display = 'grid'; // Tampilkan kembali grid pas input kosong
+    qrContainer.style.display = 'flex'; // Munculin flex horisontal pas input kosong
   }
 }
 
