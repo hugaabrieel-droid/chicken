@@ -1,7 +1,10 @@
+// ==========================================
+// DATA PENELITIAN TESIS 36 (VERSI LEFT ALIGNED + INSTANT CLICK)
+// ==========================================
 const BOT_RESPONSES = {
   default: `Sori bro, gw belum paham maksud lu. Coba tanya hal lain seputar riset TESIS 36 atau klik tombol pintas di bawah. 
 
-Kalau butuh bantuan lebih lanjut, langsung chat tim gw aja lewat tautan ini:
+Kalau butuh bantuan lebih lanjut, langsung chat ketuanya aja lewat tautan ini:
 👉 <a href="https://api.whatsapp.com/send?phone=6287719627045&text=halo,%20saya%20ingin%20bertanya%20sesuatu%20tentang%20TESIS%2036" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">Hubungi via WhatsApp</a> atau DM Instagram <a href="https://instagram.com/hugaabrieel" target="_blank" style="color: #6b7c52; font-weight: bold; text-decoration: underline;">@hugaabrieel</a>!`,
   
   halo: "Halo juga bro! Selamat datang! Ada yang bisa gw bantu seputar penelitian kualitatif TESIS 36? Tanya aja santai, gw siap nemenin ngobrol.",
@@ -67,16 +70,16 @@ function getSimulatedResponse(inputText) {
   return BOT_RESPONSES.default;
 }
 
-// FIX: Tombol utama langsung ditembak onclick="toggleChat(event)" biar gak lewat perantara gesture drag yang bikin delay
+// FIX POSITION: Pindah ke kiri bawah (left: 25px) dan panel box sejajar (right: auto; left: 0px;)
 const chatbotHTML = `
-<div id="cb-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif;">
-  <!-- Tombol Utama Murni Klik Instan -->
+<div id="cb-widget" style="position: fixed; bottom: 25px; left: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif;">
+  <!-- Tombol Utama Kiri Bawah -->
   <div id="cb-button" onclick="toggleChat(event)" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
     <span id="cb-icon" style="display: inline-block;">🐓</span>
   </div>
   
-  <!-- Panel Chat Interface -->
-  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0px; flex-direction: column; overflow: hidden; pointer-events: auto;">
+  <!-- Panel Chat Interface (Membuka lurus ke atas dari kiri) -->
+  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; left: 0px; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <!-- Header -->
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
@@ -190,7 +193,7 @@ function initChatbot() {
 function toggleChat(e) {
   if (e) {
     e.stopPropagation();
-    e.preventDefault(); // Mengunci event mobile click biar gak kena delay browser
+    e.preventDefault(); 
   }
   if (chatBox.style.display === 'none' || chatBox.style.display === '') {
     chatBox.style.display = 'flex';
