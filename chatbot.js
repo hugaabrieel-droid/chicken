@@ -8,7 +8,7 @@ const chatbotHTML = `
   <div id="cb-box" style="display: none; width: 330px; height: 430px; background: #f4ede2; border: 1px solid rgba(90,70,40,.12); border-radius: 16px; box-shadow: 0 12px 36px rgba(90,70,40,.2); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
-        <span>🐔</span>
+        <span>🤖</span>
         <span>Asisten Pintar TESIS 36</span>
       </div>
       <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 22px; font-weight: 300; line-height: 1;">&times;</span>
