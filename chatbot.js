@@ -5,7 +5,7 @@ const GEMINI_API_KEY = "AQ.Ab8RN6IDbhRv2Y4dTBClDmzvlRoKcMMs4B9kxbXg3Le-S5yr-Q";
 
 // System Instruction: Menjaga kepribadian bot tetap santai (gw-lu) & menguasai materi TESIS 36
 const SYSTEM_INSTRUCTION = `
-Lu adalah Asisten Pintar berbasis AI bernama "Asisten TESIS 36".
+Lu adalah Asisten Pintar berbasis AI bernama "Chatbot TESIS 36".
 Tugas utama lu adalah membantu pengunjung website memahami hasil penelitian kualitatif berjudul:
 "Analisis Praktik Biosekuriti Peternak Ungas Terhadap Avian Influenza (H5N1) di Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat" oleh Tim TESIS 36 SMAN 8 Jakarta.
 
@@ -14,7 +14,7 @@ Materi & Fakta Penelitian (Gunakan ini untuk menjawab pertanyaan):
 2. Fokus Penelitian: Studi kualitatif mengenai implementasi higienitas, sanitasi, dan biosekuriti peternak unggas mandiri/rakyat terhadap virus H5N1.
 3. Temuan Utama: Adanya celah kritis pada minimnya sekat disinfeksi, peternak sangat jarang memakai APD (terutama masker/pelindung pernapasan), serta adanya benturan modal ekonomi sebagai alasan utama rendahnya kepatuhan higienitas kandang.
 4. Jurnal/Dokumen Pendukung Utama:
-   - FAO (2008): "Biosecurity for Highly Pathogenic Avian Influenza: FAO Animal Production and Health Paper" (Standar sanitasi global).
+   - FAO (2008): "Biosecurity for Highly Pathogenic Devian Influenza: FAO Animal Production and Health Paper" (Standar sanitasi global).
    - WHO (2024): "Global Influenza Surveillance and Response System (GISRS) for H5N1 Monitoring" (Mitigasi transmisi unggas ke manusia).
    - Jurnal Epidemiologi & Kesehatan Komunitas tentang kendala struktural finansial peternak kecil.
 
@@ -26,16 +26,16 @@ Gaya Komunikasi:
 
 const chatbotHTML = `
 <div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
-  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 130px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 13.5px; font-weight: 500;">
-    <span id="cb-icon" style="font-size: 18px; display: inline-block;">🐔</span>
-    <span>Chat?</span>
+  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100px; height: 48px; border-radius: 24px; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: move; box-shadow: 0 6px 20px rgba(78,94,56,0.3); user-select: none; font-size: 14px; font-weight: 500;">
+    <span id="cb-icon" style="font-size: 18px; display: inline-block;">🐓</span>
+    <span>Chat</span>
   </div>
   
   <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>🐔</span>
-        <span>Asisten Pintar TESIS 36</span>
+        <span>Chatbot TESIS 36</span>
       </div>
       <span id="cb-close" onclick="toggleChat()" style="cursor: pointer; font-size: 22px; font-weight: 300; line-height: 1;">&times;</span>
     </div>
@@ -96,7 +96,6 @@ const cbWidget = document.getElementById('cb-widget');
 const cbButton = document.getElementById('cb-button');
 const qrContainer = document.getElementById('cb-quick-replies');
 
-// Array penampung context history murni (hanya dikirim ke API)
 let chatContextHistory = [];
 
 function initChatbot() {
@@ -121,7 +120,7 @@ function initChatbot() {
   chatContextHistory = JSON.parse(localStorage.getItem('cb_context_memory')) || [];
 
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw Asisten AI TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau minta rangkuman & jurnal pendukung secara langsung.');
+    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau minta rangkuman & jurnal pendukung secara langsung.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
@@ -176,12 +175,10 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  // Tampilkan pesan user di UI & reset input text area
   appendMessage('user', text, true);
   input.value = '';
   checkInputToggle(); 
 
-  // Tampilkan efek loading ketik sederhana
   const loadingDiv = document.createElement('div');
   loadingDiv.classList.add('cb-msg', 'cb-bot');
   loadingDiv.id = 'cb-typing-indicator';
@@ -189,9 +186,7 @@ async function sendMessage() {
   msgContainer.appendChild(loadingDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 
-  // AMAN: Validasi riwayat agar polanya selang-seling (user -> model -> user) sebelum di-push
   if (chatContextHistory.length > 0 && chatContextHistory[chatContextHistory.length - 1].role === 'user') {
-    // Jika input ganda/cepat terjadi, gabungkan dengan teks sebelumnya agar API tidak crash
     chatContextHistory[chatContextHistory.length - 1].parts[0].text += " " + text;
   } else {
     chatContextHistory.push({ role: "user", parts: [{ text: text }] });
@@ -215,16 +210,12 @@ async function sendMessage() {
 
     let botReply = "";
     
-    // Protokol pengecekan respons berlapis agar tidak rentan blank screen
     if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
       botReply = data.candidates[0].content.parts[0].text.trim();
-      
-      // Simpan balasan bot ke memory array setelah sukses divalidasi
       chatContextHistory.push({ role: "model", parts: [{ text: botReply }] });
       localStorage.setItem('cb_context_memory', JSON.stringify(chatContextHistory));
     } else {
       botReply = "Sori banget bro, koneksi AI sempat terputus sebentar. Boleh coba kirim ulang pertanyaannya?";
-      // Hapus data rusak terakhir dari riwayat agar tidak merusak sesi obrolan berikutnya
       chatContextHistory.pop();
     }
 
@@ -234,8 +225,10 @@ async function sendMessage() {
     const indicator = document.getElementById('cb-typing-indicator');
     if (indicator) indicator.remove();
     
-    appendMessage('bot', 'Koneksi gagal atau API Key bermasalah nih. Coba dicek kembali ya.', true);
-    chatContextHistory.pop(); // Bersihkan sisa history yang gagal
+    // FIX ERROR STATE: Tampilkan pesan error & pastikan quick replies reset kembali dengan aman
+    appendMessage('bot', 'Aduh sori bro, gagal nyambung ke otak AI. Coba cek API Key lu deh, kayaknya kepotong atau belum valid.', true);
+    chatContextHistory.pop(); 
+    checkInputToggle(); // Paksa quick reply muncul lagi biar user ga stuck
     console.error("Gemini API Error: ", error);
   }
 }
