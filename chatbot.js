@@ -1,84 +1,59 @@
 // ==========================================
-// DATA PENELITIAN TESIS 36 (RULE-BASED SYSTEM)
+// DATA PENELITIAN TESIS 36 (REVISI PADAT & BERISI)
 // ==========================================
 const BOT_RESPONSES = {
-  default: "Sori bro, gw gak paham maksud lu. Coba tanya hal lain seputar riset TESIS 36, atau klik aja tombol pintas di bawah biar cepet!",
+  default: "Sori bro, gw gak paham. Coba tanya hal lain seputar riset TESIS 36, atau klik tombol pintas di bawah biar cepet!",
   
-  halo: "Halo juga bro! Ada yang bisa gw bantu seputar penelitian TESIS 36? Tanya aja santai.",
+  halo: "Halo bro! Ada yang bisa gw bantu seputar penelitian kualitatif TESIS 36? Tanya aja santai.",
   
-  ringkasan: `Ringkasan Penelitian TESIS 36:
-  Riset kualitatif deskriptif ini menganalisis implementasi biosekuriti peternak unggas mandiri terhadap virus Avian Influenza (H5N1) di Kampung Sukaruas, Tasikmalaya. 
+  ringkasan: `Inti Riset: Riset kualitatif ini menganalisis celah kritis biosekuriti peternak unggas rakyat terhadap virus Flu Burung (H5N1) di Kampung Sukaruas, Tasikmalaya.
+  Temuan Utama: Kebanyakan peternak mandiri abai APD (masker/baju khusus) dan minim sekat disinfeksi kandang akibat keterbatasan modal ekonomi.`,
   
-  Temuan Utama: Kesadaran peternak sudah ada, namun penerapan riil di lapangan masih memiliki celah kritis (seperti absennya APD/masker dan minimnya penyekatan disinfeksi area kandang). Hal ini terjadi akibat benturan keterbatasan modal ekonomi peternak rakyat dalam skala mandiri.`,
+  jurnal: `Referensi Utama Riset:
+  1. Standar Sanitasi Global: Panduan Biosekuriti FAO (2008).
+  2. Mitigasi Transmisi Unggas-Manusia: Data GISRS WHO (2024).
+  3. Dampak Ekonomi: Jurnal Epidemiologi Kesehatan Komunitas terkait kendala finansial peternak kecil.`,
   
-  jurnal: `Riset ini didukung oleh tiga pilar literatur utama, bro:
-  1. Standar Biosekuriti Global FAO (2008) - Mengenai regulasi sanitasi peternakan di negara berkembang.
-  2. Panduan Mitigasi Transmisi WHO (2024) - Melalui sistem GISRS untuk memutus rantai penularan zoonosis dari unggas ke manusia.
-  3. Jurnal Epidemiologi Veteriner & Kebijakan Publik - Terkait analisis dampak finansial terhadap kepatuhan peternak kecil.`,
-  
-  lokasi: "Studi lapangan dilakukan secara mendalam di pemukiman peternakan unggas rakyat Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat. Pengambilan data primer dilaksanakan selama periode tanggal 21–24 Januari 2026.",
+  lokasi: "Lokasi & Waktu: Sektor peternakan unggas Kampung Sukaruas, Kabupaten Tasikmalaya, Jawa Barat. Pengambilan data lapangan dilakukan pada 21–24 Januari 2026.",
 
-  tujuan: "Tujuan utama riset ini adalah memetakan tingkat kepatuhan higienitas kandang peternak mandiri, sekaligus mengidentifikasi hambatan sosio-ekonomi yang mereka hadapi secara nyata dalam memutus rantai penyebaran virus H5N1.",
+  tujuan: "Tujuan: Mengidentifikasi sejauh mana penerapan higienitas kandang oleh peternak mandiri, sekaligus memetakan hambatan finansial dan struktural nyata mereka dalam memutus rantai penyebaran H5N1.",
 
-  saran: "Rekomendasi Riset: Peternak mandiri memerlukan intervensi berupa subsidi disinfektan dan APD dari dinas terkait, serta model edukasi partisipatif yang tidak kaku agar mereka memahami urgensi pembatasan zonasi kandang secara konsisten.",
+  saran: "Rekomendasi Riset: Peternak butuh subsidi nyata untuk disinfektan/APD dari pemerintah daerah, serta edukasi biosekuriti yang tidak kaku agar sekat pembatas area bersih-kotor kandang bisa diterapkan.",
 
-  jenis: "Riset ini murni menggunakan pendekatan KUALITATIF dengan metode deskriptif analitis. Data tidak diukur dengan angka statistik/kuantitatif, melainkan melalui teknik wawancara mendalam dan observasi lingkungan kandang untuk menjabarkan fenomena sosial di lapangan.",
+  jenis: "Jenis Penelitian: Kualitatif deskriptif (bukan kuantitatif). Pendekatan berfokus pada observasi fisik kandang dan wawancara mendalam untuk memahami perilaku peternak secara kontekstual.",
 
-  responden: "Subjek data atau informan utama riset ini meliputi para peternak unggas mandiri (skala kecil/rakyat) di wilayah Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dengan kriteria riset biosekuriti.",
+  responden: "Subjek/Responden: Para peternak unggas mandiri (skala kecil/rakyat) di Kampung Sukaruas. Pemilihan informan menggunakan teknik purposive sampling agar data yang diperoleh relevan dan akurat.",
 
-  latar_belakang: "Latar Belakang: Virus Avian Influenza (H5N1) tetap menjadi ancaman endemis dengan risiko mutasi zoonosis yang tinggi. Kampung Sukaruas dipilih sebagai lokus karena sektor peternakan mandirinya aktif namun rentan akibat fluktuasi penerapan standar biosekuriti."
+  latar_belakang: "Latar Belakang: Virus Avian Influenza (H5N1) masih endemis dan mengancam peternakan rakyat. Kampung Sukaruas dipilih karena aktivitas peternakan mandirinya tinggi, namun penerapan biosekuritinya fluktuatif akibat benturan ekonomi."
 };
 
-// Fungsi pencari jawaban berdasarkan kata kunci (Keyword Matching)
 function getSimulatedResponse(inputText) {
   const text = inputText.toLowerCase();
-  
-  if (text.includes("halo") || text.includes("hai") || text.includes(" p ") || text === "p") {
-    return BOT_RESPONSES.halo;
-  }
-  if (text.includes("ringkasan") || text.includes("rangkuman") || text.includes("kesimpulan") || text.includes("tentang") || text.includes("inti")) {
-    return BOT_RESPONSES.ringkasan;
-  }
-  if (text.includes("jurnal") || text.includes("buku") || text.includes("referensi") || text.includes("dokumen") || text.includes("pustaka")) {
-    return BOT_RESPONSES.jurnal;
-  }
-  if (text.includes("lokasi") || text.includes("tempat") || text.includes("di mana") || text.includes("waktu") || text.includes("kapan") || text.includes("tasikmalaya")) {
-    return BOT_RESPONSES.lokasi;
-  }
-  if (text.includes("tujuan") || text.includes("maksud") || text.includes("buat apa")) {
-    return BOT_RESPONSES.tujuan;
-  }
-  if (text.includes("saran") || text.includes("rekomendasi") || text.includes("solusi") || text.includes("perbaikan")) {
-    return BOT_RESPONSES.saran;
-  }
-  if (text.includes("jenis") || text.includes("kualitatif") || text.includes("kuantitatif") || text.includes("metode") || text.includes("metodologi")) {
-    return BOT_RESPONSES.jenis;
-  }
-  if (text.includes("responden") || text.includes("informan") || text.includes("peternak") || text.includes("subjek") || text.includes("objek")) {
-    return BOT_RESPONSES.responden;
-  }
-  if (text.includes("latar belakang") || text.includes("alasan") || text.includes("kenapa") || text.includes("mengapa")) {
-    return BOT_RESPONSES.latar_belakang;
-  }
-  
+  if (text.includes("halo") || text.includes("hai") || text === "p") return BOT_RESPONSES.halo;
+  if (text.includes("ringkasan") || text.includes("rangkuman") || text.includes("kesimpulan") || text.includes("inti")) return BOT_RESPONSES.ringkasan;
+  if (text.includes("jurnal") || text.includes("referensi") || text.includes("pustaka") || text.includes("buku")) return BOT_RESPONSES.jurnal;
+  if (text.includes("lokasi") || text.includes("tempat") || text.includes("di mana") || text.includes("tasikmalaya")) return BOT_RESPONSES.lokasi;
+  if (text.includes("tujuan") || text.includes("maksud") || text.includes("buat apa")) return BOT_RESPONSES.tujuan;
+  if (text.includes("saran") || text.includes("rekomendasi") || text.includes("solusi")) return BOT_RESPONSES.saran;
+  if (text.includes("jenis") || text.includes("kualitatif") || text.includes("kuantitatif") || text.includes("metode")) return BOT_RESPONSES.jenis;
+  if (text.includes("responden") || text.includes("informan") || text.includes("peternak")) return BOT_RESPONSES.responden;
+  if (text.includes("latar belakang") || text.includes("alasan") || text.includes("kenapa")) return BOT_RESPONSES.latar_belakang;
   return BOT_RESPONSES.default;
 }
 
 const chatbotHTML = `
-<div id="cb-widget" style="position: fixed; bottom: 25px; right: 90px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
-  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: default; box-shadow: 0 6px 20px rgba(78,94,56,0.35); user-select: none; font-size: 22px;">
+<div id="cb-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; font-family: 'DM Sans', sans-serif; touch-action: none;">
+  <div id="cb-button" style="display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6b7c52, #4e5e38); color: white; cursor: pointer; box-shadow: 0 6px 20px rgba(78,94,56,0.4); user-select: none; font-size: 24px;">
     <span id="cb-icon" style="display: inline-block;">🐓</span>
   </div>
   
-  <div id="cb-box" style="display: none; width: 330px; height: 450px; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
+  <div id="cb-box" style="display: none; width: 330px; max-width: 90vw; height: 450px; max-height: 80vh; background: #ebdcb9; border: 1px solid rgba(92,74,42,0.15); border-radius: 16px; box-shadow: 0 12px 36px rgba(92,74,42,0.25); position: absolute; bottom: 65px; right: 0; flex-direction: column; overflow: hidden; pointer-events: auto;">
     <div id="cb-header" style="background: #5c4a2a; color: #faf7f1; padding: 14px; font-weight: 500; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; user-select: none;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>🐔</span>
         <span>Chatbot TESIS 36</span>
       </div>
-      <div id="cb-close" onclick="toggleChat()" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; transition: background 0.2s;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </div>
+      <span id="cb-close" onclick="toggleChat(event)" style="cursor: pointer; font-size: 14px; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); transition: all 0.2s;">✕</span>
     </div>
     
     <div id="cb-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 12.5px; display: flex; flex-direction: column; gap: 10px; background: #ebdcb9;"></div>
@@ -119,11 +94,11 @@ style.innerHTML = `
   .cb-user { background: #6b7c52; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 3px; box-shadow: 0 2px 5px rgba(78,94,56,0.15); }
   
   #cb-button { transition: transform 0.2s, box-shadow 0.2s; }
-  #cb-button:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(78,94,56,0.45); }
+  #cb-button:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(78,94,56,0.5); }
   #cb-button:hover #cb-icon { animation: cbRotate 0.5s ease-in-out; }
   #cb-button:active { transform: scale(0.95); }
   
-  #cb-close:hover { background: rgba(250, 247, 241, 0.2); color: #ff8a8a; }
+  #cb-close:hover { background: rgba(255,255,255,0.25); transform: rotate(90deg); }
   #cb-input-container:focus-within { border-color: #6b7c52; box-shadow: 0 4px 14px rgba(107,124,82,0.15); }
   #cb-send:hover { background: #4e5e38; }
   
@@ -147,12 +122,15 @@ function initChatbot() {
     chatBox.style.display = 'flex';
   }
   
+  // Deteksi Navigasi vs Refresh Halaman
   const isNavigating = sessionStorage.getItem('cb_navigating');
   if (!isNavigating) {
+    // Kalau murni REFRESH atau TAB BARU, hapus histori agar chat bersih lagi
     localStorage.removeItem('chat_history');
   }
   sessionStorage.removeItem('cb_navigating');
   
+  // Set flag jika user klik link internal (pindah page website)
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       sessionStorage.setItem('cb_navigating', 'true');
@@ -162,16 +140,17 @@ function initChatbot() {
   const savedMessages = JSON.parse(localStorage.getItem('chat_history')) || [];
 
   if (savedMessages.length === 0) {
-    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Sekarang lu bisa tanya apa aja secara bebas, sapa gw, atau geser tombol cepat di bawah biar instan.');
+    appendMessage('bot', 'Halo! Gw Chatbot TESIS 36. Silakan tanya apa saja secara bebas atau geser pintasan di bawah.');
   } else {
     savedMessages.forEach(msg => appendMessage(msg.sender, msg.text, false));
   }
   
   checkInputToggle();
-  makeDraggable(cbWidget, cbButton);
+  makeSmartInteraction(cbWidget, cbButton);
 }
 
-function toggleChat() {
+function toggleChat(e) {
+  if (e) e.stopPropagation();
   if (chatBox.style.display === 'none' || chatBox.style.display === '') {
     chatBox.style.display = 'flex';
     localStorage.setItem('chat_open', 'true');
@@ -245,19 +224,17 @@ function appendMessage(sender, text, save = false) {
   }
 }
 
-// LOGIKA DRAG TERBARU: Menyelesaikan isu bug ketukan sekali/long click di Smartphone
-function makeDraggable(elmnt, dragAnchor) {
+// SOLUSI BUG HP: Logika Pintar Memisahkan Drag (Geser) dan Click (Sentuh)
+function makeSmartInteraction(elmnt, dragAnchor) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   let startX = 0, startY = 0;
-  let isMoved = false;
+  let isDragging = false;
+  const dragThreshold = 6; // Toleransi pixel pergerakan untuk membedakan geser vs klik
 
-  dragAnchor.onmousedown = startDrag;
-  dragAnchor.ontouchstart = startDrag;
+  dragAnchor.addEventListener('mousedown', startDrag);
+  dragAnchor.addEventListener('touchstart', startDrag, { passive: true });
 
   function startDrag(e) {
-    e = e || window.event;
-    isMoved = false;
-    
     const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
     
@@ -265,25 +242,28 @@ function makeDraggable(elmnt, dragAnchor) {
     startY = clientY;
     pos3 = clientX;
     pos4 = clientY;
+    isDragging = false;
 
     if (e.type === 'mousedown') {
-      document.onmouseup = stopDrag;
-      document.onmousemove = moveElement;
-    } else if (e.type === 'touchstart') {
-      document.ontouchend = stopDrag;
-      document.ontouchmove = moveElement;
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', endDrag);
+    } else {
+      document.addEventListener('touchmove', onDrag, { passive: false });
+      document.addEventListener('touchend', endDrag);
     }
   }
 
-  function moveElement(e) {
-    e = e || window.event;
+  function onDrag(e) {
     const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
 
-    // Jika bergeser lebih dari 5 piksel, tandai sebagai pergerakan geser (drag)
-    if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
-      isMoved = true;
+    // Hitung jarak pergerakan dari posisi awal
+    if (Math.abs(clientX - startX) > dragThreshold || Math.abs(clientY - startY) > dragThreshold) {
+      isDragging = true;
     }
+
+    if (!isDragging) return;
+    if (e.cancelable) e.preventDefault(); // Cegah layar hp ikut scroll pas tombol digeser
 
     pos1 = pos3 - clientX;
     pos2 = pos4 - clientY;
@@ -293,8 +273,9 @@ function makeDraggable(elmnt, dragAnchor) {
     let newTop = elmnt.offsetTop - pos2;
     let newLeft = elmnt.offsetLeft - pos1;
 
+    // Batasan agar widget gak keluar dari layar browser
     const maxTop = window.innerHeight - 60;
-    const maxLeft = window.innerWidth - 70;
+    const maxLeft = window.innerWidth - 65;
     if (newTop < 10) newTop = 10;
     if (newTop > maxTop) newTop = maxTop;
     if (newLeft < 10) newLeft = 10;
@@ -308,14 +289,14 @@ function makeDraggable(elmnt, dragAnchor) {
     adjustChatBoxPosition();
   }
 
-  function stopDrag() {
-    document.onmouseup = null;
-    document.onmousemove = null;
-    document.ontouchend = null;
-    document.ontouchmove = null;
+  function endDrag() {
+    document.removeEventListener('mousemove', onDrag);
+    document.removeEventListener('mouseup', endDrag);
+    document.removeEventListener('touchmove', onDrag);
+    document.removeEventListener('touchend', endDrag);
 
-    // Jika posisi tidak bergeser banyak, berarti eksekusi sebagai klik biasa (Langsung responsif!)
-    if (!isMoved) {
+    // Jika user TIDAK melakukan drag bermakna, berarti dia melakukan KLIK/SENTUH murni
+    if (!isDragging) {
       toggleChat();
     }
   }
